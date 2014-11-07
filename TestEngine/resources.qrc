@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>Resources/default.frag</file>
+        <file>Resources/default.vert</file>
+        <file>Resources/backgroundmenu.png</file>
+        <file>Resources/buttonexitmenu.png</file>
+        <file>Resources/buttonstartmenu.png</file>
+        <file>Resources/Original/tmp_sprite.png</file>
+    </qresource>
+</RCC>
