@@ -26,7 +26,9 @@ SOURCES += main.cpp \
     Engine/managershader.cpp \
     Engine/sprite.cpp \
     Engine/ForDebug/gridcoord.cpp \
-    Engine/managersprite.cpp
+    Engine/managersprite.cpp \
+    testcreatorgameobject.cpp \
+    testgameobject.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -41,7 +43,9 @@ HEADERS  += mainform.h \
     Engine/managershader.h \
     Engine/sprite.h \
     Engine/ForDebug/gridcoord.h \
-    Engine/managersprite.h
+    Engine/managersprite.h \
+    testcreatorgameobject.h \
+    testgameobject.h
 
 FORMS    +=
 

@@ -49,6 +49,9 @@ void MainForm::initialize()
     j = 0;
 
     glViewport(0, 0, 800, 600);
+    GameObject* p_obj = TestCreatorGameObject::CreateGameObject(Test);
+    qDebug()<<p_obj->GetName();
+    delete p_obj;
 }
 
 void MainForm::render()
