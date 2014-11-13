@@ -52,9 +52,9 @@ private:
     QOpenGLContext *m_context;
     QOpenGLPaintDevice *m_device;
 
+    GameObject* object_sp;
+
     GridCoord grid;
-    int i;
-    int j;
 };
 
 #endif // MAINFORM_H

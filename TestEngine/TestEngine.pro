@@ -28,7 +28,8 @@ SOURCES += main.cpp \
     Engine/ForDebug/gridcoord.cpp \
     Engine/managersprite.cpp \
     testcreatorgameobject.cpp \
-    testgameobject.cpp
+    testgameobject.cpp \
+    Engine/gamescene.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -45,7 +46,8 @@ HEADERS  += mainform.h \
     Engine/ForDebug/gridcoord.h \
     Engine/managersprite.h \
     testcreatorgameobject.h \
-    testgameobject.h
+    testgameobject.h \
+    Engine/gamescene.h
 
 FORMS    +=
 

@@ -23,21 +23,18 @@ void MainForm::render(QPainter *painter)
 
 void MainForm::initialize()
 {
+    /* Тут будет одна строка
+       GameScene.Load(filename);
+    */
     Mesh* m = new Mesh();
     m->Create();
     ManagerMesh::getInstance()->Add(0, m);
 
     ManagerShader::getInstance()->Add(0, new Shader());
 
-    Texture* t = new Texture("://Resources/backgroundmenu.png");
+    Texture* t = new Texture("://Resources/Original/tmp_sprite.png");
     t->Create();
     ManagerTexture::getInstance()->Add(0, t);
-    t = new Texture("://Resources/buttonstartmenu.png");
-    t->Create();
-    ManagerTexture::getInstance()->Add(1, t);
-    t = new Texture("://Resources/Original/tmp_sprite.png");
-    t->Create();
-    ManagerTexture::getInstance()->Add(2, t);
 
     Sprite* s = new Sprite();
     s->SetMeshKey(0);
@@ -45,13 +42,11 @@ void MainForm::initialize()
     s->SetTextureKey(0);
     s->Create();
     ManagerSprite::getInstance()->Add(0, s);
-    i = 0;
-    j = 0;
+
+    object_sp = TestCreatorGameObject::CreateGameObject(Test);
+    object_sp->Init();
 
     glViewport(0, 0, 800, 600);
-    GameObject* p_obj = TestCreatorGameObject::CreateGameObject(Test);
-    qDebug()<<p_obj->GetName();
-    delete p_obj;
 }
 
 void MainForm::render()
@@ -74,38 +69,8 @@ void MainForm::render()
     {
     case MainMenu:
     {
-        Sprite* s = ManagerSprite::getInstance()->GetValue(0);
-        s->SetTextureKey(0);
-        s->Bind();
-        QMatrix4x4 mat;
-        mat.setToIdentity();
-        mat.ortho(-1, 1, -1, 1, -1, 1);
-        s->GetShader()->setUniformValue(s->GetShader()->GetNameMatrixPos().toStdString().c_str(), mat);
-        glDrawArrays(GL_TRIANGLES, 0, s->GetMesh()->GetCountVertex());
-
-        s->SetTextureKey(1);
-        s->Bind();
-        QMatrix4x4 mv;
-        mat.setToIdentity();
-        mat.ortho(-1, 19, -1, 19, -1, 1);
-        mv.setToIdentity();
-        mv.translate(10, 10, 0);
-        s->GetShader()->setUniformValue(s->GetShader()->GetNameMatrixPos().toStdString().c_str(), mat * mv);
-        glDrawArrays(GL_TRIANGLES, 0, s->GetMesh()->GetCountVertex());
-
-        s->SetTextureKey(2);
-        s->Bind(48, 65, i, j);
-        mat.setToIdentity();
-        mat.ortho(0, 800, 0, 600, -1, 1);
-        //mat.ortho(-1, 19, -1, 19, -1, 1);
-        mv.setToIdentity();
-        //mv.scale(48, 65);
-        mv.scale(48.0/2, 65.0/2);
-        mv.translate(1, 1, 0);
-        s->GetShader()->setUniformValue(s->GetShader()->GetNameMatrixPos().toStdString().c_str(), mat * mv);
-        glDrawArrays(GL_TRIANGLES, 0, s->GetMesh()->GetCountVertex());
-
-        s->UnBind();
+        object_sp->Update();
+        object_sp->Draw();
 
         grid.SetColor(0, 1, 0);
         //grid.Draw(0, 800, 0, 600);
@@ -201,18 +166,11 @@ void MainForm::setAnimating(bool animating)
 void MainForm::mouseMoveEvent(QMouseEvent *event)
 {
     ManagerMouse::getInstance()->Update(event);
-    i++;
-    if (i == 4)
-        i = 0;
-    //qDebug()<<"Event: X="<<event->x()<<" Y="<<event->y();
 }
 
 void MainForm::mousePressEvent(QMouseEvent *event)
 {
     ManagerMouse::getInstance()->Update(event);
-    j++;
-    if (j == 4)
-        j = 0;
 }
 
 void MainForm::mouseReleaseEvent(QMouseEvent *event)
