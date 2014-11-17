@@ -23,25 +23,11 @@ void MainForm::render(QPainter *painter)
 
 void MainForm::initialize()
 {
+    GameScene sc;
+    sc.Load("test.xml");
     /* Тут будет одна строка
        GameScene.Load(filename);
     */
-    Mesh* m = new Mesh();
-    m->Create();
-    ManagerMesh::getInstance()->Add(0, m);
-
-    ManagerShader::getInstance()->Add(0, new Shader());
-
-    Texture* t = new Texture("://Resources/Original/tmp_sprite.png");
-    t->Create();
-    ManagerTexture::getInstance()->Add(0, t);
-
-    Sprite* s = new Sprite();
-    s->SetMeshKey(0);
-    s->SetShaderKey(0);
-    s->SetTextureKey(0);
-    s->Create();
-    ManagerSprite::getInstance()->Add(0, s);
 
     object_sp = TestCreatorGameObject::CreateGameObject(Test);
     object_sp->Init();

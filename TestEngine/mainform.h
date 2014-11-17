@@ -19,6 +19,7 @@
 #include "Engine/managertexture.h"
 #include "Engine/sprite.h"
 #include "Engine/managersprite.h"
+#include "Engine/gamescene.h"
 #include "testcreatorgameobject.h"
 
 class MainForm : public QWindow, protected QOpenGLFunctions
