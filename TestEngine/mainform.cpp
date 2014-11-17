@@ -24,7 +24,7 @@ void MainForm::render(QPainter *painter)
 void MainForm::initialize()
 {
     GameScene sc;
-    sc.Load("test.xml");
+    sc.Load("://Resources/test.xml");
     /* Тут будет одна строка
        GameScene.Load(filename);
     */
