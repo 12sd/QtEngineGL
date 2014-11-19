@@ -18,19 +18,32 @@ MainForm::~MainForm()
 void MainForm::render(QPainter *painter)
 {
     Q_UNUSED(painter);
-    setTitle("FPS = "+QString::number(Fps::getInstance()->GetFps()));
+    int fps = Fps::getInstance()->GetFps();
+    int x = ManagerMouse::getInstance()->GetX();
+    int y = ManagerMouse::getInstance()->GetY();
+    setTitle("FPS = "+QString::number(fps)+" X="+QString::number(x)+" Y="+QString::number(y));
 }
 
 void MainForm::initialize()
 {
-    GameScene sc;
-    sc.Load("://Resources/test.xml");
     /* Тут будет одна строка
        GameScene.Load(filename);
     */
 
+    GameScene sc;
+    sc.Load("://Resources/test.xml");
+
     object_sp = TestCreatorGameObject::CreateGameObject(Test);
     object_sp->Init();
+
+    button_exit = TestCreatorGameObject::CreateGameObject(Button_Exit);
+    button_exit->Init();
+
+    button_start = TestCreatorGameObject::CreateGameObject(Button_Start);
+    button_start->Init();
+
+    backround = TestCreatorGameObject::CreateGameObject(Back_Ground);
+    backround->Init();
 
     glViewport(0, 0, 800, 600);
 }
@@ -58,13 +71,23 @@ void MainForm::render()
         object_sp->Update();
         object_sp->Draw();
 
+        button_exit->Update();
+        button_exit->Draw();
+
+        button_start->Update();
+        button_start->Draw();
+
         grid.SetColor(0, 1, 0);
         //grid.Draw(0, 800, 0, 600);
         //grid.Draw(0, 800, 0, 600);
         break;
     }
     case DragPlayer1:
+    {
+        backround->Update();
+        backround->Draw();
         break;
+    }
     }
 
     m_device->setSize(size());

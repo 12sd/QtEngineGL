@@ -44,7 +44,6 @@ void TestGameObject::Update()
         model.setToIdentity();
         model.translate(x,600-y,0);
         model.scale(48.0/2, 65.0/2);
-        qDebug()<<"x="<<x<<"y="<<600-y;
     }
 }
 

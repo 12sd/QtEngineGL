@@ -29,7 +29,10 @@ SOURCES += main.cpp \
     Engine/managersprite.cpp \
     testcreatorgameobject.cpp \
     testgameobject.cpp \
-    Engine/gamescene.cpp
+    Engine/gamescene.cpp \
+    buttonexit.cpp \
+    buttonstart.cpp \
+    background.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -47,7 +50,10 @@ HEADERS  += mainform.h \
     Engine/managersprite.h \
     testcreatorgameobject.h \
     testgameobject.h \
-    Engine/gamescene.h
+    Engine/gamescene.h \
+    buttonexit.h \
+    buttonstart.h \
+    background.h
 
 FORMS    +=
 
