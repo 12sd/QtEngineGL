@@ -15,7 +15,7 @@ public:
 private:
     static ManagerKeyboard* instance;
     QKeyEvent* event;
-    bool buffer_key[1];
+    bool buffer_key[2];
 };
 
 #endif // MANAGERKEYBOARD_H

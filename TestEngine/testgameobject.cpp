@@ -26,15 +26,14 @@ void TestGameObject::Update()
     Qt::MouseButton button = ManagerMouse::getInstance()->GetButton();
     int x = ManagerMouse::getInstance()->GetX();
     int y = ManagerMouse::getInstance()->GetY();
-    //qDebug()<<"X="<<x<<" Y="<<y;
-    if (last_x!=x || last_y!=y)
-    {
-        last_x = x;
-        last_y = y;
-        i++;
-        if (i == 4)
-            i = 0;
-    }
+//    if (last_x!=x || last_y!=y)
+//    {
+//        last_x = x;
+//        last_y = y;
+//        i++;
+//        if (i == 4)
+//            i = 0;
+//    }
     if (button == Qt::LeftButton)
     {
         qDebug()<<"j++";
@@ -50,6 +49,17 @@ void TestGameObject::Update()
     {
         model.translate(0.1,0,0);
         qDebug()<<"move right";
+        i++;
+        if (i == 4)
+            i = 0;
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
+    {
+        model.translate(-0.1,0,0);
+        qDebug()<<"move left";
+        i++;
+        if (i == 4)
+            i = 0;
     }
 }
 

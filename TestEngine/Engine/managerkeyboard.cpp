@@ -26,11 +26,23 @@ void ManagerKeyboard::Update(QKeyEvent *event,bool press)
      * Тестовый вариант
     */
     if (event->key()==Qt::Key_Right)
+    {
         buffer_key[0] = true;
-    else
+        if (!press)
+            buffer_key[0] = false;
+    }else
+    {
         buffer_key[0] = false;
-    if (!press)
-        buffer_key[0] = false;
+    }
+    if (event->key()==Qt::Key_Left)
+    {
+        buffer_key[1] = true;
+        if (!press)
+            buffer_key[1] = false;
+    }else
+    {
+        buffer_key[1] = false;
+    }
 }
 
 bool ManagerKeyboard::GetKey(Qt::Key key)
@@ -40,9 +52,9 @@ bool ManagerKeyboard::GetKey(Qt::Key key)
     */
     if (event!=0)
     {
-        if (buffer_key[0])
-            return true;
-        else
-            return false;
+        if (key==Qt::Key_Right)
+            return buffer_key[0];
+        if (key==Qt::Key_Left)
+            return buffer_key[1];
     }
 }
