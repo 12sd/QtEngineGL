@@ -188,3 +188,15 @@ void MainForm::mouseReleaseEvent(QMouseEvent *event)
     ManagerMouse::getInstance()->Update(event,false);
     qDebug()<<"Mouse Release";
 }
+
+void MainForm::keyPressEvent(QKeyEvent *key)
+{
+    ManagerKeyboard::getInstance()->Update(key);
+    qDebug()<<"Key Press";
+}
+
+void MainForm::keyReleaseEvent(QKeyEvent *key)
+{
+    ManagerKeyboard::getInstance()->Update(key, false);
+    qDebug()<<"Key Release";
+}

@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     Engine/gamescene.cpp \
     buttonexit.cpp \
     buttonstart.cpp \
-    background.cpp
+    background.cpp \
+    Engine/managerkeyboard.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -53,7 +54,8 @@ HEADERS  += mainform.h \
     Engine/gamescene.h \
     buttonexit.h \
     buttonstart.h \
-    background.h
+    background.h \
+    Engine/managerkeyboard.h
 
 FORMS    +=
 

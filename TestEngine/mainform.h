@@ -11,6 +11,7 @@
 #include "Engine/ForDebug/gridcoord.h"
 #include "Engine/fps.h"
 #include "Engine/managermouse.h"
+#include "Engine/managerkeyboard.h"
 #include "Engine/mesh.h"
 #include "Engine/managermesh.h"
 #include "Engine/shader.h"
@@ -45,6 +46,9 @@ protected:
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+
+    void keyPressEvent(QKeyEvent* key);
+    void keyReleaseEvent(QKeyEvent* key);
 
 private:
     bool m_update_pending;

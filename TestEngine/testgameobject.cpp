@@ -45,6 +45,12 @@ void TestGameObject::Update()
         model.translate(x,600-y,0);
         model.scale(48.0/2, 65.0/2);
     }
+
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
+    {
+        model.translate(0.1,0,0);
+        qDebug()<<"move right";
+    }
 }
 
 void TestGameObject::Draw()

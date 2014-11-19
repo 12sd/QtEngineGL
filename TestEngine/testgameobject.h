@@ -7,6 +7,7 @@
 #include "Engine/sprite.h"
 #include "Engine/managersprite.h"
 #include "Engine/managermouse.h"
+#include "Engine/managerkeyboard.h"
 
 class TestGameObject:public GameObject
 {
