@@ -10,7 +10,7 @@ public:
     ManagerMouse();
     ~ManagerMouse();
     static ManagerMouse* getInstance();
-    void Update(QMouseEvent* event);
+    void Update(QMouseEvent* event,bool press=true);
     QMouseEvent* GetEvent();
     int GetX();
     int GetY();

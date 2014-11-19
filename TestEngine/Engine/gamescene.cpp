@@ -11,7 +11,6 @@ bool GameScene::Load(QString filename)
         return false;
 
     QXmlStreamReader reader(&f);
-    //reader.setDevice(f);
 
     while(!reader.atEnd() && !reader.hasError())
     {
@@ -23,7 +22,7 @@ bool GameScene::Load(QString filename)
             {
                 if (reader.attributes().hasAttribute("id"))
                 {
-                    qDebug()<<"Name:"<<reader.name()<<"Id:"<<reader.attributes().value("id").toString();
+                    qDebug()<<"Tag:"<<reader.name()<<"Id:"<<reader.attributes().value("id").toString();
                     Mesh* mesh = new Mesh();
                     mesh->Create();
                     ManagerMesh::getInstance()->Add(reader.attributes().value("id").toInt(),mesh);
@@ -34,7 +33,7 @@ bool GameScene::Load(QString filename)
             {
                 if (reader.attributes().hasAttribute("id"))
                 {
-                    qDebug()<<"Name:"<<reader.name()<<"Id:"<<reader.attributes().value("id").toString();
+                    qDebug()<<"Tag:"<<reader.name()<<"Id:"<<reader.attributes().value("id").toString();
                     ManagerShader::getInstance()->Add(reader.attributes().value("id").toInt(),new Shader());
                 }
             }
@@ -44,7 +43,7 @@ bool GameScene::Load(QString filename)
                 if (reader.attributes().hasAttribute("id"))
                 {
                     int id = reader.attributes().value("id").toInt();
-                    qDebug()<<"Name:"<<reader.name()<<"Id:"<<id;
+                    qDebug()<<"Tag:"<<reader.name()<<"Id:"<<id;
                     reader.readNext();
                     QString filename = reader.text().toString();
                     qDebug()<<"Path:"<<filename;
@@ -59,7 +58,7 @@ bool GameScene::Load(QString filename)
                 if (reader.attributes().hasAttribute("id"))
                 {
                     int id = reader.attributes().value("id").toInt();
-                    qDebug()<<"Name:"<<reader.name()<<"Id:"<<id;
+                    qDebug()<<"Tag:"<<reader.name()<<"Id:"<<id;
                     Sprite* sprite = new Sprite();
                     if (reader.attributes().hasAttribute("mid"))
                     {

@@ -18,7 +18,7 @@ MainForm::~MainForm()
 void MainForm::render(QPainter *painter)
 {
     Q_UNUSED(painter);
-    //setTitle("FPS = "+QString::number(Fps::getInstance()->GetFps()));
+    setTitle("FPS = "+QString::number(Fps::getInstance()->GetFps()));
 }
 
 void MainForm::initialize()
@@ -157,9 +157,11 @@ void MainForm::mouseMoveEvent(QMouseEvent *event)
 void MainForm::mousePressEvent(QMouseEvent *event)
 {
     ManagerMouse::getInstance()->Update(event);
+    qDebug()<<"Mouse Press";
 }
 
 void MainForm::mouseReleaseEvent(QMouseEvent *event)
 {
-    ManagerMouse::getInstance()->Update(event);
+    ManagerMouse::getInstance()->Update(event,false);
+    qDebug()<<"Mouse Release";
 }

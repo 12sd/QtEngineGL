@@ -18,12 +18,15 @@ ManagerMouse* ManagerMouse::getInstance()
     return instance;
 }
 
-void ManagerMouse::Update(QMouseEvent* event)
+void ManagerMouse::Update(QMouseEvent* event,bool press)
 {
     this->event = event;
     x = event->x();
     y = event->y();
-    button = event->button();
+    if (press)
+        button = event->button();
+    else
+        button = Qt::NoButton;
 }
 
 QMouseEvent* ManagerMouse::GetEvent()
