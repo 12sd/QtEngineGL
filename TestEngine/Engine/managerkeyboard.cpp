@@ -9,6 +9,7 @@ ManagerKeyboard::ManagerKeyboard()
 
 ManagerKeyboard::~ManagerKeyboard()
 {
+    buffer_key.clear();
     qDebug()<<"~ManagerMouse";
 }
 
@@ -22,27 +23,28 @@ ManagerKeyboard* ManagerKeyboard::getInstance()
 void ManagerKeyboard::Update(QKeyEvent *event,bool press)
 {
     this->event = event;
+    buffer_key.insert(event->key(),press);
     /*
      * Тестовый вариант
     */
-    if (event->key()==Qt::Key_Right)
-    {
-        buffer_key[0] = true;
-        if (!press)
-            buffer_key[0] = false;
-    }else
-    {
-        buffer_key[0] = false;
-    }
-    if (event->key()==Qt::Key_Left)
-    {
-        buffer_key[1] = true;
-        if (!press)
-            buffer_key[1] = false;
-    }else
-    {
-        buffer_key[1] = false;
-    }
+//    if (event->key()==Qt::Key_Right)
+//    {
+//        buffer_key[0] = true;
+//        if (!press)
+//            buffer_key[0] = false;
+//    }else
+//    {
+//        buffer_key[0] = false;
+//    }
+//    if (event->key()==Qt::Key_Left)
+//    {
+//        buffer_key[1] = true;
+//        if (!press)
+//            buffer_key[1] = false;
+//    }else
+//    {
+//        buffer_key[1] = false;
+//    }
 }
 
 bool ManagerKeyboard::GetKey(Qt::Key key)
@@ -52,9 +54,7 @@ bool ManagerKeyboard::GetKey(Qt::Key key)
     */
     if (event!=0)
     {
-        if (key==Qt::Key_Right)
-            return buffer_key[0];
-        if (key==Qt::Key_Left)
-            return buffer_key[1];
+        return buffer_key.value(key);
     }
+    return false;
 }

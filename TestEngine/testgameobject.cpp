@@ -61,6 +61,22 @@ void TestGameObject::Update()
         if (i == 4)
             i = 0;
     }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Up))
+    {
+        model.translate(0,0.1,0);
+        qDebug()<<"move up";
+        i++;
+        if (i == 4)
+            i = 0;
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Down))
+    {
+        model.translate(0,-0.1,0);
+        qDebug()<<"move down";
+        i++;
+        if (i == 4)
+            i = 0;
+    }
 }
 
 void TestGameObject::Draw()

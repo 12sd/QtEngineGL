@@ -2,6 +2,7 @@
 #define MANAGERKEYBOARD_H
 
 #include <QKeyEvent>
+#include <QHash>
 #include <QDebug>
 
 class ManagerKeyboard
@@ -15,7 +16,7 @@ public:
 private:
     static ManagerKeyboard* instance;
     QKeyEvent* event;
-    bool buffer_key[2];
+    QHash<int, bool> buffer_key;
 };
 
 #endif // MANAGERKEYBOARD_H

@@ -70,10 +70,8 @@ void MainForm::render()
     {
         object_sp->Update();
         object_sp->Draw();
-
         button_exit->Update();
         button_exit->Draw();
-
         button_start->Update();
         button_start->Draw();
 
@@ -86,6 +84,8 @@ void MainForm::render()
     {
         backround->Update();
         backround->Draw();
+        object_sp->Update();
+        object_sp->Draw();
         break;
     }
     }
