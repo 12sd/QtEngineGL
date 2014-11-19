@@ -1,0 +1,19 @@
+#ifndef LAYER_H
+#define LAYER_H
+
+class Layer
+{
+public:
+    Layer();
+    ~Layer();
+    void Create(int count_x, int count_y);
+    void Destroy();
+    void SetValue(int i, int j, int value);
+    int GetValue(int i, int j);
+private:
+    int count_x;
+    int count_y;
+    int** data;
+};
+
+#endif // LAYER_H

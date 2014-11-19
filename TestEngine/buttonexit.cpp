@@ -11,7 +11,7 @@ void ButtonExit::Init()
     proj.ortho(0, 800, 0, 600, -1, 1);
     model.setToIdentity();
     model.translate(400, 600-80, 0);
-    model.scale(400.0/2, 80.0/2);
+    model.scale(400.0, 80.0);
 }
 
 void ButtonExit::Update()

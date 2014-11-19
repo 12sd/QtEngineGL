@@ -11,7 +11,7 @@ void ButtonStart::Init()
     proj.ortho(0, 800, 0, 600, -1, 1);
     model.setToIdentity();
     model.translate(400, 600-80-80-10, 0);
-    model.scale(400.0/2, 80.0/2);
+    model.scale(400.0, 80.0);
 }
 
 void ButtonStart::Update()
@@ -26,6 +26,7 @@ void ButtonStart::Update()
             if (y>137 && y<200)
             {
                 qDebug()<<"BackGround";
+
                 CurrentStatusGame = DragPlayer1;
             }
         }

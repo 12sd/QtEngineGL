@@ -33,6 +33,9 @@ void MainForm::initialize()
     GameScene sc;
     sc.Load("://Resources/test.xml");
 
+    TileMap map;
+    map.Load("/home/maxiprogram/Program/Tiled/map_tiled/map.tmx");
+
     object_sp = TestCreatorGameObject::CreateGameObject(Test);
     object_sp->Init();
 

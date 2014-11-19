@@ -14,8 +14,8 @@ void TestGameObject::Init()
     proj.setToIdentity();
     proj.ortho(0, 800, 0, 600, -1, 1);
     model.setToIdentity();
-    model.scale(48.0/2, 65.0/2);
-    model.translate(1, 1, 0);
+    model.scale(48.0, 65.0);
+    model.translate(0.5, 0.5, 0);
 }
 
 void TestGameObject::Update()
@@ -42,7 +42,7 @@ void TestGameObject::Update()
             j = 0;
         model.setToIdentity();
         model.translate(x,600-y,0);
-        model.scale(48.0/2, 65.0/2);
+        model.scale(48.0, 65.0);
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))

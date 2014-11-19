@@ -10,8 +10,8 @@ void BackGround::Init()
     proj.setToIdentity();
     proj.ortho(0, 800, 0, 600, -1, 1);
     model.setToIdentity();
-    model.scale(800.0/2, 600.0/2);
-    model.translate(1, 1, 0);
+    model.scale(800.0, 600.0);
+    model.translate(0.5, 0.5, 0);
 }
 
 void BackGround::Update()
