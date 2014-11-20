@@ -15,7 +15,7 @@ public:
 private:
     int count_x;
     int count_y;
-    int** data;
+    int* data;
 };
 
 #endif // LAYER_H

@@ -17,6 +17,7 @@ public:
     void SetShaderKey(int key);
     bool Load(QString filename);
     void Destroy();
+    void Draw();
 private:
     int key_mesh;
     int key_shader;
@@ -24,6 +25,8 @@ private:
     QHash<QString, Layer*> hash_layer;
     int count_x, count_y;
     int tile_width, tile_height;
+    QMatrix4x4 proj;
+    QMatrix4x4 model;
 };
 
 #endif // TILEMAP_H

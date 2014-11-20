@@ -33,8 +33,7 @@ void MainForm::initialize()
     GameScene sc;
     sc.Load("://Resources/test.xml");
 
-    TileMap map;
-    map.Load("C:\\Documents and Settings\\budko\\Рабочий стол\\map_tiled\\map.tmx");
+    map.Load("://Resources/map.tmx");
 
     object_sp = TestCreatorGameObject::CreateGameObject(Test);
     object_sp->Init();
@@ -71,6 +70,8 @@ void MainForm::render()
     {
     case MainMenu:
     {
+        backround->Update();
+        backround->Draw();
         object_sp->Update();
         object_sp->Draw();
         button_exit->Update();
@@ -85,8 +86,7 @@ void MainForm::render()
     }
     case DragPlayer1:
     {
-        backround->Update();
-        backround->Draw();
+        map.Draw();
         object_sp->Update();
         object_sp->Draw();
         break;
@@ -122,6 +122,10 @@ bool MainForm::event(QEvent *event)
         ManagerShader::getInstance()->Destroy();
         ManagerTexture::getInstance()->Destroy();
         ManagerSprite::getInstance()->Destroy();
+        //delete object_sp;
+        //delete button_start;
+        //delete button_exit;
+        //delete backround;
         return QWindow::event(event);
     default:
         return QWindow::event(event);

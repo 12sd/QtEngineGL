@@ -7,5 +7,7 @@
         <file>Resources/buttonstartmenu.png</file>
         <file>Resources/Original/tmp_sprite.png</file>
         <file>Resources/test.xml</file>
+        <file>Resources/tileset_13.png</file>
+        <file>Resources/map.tmx</file>
     </qresource>
 </RCC>

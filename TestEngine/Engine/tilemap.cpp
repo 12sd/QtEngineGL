@@ -6,6 +6,9 @@ TileMap::TileMap()
     key_shader = 0;
     count_x = count_y = 0;
     tile_width = tile_height = 0;
+    proj.setToIdentity();
+    proj.ortho(0, 800, 0, 600, -1, 1);
+    model.setToIdentity();
 }
 
 TileMap::~TileMap()
@@ -84,8 +87,10 @@ bool TileMap::Load(QString filename)
                     if (reader.isStartElement() && reader.name()=="data")
                     {
                         Layer* layer = new Layer();
-                        layer->Create(count_x, count_y); //ERROR
+                        layer->Create(count_x, count_y);
                         int i = 0;
+                        int j1, j2;
+                        j1 = j2 = 0;
                         while(i<count_x*count_y)
                         {
                             reader.readNext();
@@ -95,13 +100,27 @@ bool TileMap::Load(QString filename)
                                 if (reader.attributes().hasAttribute("gid"))
                                 {
                                     //qDebug()<<"name:"<<name<<"tile:"<<reader.attributes().value("gid").toInt();
-                                    layer->SetValue(i/count_y, i%count_x, reader.attributes().value("gid").toInt());
+                                    layer->SetValue(j1, j2, reader.attributes().value("gid").toInt());
+                                    j2++;
+                                    if (j2==count_x)
+                                    {
+                                        j1++;
+                                        j2 = 0;
+                                    }
+
                                     i++;
                                 }
                             }
                         }
                         hash_layer.insert(name, layer);
                         qDebug()<<"Layer:"<<name;
+                        for (int i=0;i<count_y;i++)
+                        {
+                            for (int j=0;j<count_x;j++)
+                            {
+                                qDebug()<<layer->GetValue(i, j);
+                            }
+                        }
                     }
                 }
             }
@@ -133,4 +152,58 @@ void TileMap::Destroy()
         it_l++;
     }
     hash_layer.clear();
+}
+
+void TileMap::Draw()
+{
+    model.setToIdentity();
+    model.scale(tile_width, tile_height, 0.0f);
+    model.translate(0.5f, 0.5f, 0.0f);
+    QHash<QString, Layer*>::iterator it_l = hash_layer.begin();
+    while (it_l != hash_layer.end())
+    {
+        Layer* layer = it_l.value();
+        for (int i=count_y-1; i>=0; i--)
+        {
+            for (int j=0; j<count_x; j++)
+            {
+                Sprite* sprite = 0;
+                int id = layer->GetValue(i, j);
+                int tmp_summa = 0;
+                QHash<QString, Sprite*>::iterator it_s = hash_sprite.begin();
+                while (it_s!=hash_sprite.end())
+                {
+                    sprite = it_s.value();
+                    int tmp = sprite->GetTexture()->GetWidth()/tile_width*sprite->GetTexture()->GetHeight()/tile_height;
+                    if ((tmp_summa+tmp)>=id)
+                        break;
+                    else
+                        tmp_summa+=tmp;
+                    it_s++;
+                }
+                if (sprite!=0 && id!=0)
+                {
+                    int tmp_x = sprite->GetTexture()->GetWidth()/tile_width;
+                    int tmp_y = sprite->GetTexture()->GetHeight()/tile_height;
+                    int tmp_id = tmp_x*tmp_y-(id-tmp_summa);
+                    id = id-tmp_summa;
+                    int frame_y = tmp_id/tmp_x;
+                    int frame_x = (tmp_x*tmp_y)-(frame_y*tmp_x)-tmp_id;
+                    sprite->Bind(tile_width, tile_height, frame_x-1, frame_y);
+                    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), proj * model);
+                    glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
+                }
+                model.translate(1,0,0);
+            }
+            model.setToIdentity();
+            model.scale(tile_width, tile_height, 0);
+            model.translate(0.5f, 0.5f, 0.0f);
+            model.translate(0.0f, count_y-i, 0.0f);
+
+        }
+        model.setToIdentity();
+        model.scale(tile_width, tile_height, 0);
+        model.translate(0.5f, 0.5f, 0.0f);
+        it_l++;
+    }
 }

@@ -66,6 +66,7 @@ private:
     GameObject* button_exit;
     GameObject* button_start;
     GameObject* backround;
+    TileMap map;
 
     GridCoord grid;
 };
