@@ -1,6 +1,8 @@
 #ifndef LAYER_H
 #define LAYER_H
 
+#include <QDebug>
+
 class Layer
 {
 public:

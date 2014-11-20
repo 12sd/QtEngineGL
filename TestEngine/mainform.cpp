@@ -34,7 +34,7 @@ void MainForm::initialize()
     sc.Load("://Resources/test.xml");
 
     TileMap map;
-    map.Load("/home/maxiprogram/Program/Tiled/map_tiled/map.tmx");
+    map.Load("C:\\Documents and Settings\\budko\\Рабочий стол\\map_tiled\\map.tmx");
 
     object_sp = TestCreatorGameObject::CreateGameObject(Test);
     object_sp->Init();

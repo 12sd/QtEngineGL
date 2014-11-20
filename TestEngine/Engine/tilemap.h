@@ -16,6 +16,7 @@ public:
     void SetMeshKey(int key);
     void SetShaderKey(int key);
     bool Load(QString filename);
+    void Destroy();
 private:
     int key_mesh;
     int key_shader;

@@ -10,6 +10,8 @@ TileMap::TileMap()
 
 TileMap::~TileMap()
 {
+    Destroy();
+    qDebug()<<"~TileMap";
 }
 
 void TileMap::SetMeshKey(int key)
@@ -83,22 +85,23 @@ bool TileMap::Load(QString filename)
                     {
                         Layer* layer = new Layer();
                         layer->Create(count_x, count_y); //ERROR
-                        for (int i=0; i<count_x; i++)
+                        int i = 0;
+                        while(i<count_x*count_y)
                         {
-                            for (int j=0; j<count_y; j++)
+                            reader.readNext();
+                            //qDebug()<<reader.name()<<reader.text()<<"--";
+                            if (reader.isStartElement() && reader.name()=="tile")
                             {
-                                reader.readNext();
-                                reader.readNext();
-                                if (reader.isStartElement() && reader.name()=="tile")
+                                if (reader.attributes().hasAttribute("gid"))
                                 {
-                                    if (reader.attributes().hasAttribute("gid"))
-                                    {
-                                        qDebug()<<name<<"i:"<<i<<"j:"<<j<<reader.attributes().value("gid").toInt();
-                                        layer->SetValue(i, j, reader.attributes().value("gid").toInt());
-                                    }
+                                    //qDebug()<<"name:"<<name<<"tile:"<<reader.attributes().value("gid").toInt();
+                                    layer->SetValue(i/count_y, i%count_x, reader.attributes().value("gid").toInt());
+                                    i++;
                                 }
                             }
                         }
+                        hash_layer.insert(name, layer);
+                        qDebug()<<"Layer:"<<name;
                     }
                 }
             }
@@ -111,4 +114,23 @@ bool TileMap::Load(QString filename)
         return false;
 
     return true;
+}
+
+void TileMap::Destroy()
+{
+    QHash<QString, Sprite*>::iterator it_s = hash_sprite.begin();
+    while (it_s != hash_sprite.end())
+    {
+        delete it_s.value();
+        it_s++;
+    }
+    hash_sprite.clear();
+
+    QHash<QString, Layer*>::iterator it_l = hash_layer.begin();
+    while (it_l != hash_layer.end())
+    {
+        delete it_l.value();
+        it_l++;
+    }
+    hash_layer.clear();
 }

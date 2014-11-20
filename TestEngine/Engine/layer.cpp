@@ -9,6 +9,7 @@ Layer::Layer()
 Layer::~Layer()
 {
     Destroy();
+    qDebug()<<"~Layer";
 }
 
 void Layer::Create(int count_x, int count_y)
