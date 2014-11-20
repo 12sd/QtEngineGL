@@ -8,6 +8,7 @@
 #include "Engine/managersprite.h"
 #include "Engine/managermouse.h"
 #include "Engine/managerkeyboard.h"
+#include "Engine/fps.h"
 
 class TestGameObject:public GameObject
 {
@@ -20,8 +21,9 @@ private:
     Sprite* sprite;
     QMatrix4x4 proj;
     QMatrix4x4 model;
-    int i,j;
-    int last_x,last_y;
+    float i,j;
+    int ground;
+    bool onGround;
 };
 
 #endif // TESTGAMEOBJECT_H

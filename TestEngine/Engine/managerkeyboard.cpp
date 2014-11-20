@@ -34,3 +34,8 @@ bool ManagerKeyboard::GetKey(Qt::Key key)
     }
     return false;
 }
+
+QKeyEvent* ManagerKeyboard::GetEvent()
+{
+    return event;
+}
