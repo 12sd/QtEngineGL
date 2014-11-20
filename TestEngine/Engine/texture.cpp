@@ -55,10 +55,10 @@ void Texture::UnBind()
 
 int Texture::GetWidth()
 {
-    img.width();
+    return img.width();
 }
 
 int Texture::GetHeight()
 {
-    img.height();
+    return img.height();
 }
