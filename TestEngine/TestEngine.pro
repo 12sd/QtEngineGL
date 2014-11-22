@@ -35,7 +35,7 @@ SOURCES += main.cpp \
     background.cpp \
     Engine/managerkeyboard.cpp \
     Engine/layer.cpp \
-    Engine/tilemap.cpp
+    Engine/managertilemap.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -59,7 +59,7 @@ HEADERS  += mainform.h \
     background.h \
     Engine/managerkeyboard.h \
     Engine/layer.h \
-    Engine/tilemap.h
+    Engine/managertilemap.h
 
 FORMS    +=
 

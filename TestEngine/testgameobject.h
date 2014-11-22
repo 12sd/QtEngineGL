@@ -9,6 +9,7 @@
 #include "Engine/managermouse.h"
 #include "Engine/managerkeyboard.h"
 #include "Engine/fps.h"
+#include "Engine/managertilemap.h"
 
 class TestGameObject:public GameObject
 {

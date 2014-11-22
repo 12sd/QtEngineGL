@@ -33,7 +33,8 @@ void MainForm::initialize()
     GameScene sc;
     sc.Load("://Resources/test.xml");
 
-    map.Load("://Resources/map.tmx");
+    map = ManagerTileMap::getInstance();
+    map->Load("://Resources/map.tmx");
 
     object_sp = TestCreatorGameObject::CreateGameObject(Test);
     object_sp->Init();
@@ -86,7 +87,7 @@ void MainForm::render()
     }
     case DragPlayer1:
     {
-        map.Draw();
+        map->Draw();
         object_sp->Update();
         object_sp->Draw();
         break;

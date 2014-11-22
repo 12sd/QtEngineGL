@@ -1,7 +1,10 @@
-#include "tilemap.h"
+#include "managertilemap.h"
 
-TileMap::TileMap()
+ManagerTileMap* ManagerTileMap::instance=0;
+
+ManagerTileMap::ManagerTileMap()
 {
+    dx = dy = 0;
     key_mesh = 0;
     key_shader = 0;
     count_x = count_y = 0;
@@ -11,23 +14,38 @@ TileMap::TileMap()
     model.setToIdentity();
 }
 
-TileMap::~TileMap()
+ManagerTileMap::~ManagerTileMap()
 {
-    Destroy();
+    Clear();
     qDebug()<<"~TileMap";
 }
 
-void TileMap::SetMeshKey(int key)
+ManagerTileMap* ManagerTileMap::getInstance()
+{
+    if (!instance)
+        instance = new ManagerTileMap();
+    return instance;
+}
+
+void ManagerTileMap::Destroy()
+{
+    if (instance)
+    {
+        delete instance;
+    }
+}
+
+void ManagerTileMap::SetMeshKey(int key)
 {
     key_mesh = key;
 }
 
-void TileMap::SetShaderKey(int key)
+void ManagerTileMap::SetShaderKey(int key)
 {
     key_shader = key;
 }
 
-bool TileMap::Load(QString filename)
+bool ManagerTileMap::Load(QString filename)
 {
     QFile f(filename);
     if (!f.open(QIODevice::ReadOnly))
@@ -135,7 +153,7 @@ bool TileMap::Load(QString filename)
     return true;
 }
 
-void TileMap::Destroy()
+void ManagerTileMap::Clear()
 {
     QHash<QString, Sprite*>::iterator it_s = hash_sprite.begin();
     while (it_s != hash_sprite.end())
@@ -154,11 +172,11 @@ void TileMap::Destroy()
     hash_layer.clear();
 }
 
-void TileMap::Draw()
+void ManagerTileMap::Draw()
 {
     model.setToIdentity();
     model.scale(tile_width, tile_height, 0.0f);
-    model.translate(0.5f, 0.5f, 0.0f);
+    model.translate(0.5f+dx, 0.5f+dy, 0.0f);
     QHash<QString, Layer*>::iterator it_l = hash_layer.begin();
     while (it_l != hash_layer.end())
     {
@@ -197,13 +215,19 @@ void TileMap::Draw()
             }
             model.setToIdentity();
             model.scale(tile_width, tile_height, 0);
-            model.translate(0.5f, 0.5f, 0.0f);
+            model.translate(0.5f+dx, 0.5f+dy, 0.0f);
             model.translate(0.0f, count_y-i, 0.0f);
 
         }
         model.setToIdentity();
         model.scale(tile_width, tile_height, 0);
-        model.translate(0.5f, 0.5f, 0.0f);
+        model.translate(0.5f+dx, 0.5f+dy, 0.0f);
         it_l++;
     }
+}
+
+void ManagerTileMap::Scroll(float dx, float dy)
+{
+    this->dx+=dx;
+    this->dy+=dy;
 }

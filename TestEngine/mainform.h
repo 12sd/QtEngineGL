@@ -21,7 +21,7 @@
 #include "Engine/sprite.h"
 #include "Engine/managersprite.h"
 #include "Engine/gamescene.h"
-#include "Engine/tilemap.h"
+#include "Engine/managertilemap.h"
 #include "testcreatorgameobject.h"
 
 class MainForm : public QWindow, protected QOpenGLFunctions
@@ -66,7 +66,7 @@ private:
     GameObject* button_exit;
     GameObject* button_start;
     GameObject* backround;
-    TileMap map;
+    ManagerTileMap* map;
 
     GridCoord grid;
 };

@@ -42,7 +42,8 @@ void TestGameObject::Update()
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
     {
-        model.translate(6.0 * time, 0, 0);
+        ManagerTileMap::getInstance()->Scroll(-22 * time);
+        model.translate(3.0 * time, 0, 0);
         qDebug()<<"move right";
         i = i + 30 * time;
         if (i > 4)
@@ -51,7 +52,8 @@ void TestGameObject::Update()
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
-        model.translate(-6.0 * time, 0, 0);
+        ManagerTileMap::getInstance()->Scroll(22 * time);
+        model.translate(-3.0 * time, 0, 0);
         qDebug()<<"move left";
         i = i + 30 * time;
         if (i > 4)
