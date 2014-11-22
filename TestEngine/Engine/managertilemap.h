@@ -21,6 +21,7 @@ public:
     void Destroy();
     void Draw();
     void Scroll(float dx = 0, float dy = 0);
+    bool Collision(QString layer_name, float pos_x, float pos_y, int width, int height);
 private:
     static ManagerTileMap* instance;
     int key_mesh;

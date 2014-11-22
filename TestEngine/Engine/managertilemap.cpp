@@ -231,3 +231,29 @@ void ManagerTileMap::Scroll(float dx, float dy)
     this->dx+=dx;
     this->dy+=dy;
 }
+
+bool ManagerTileMap::Collision(QString layer_name, float pos_x, float pos_y, int width, int height)
+{
+    //ERROR
+    bool flag = false;
+    Layer* layer = 0;
+    layer = hash_layer.value(layer_name);
+    if (layer==0)
+        return false;
+    qDebug()<<"Y ot"<<int(pos_y+dy)/tile_height<<"Y po"<<int(pos_y+dy+height)/tile_height;
+    qDebug()<<"X ot"<<int(pos_x+dx)/tile_width<<"X po"<<int(pos_x+dx+width)/tile_width;
+    for (int i=int(pos_y+dy)/tile_height; i<(int(pos_y+dy+height)/tile_height)%count_y; i++)
+    {
+        for (int j=int(pos_x+dx)/tile_width; j<(int(pos_x+dx+width)/tile_width)%count_x; i++)
+        {
+            int id = layer->GetValue(i, j);
+            qDebug()<<"ID"<<id;
+            if (id!=0)
+            {
+                flag = true;
+                return flag;
+            }
+        }
+    }
+    return flag;
+}

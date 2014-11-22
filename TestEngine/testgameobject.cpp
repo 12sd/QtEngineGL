@@ -10,7 +10,7 @@ void TestGameObject::Init()
      * Инициализация объекта
     */
     i = j = 0;
-    ground = 150;
+    ground = 200;
     onGround = false;
     sprite = ManagerSprite::getInstance()->GetValue(0);
     proj.setToIdentity();
@@ -42,23 +42,41 @@ void TestGameObject::Update()
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
     {
-        ManagerTileMap::getInstance()->Scroll(-22 * time);
-        model.translate(3.0 * time, 0, 0);
-        qDebug()<<"move right";
-        i = i + 30 * time;
-        if (i > 4)
-            i = i -4;
-        j = 1;
+        int pos_x = model.column(3).x();
+        int pos_y = model.column(3).y();
+        int width = sprite->GetTexture()->GetWidth();
+        int height = sprite->GetTexture()->GetHeight();
+        qDebug()<<"PosX"<<pos_x<<"PosY"<<pos_y;
+        if (!ManagerTileMap::getInstance()->Collision("collision", pos_x, pos_y, width, height))
+        {
+            ManagerTileMap::getInstance()->Scroll(-22 * time);
+            model.translate(3.0 * time, 0, 0);
+            qDebug()<<"move right";
+            i = i + 30 * time;
+            if (i > 4)
+                i = i -4;
+            j = 1;
+        }else
+            qDebug()<<"COLLISION";
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
-        ManagerTileMap::getInstance()->Scroll(22 * time);
-        model.translate(-3.0 * time, 0, 0);
-        qDebug()<<"move left";
-        i = i + 30 * time;
-        if (i > 4)
-            i = i -4;
-        j = 2;
+        int pos_x = model.column(3).x();
+        int pos_y = model.column(3).y();
+        int width = sprite->GetTexture()->GetWidth();
+        int height = sprite->GetTexture()->GetHeight();
+        qDebug()<<"PosX"<<pos_x<<"PosY"<<pos_y;
+        if (!ManagerTileMap::getInstance()->Collision("collision", pos_x, pos_y, width, height))
+        {
+            ManagerTileMap::getInstance()->Scroll(22 * time);
+            model.translate(-3.0 * time, 0, 0);
+            qDebug()<<"move left";
+            i = i + 30 * time;
+            if (i > 4)
+                i = i -4;
+            j = 2;
+        }else
+            qDebug()<<"COLLISION";
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Space))
@@ -76,7 +94,7 @@ void TestGameObject::Update()
 
     if (model.column(3).y()<ground)
     {
-        model.row(3).setY(ground);
+        model.column(3).setY(ground);
         onGround = true;
     }
 }
