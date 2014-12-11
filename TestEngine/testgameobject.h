@@ -18,7 +18,7 @@ public:
     void Init();
     void Update();
     void Draw();
-private:
+public:
     Sprite* sprite;
     QMatrix4x4 proj;
     QMatrix4x4 model;

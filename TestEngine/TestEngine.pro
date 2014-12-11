@@ -25,7 +25,6 @@ SOURCES += main.cpp \
     Engine/shader.cpp \
     Engine/managershader.cpp \
     Engine/sprite.cpp \
-    Engine/ForDebug/gridcoord.cpp \
     Engine/managersprite.cpp \
     testcreatorgameobject.cpp \
     testgameobject.cpp \
@@ -35,7 +34,8 @@ SOURCES += main.cpp \
     background.cpp \
     Engine/managerkeyboard.cpp \
     Engine/layer.cpp \
-    Engine/managertilemap.cpp
+    Engine/managertilemap.cpp \
+    Engine/ForDebug/gridcoord.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -49,7 +49,6 @@ HEADERS  += mainform.h \
     Engine/shader.h \
     Engine/managershader.h \
     Engine/sprite.h \
-    Engine/ForDebug/gridcoord.h \
     Engine/managersprite.h \
     testcreatorgameobject.h \
     testgameobject.h \
@@ -59,7 +58,8 @@ HEADERS  += mainform.h \
     background.h \
     Engine/managerkeyboard.h \
     Engine/layer.h \
-    Engine/managertilemap.h
+    Engine/managertilemap.h \
+    Engine/ForDebug/gridcoord.h
 
 FORMS    +=
 

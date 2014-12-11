@@ -42,46 +42,44 @@ void TestGameObject::Update()
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
     {
+        //ManagerTileMap::getInstance()->Scroll(-22 * time);
+        model.translate(3.0*time, 0, 0);
+        qDebug()<<"move right";
         int pos_x = model.column(3).x();
         int pos_y = model.column(3).y();
-        int width = sprite->GetTexture()->GetWidth();
-        int height = sprite->GetTexture()->GetHeight();
-        pos_x = pos_x-width/2;
-        pos_y = pos_y-height/2;
+        int width = 48;
+        int height = 65;
         qDebug()<<"PosX"<<pos_x<<"PosY"<<pos_y;
-        //ManagerTileMap::getInstance()->Scroll(-22 * time);
-        model.translate(3.0 * time, 0, 0);
-        qDebug()<<"move right";
         i = i + 30 * time;
         if (i > 4)
             i = i -4;
         j = 1;
         if (ManagerTileMap::getInstance()->Collision("collision", pos_x, pos_y, width, height))
         {
-            model.translate(-3.0 * time, 0, 0);
+            //ManagerTileMap::getInstance()->Scroll(22 * time);
+            model.translate(-3.0*time, 0, 0);
             qDebug()<<"COLLISION";
         }
 
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
+        //ManagerTileMap::getInstance()->Scroll(22 * time);
+        model.translate(-3*time, 0, 0);
+        qDebug()<<"move left";
         int pos_x = model.column(3).x();
         int pos_y = model.column(3).y();
-        int width = sprite->GetTexture()->GetWidth();
-        int height = sprite->GetTexture()->GetHeight();
-        pos_x = pos_x-width/2;
-        pos_y = pos_y-height/2;
+        int width = 48;
+        int height = 65;
         qDebug()<<"PosX"<<pos_x<<"PosY"<<pos_y;
-        //ManagerTileMap::getInstance()->Scroll(22 * time);
-        model.translate(-3.0 * time, 0, 0);
-        qDebug()<<"move left";
         i = i + 30 * time;
         if (i > 4)
             i = i -4;
         j = 2;
-        if (!ManagerTileMap::getInstance()->Collision("collision", pos_x, pos_y, width, height))
+        if (ManagerTileMap::getInstance()->Collision("collision", pos_x, pos_y, width, height))
         {
-            model.translate(3.0 * time, 0, 0);
+            //ManagerTileMap::getInstance()->Scroll(-22 * time);
+            model.translate(3.0*time, 0, 0);
             qDebug()<<"COLLISION";
         }
     }
@@ -96,12 +94,12 @@ void TestGameObject::Update()
 
     if (!onGround)
     {
-        model.translate(0, -6.0 * time, 0);
+        model.translate(0, -3.0 * time, 0);
     }
 
-    if (model.column(3).y()<ground)
+    if (ManagerTileMap::getInstance()->Collision("collision", model.column(3).x(), model.column(3).y(), 48, 65) && onGround==false)
     {
-        model.column(3).setY(ground);
+        model.translate(0, 3.0 * time, 0);
         onGround = true;
     }
 }

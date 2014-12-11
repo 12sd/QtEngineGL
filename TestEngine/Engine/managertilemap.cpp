@@ -240,18 +240,26 @@ bool ManagerTileMap::Collision(QString layer_name, float pos_x, float pos_y, int
     layer = hash_layer.value(layer_name);
     if (layer==0)
         return false;
-    qDebug()<<"Y ot"<<int(pos_y+dy)/tile_height<<"Y po"<<int(pos_y+dy+height)/tile_height;
-    qDebug()<<"X ot"<<int(pos_x+dx)/tile_width<<"X po"<<int(pos_x+dx+width)/tile_width;
-    for (int i=int(pos_y+dy+height)/tile_height; i>int(pos_y+dy)/tile_height; i--)
+    int s_x = (pos_x-width/2)/tile_width;
+    int f_x = ((pos_x-width/2)+width)/tile_width;
+    int s_y = count_y-(((pos_y+height/2)+height)/tile_height);
+    int f_y = count_y-((pos_y+height/2)/tile_height);
+
+    qDebug()<<"Y ot"<<s_y<<"Y po"<<f_y;
+    qDebug()<<"X ot"<<s_x<<"X po"<<f_x;
+    for (int i=s_y; i<f_y; i++)
     {
-        for (int j=int(pos_x+dx)/tile_width; j<(int(pos_x+dx+width)/tile_width); j++)
+        for (int j=s_x; j<f_x; j++)
         {
-            int id = layer->GetValue(i-1, j-1);
-            qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
-            if (id!=0)
+            if (i>=0 && i<count_y && j>=0 && j<count_x)
             {
-                flag = true;
-                return flag;
+                int id = layer->GetValue(i, j);
+                qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
+                if (id!=0)
+                {
+                    flag = true;
+                    //return flag;
+                }
             }
         }
     }
