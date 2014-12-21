@@ -232,7 +232,7 @@ void ManagerTileMap::Scroll(float dx, float dy)
     this->dy+=dy;
 }
 
-bool ManagerTileMap::Collision(QString layer_name, float pos_x, float pos_y, int width, int height)
+bool ManagerTileMap::CollisionX(QString layer_name, QVector2D pos, int width, int height, bool right, QVector2D* res_pos)
 {
     //ERROR
     bool flag = false;
@@ -240,10 +240,20 @@ bool ManagerTileMap::Collision(QString layer_name, float pos_x, float pos_y, int
     layer = hash_layer.value(layer_name);
     if (layer==0)
         return false;
-    int s_x = (pos_x-width/2)/tile_width;
-    int f_x = ((pos_x-width/2)+width)/tile_width;
-    int s_y = count_y-(((pos_y+height/2)+height)/tile_height);
-    int f_y = count_y-((pos_y+height/2)/tile_height);
+    int s_x, f_x, s_y, f_y;
+    if (right)
+    {
+        s_x = ((pos.x()-width/2)+tile_width)/tile_width;
+        f_x = ((pos.x()-width/2)+width+tile_width)/tile_width;
+        s_y = count_y-(((pos.y()+height/2)+height-tile_height)/tile_height);
+        f_y = count_y-(((pos.y()+height/2)-tile_height)/tile_height);
+    }else
+    {
+        s_x = (pos.x()-width/2)/tile_width;
+        f_x = ((pos.x()-width/2)+width)/tile_width;
+        s_y = count_y-(((pos.y()+height/2)+height-tile_height*2)/tile_height);
+        f_y = count_y-(((pos.y()+height/2)-tile_height*2)/tile_height);
+    }
 
     qDebug()<<"Y ot"<<s_y<<"Y po"<<f_y;
     qDebug()<<"X ot"<<s_x<<"X po"<<f_x;
@@ -254,11 +264,61 @@ bool ManagerTileMap::Collision(QString layer_name, float pos_x, float pos_y, int
             if (i>=0 && i<count_y && j>=0 && j<count_x)
             {
                 int id = layer->GetValue(i, j);
-                qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
                 if (id!=0)
                 {
+                    qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
                     flag = true;
-                    //return flag;
+                    if (right)
+                        res_pos->setX(j*tile_width-width+width/2);
+                    else
+                        res_pos->setX(j*tile_width+tile_width+width/2);
+                }
+            }
+        }
+    }
+    return flag;
+}
+
+bool ManagerTileMap::CollisionY(QString layer_name, QVector2D pos, int width, int height, bool up, QVector2D* res_pos)
+{
+    //ERROR
+    bool flag = false;
+    Layer* layer = 0;
+    layer = hash_layer.value(layer_name);
+    if (layer==0)
+        return false;
+    int s_x, f_x, s_y, f_y;
+    if (up)
+    {
+        s_x = ((pos.x()-width/2)+tile_width)/tile_width;
+        f_x = ((pos.x()-width/2)+width+tile_width)/tile_width;
+        s_y = count_y-(((pos.y()+height/2)+height-tile_height)/tile_height);
+        f_y = count_y-(((pos.y()+height/2)-tile_height)/tile_height);
+    }else
+    {
+        s_x = (pos.x()-width/2)/tile_width;
+        f_x = ((pos.x()-width/2)+width)/tile_width;
+        s_y = count_y-(((pos.y()+height/2)+height-tile_height*2)/tile_height);
+        f_y = count_y-(((pos.y()+height/2)-tile_height*2)/tile_height);
+    }
+
+    qDebug()<<"Y ot"<<s_y<<"Y po"<<f_y;
+    qDebug()<<"X ot"<<s_x<<"X po"<<f_x;
+    for (int i=s_y; i<f_y; i++)
+    {
+        for (int j=s_x; j<f_x; j++)
+        {
+            if (i>=0 && i<count_y && j>=0 && j<count_x)
+            {
+                int id = layer->GetValue(i, j);
+                if (id!=0)
+                {
+                    qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
+                    flag = true;
+                    if (up)
+                        res_pos->setY((count_y-i)*tile_height-tile_height-height/2);
+                    else
+                        res_pos->setY((count_y-i)*tile_height+height-height/2);
                 }
             }
         }
