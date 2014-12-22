@@ -21,7 +21,7 @@ void MainForm::render(QPainter *painter)
     int fps = Fps::getInstance()->GetFps();
     int x = ManagerMouse::getInstance()->GetX();
     int y = ManagerMouse::getInstance()->GetY();
-    setTitle("FPS = "+QString::number(fps)+" X="+QString::number(x)+" Y="+QString::number(y));
+    setTitle("FPS = "+QString::number(fps)+" X="+QString::number(x)+" Y="+QString::number(y)+"FPS_QT=");
 }
 
 void MainForm::initialize()
