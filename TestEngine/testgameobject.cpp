@@ -48,7 +48,12 @@ void TestGameObject::Update()
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
     {
-        model.translate(3.0*time, 0, 0);
+        if (model.column(3).x()>680)
+        {
+            ManagerTileMap::getInstance()->Scroll(-3*time);
+        }
+        else
+            model.translate(3.0*time, 0, 0);
         right = true;
         i = i + 30 * time;
         if (i > 4)
@@ -57,7 +62,12 @@ void TestGameObject::Update()
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
-        model.translate(-3*time, 0, 0);
+        if (model.column(3).x()<120)
+        {
+            ManagerTileMap::getInstance()->Scroll(3*time);
+        }
+        else
+            model.translate(-3*time, 0, 0);
         right = false;
         i = i + 30 * time;
         if (i > 4)
@@ -67,13 +77,23 @@ void TestGameObject::Update()
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Up))
     {
-        model.translate(0, 3*time, 0);
+        if (model.column(3).y()>500)
+        {
+            ManagerTileMap::getInstance()->Scroll(0, -3*time);
+        }
+        else
+            model.translate(0, 3*time, 0);
         up = true;
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Down))
     {
-        model.translate(0, -3*time, 0);
+        if (model.column(3).y()<100)
+        {
+            ManagerTileMap::getInstance()->Scroll(0, 3*time);
+        }
+        else
+            model.translate(0, -3*time, 0);
         up = false;
     }
 

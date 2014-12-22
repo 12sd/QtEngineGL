@@ -230,6 +230,7 @@ void ManagerTileMap::Scroll(float dx, float dy)
 {
     this->dx+=dx;
     this->dy+=dy;
+    //model.translate(dx, dy);
 }
 
 bool ManagerTileMap::CollisionX(QString layer_name, QVector2D pos, int width, int height, bool right, QVector2D* res_pos)
@@ -243,7 +244,8 @@ bool ManagerTileMap::CollisionX(QString layer_name, QVector2D pos, int width, in
     int s_x, f_x, s_y, f_y;
     int height_ortho = 2.0/proj.column(1).y();
     qDebug()<<"HEIGHT_ortho="<<height_ortho<<"Y_ortho="<<proj.column(1).y();
-    pos.setY(height_ortho-pos.y());
+    pos.setY(height_ortho-pos.y()+dy*tile_height);
+    pos.setX(pos.x()-dx*tile_width);
     if (right)
     {
         s_x = (pos.x()+width/2)/tile_width;
@@ -272,9 +274,9 @@ bool ManagerTileMap::CollisionX(QString layer_name, QVector2D pos, int width, in
                     qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
                     flag = true;
                     if (right)
-                        res_pos->setX(j*tile_width-width+width/2);
+                        res_pos->setX(j*tile_width-width+width/2+dx*tile_width);
                     else
-                        res_pos->setX(j*tile_width+tile_width+width/2);
+                        res_pos->setX(j*tile_width+tile_width+width/2+dx*tile_width);
                 }
             }
         }
@@ -293,7 +295,8 @@ bool ManagerTileMap::CollisionY(QString layer_name, QVector2D pos, int width, in
     int s_x, f_x, s_y, f_y;
     int height_ortho = 2.0/proj.column(1).y();
     qDebug()<<"HEIGHT_OTHO="<<height_ortho;
-    pos.setY(height_ortho-pos.y());
+    pos.setY(height_ortho-pos.y()+dy*tile_height);
+    pos.setX(pos.x()-dx*tile_width);
     if (up)
     {
         s_x = (pos.x()-width/2)/tile_width;
@@ -322,9 +325,9 @@ bool ManagerTileMap::CollisionY(QString layer_name, QVector2D pos, int width, in
                     qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
                     flag = true;
                     if (up)
-                        res_pos->setY(height_ortho-(i*tile_height+tile_height+height/2));
+                        res_pos->setY(height_ortho-(i*tile_height+tile_height+height/2)+dy*tile_height);
                     else
-                        res_pos->setY(height_ortho-(i*tile_height-height+height/2));
+                        res_pos->setY(height_ortho-(i*tile_height-height+height/2)+dy*tile_height);
                 }
             }
         }
