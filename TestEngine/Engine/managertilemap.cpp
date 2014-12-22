@@ -241,18 +241,21 @@ bool ManagerTileMap::CollisionX(QString layer_name, QVector2D pos, int width, in
     if (layer==0)
         return false;
     int s_x, f_x, s_y, f_y;
+    int height_ortho = 2.0/proj.column(1).y();
+    qDebug()<<"HEIGHT_ortho="<<height_ortho<<"Y_ortho="<<proj.column(1).y();
+    pos.setY(height_ortho-pos.y());
     if (right)
     {
-        s_x = ((pos.x()-width/2)+tile_width)/tile_width;
-        f_x = ((pos.x()-width/2)+width+tile_width)/tile_width;
-        s_y = count_y-(((pos.y()+height/2)+height-tile_height)/tile_height);
-        f_y = count_y-(((pos.y()+height/2)-tile_height)/tile_height);
+        s_x = (pos.x()+width/2)/tile_width;
+        f_x = ((pos.x()+width/2)+width)/tile_width;
+        s_y = (pos.y()-height/2)/tile_height;
+        f_y = ((pos.y()-height/2)+height)/tile_height;
     }else
     {
         s_x = (pos.x()-width/2)/tile_width;
         f_x = ((pos.x()-width/2)+width)/tile_width;
-        s_y = count_y-(((pos.y()+height/2)+height-tile_height*2)/tile_height);
-        f_y = count_y-(((pos.y()+height/2)-tile_height*2)/tile_height);
+        s_y = (pos.y()-height/2)/tile_height;
+        f_y = ((pos.y()-height/2)+height)/tile_height;
     }
 
     qDebug()<<"Y ot"<<s_y<<"Y po"<<f_y;
@@ -288,18 +291,21 @@ bool ManagerTileMap::CollisionY(QString layer_name, QVector2D pos, int width, in
     if (layer==0)
         return false;
     int s_x, f_x, s_y, f_y;
+    int height_ortho = 2.0/proj.column(1).y();
+    qDebug()<<"HEIGHT_OTHO="<<height_ortho;
+    pos.setY(height_ortho-pos.y());
     if (up)
     {
-        s_x = ((pos.x()-width/2)+tile_width)/tile_width;
-        f_x = ((pos.x()-width/2)+width+tile_width)/tile_width;
-        s_y = count_y-(((pos.y()+height/2)+height-tile_height)/tile_height);
-        f_y = count_y-(((pos.y()+height/2)-tile_height)/tile_height);
+        s_x = (pos.x()-width/2)/tile_width;
+        f_x = ((pos.x()-width/2)+width)/tile_width;
+        s_y = (pos.y()-height/2)/tile_height;
+        f_y = ((pos.y()-height/2)+height)/tile_height;
     }else
     {
         s_x = (pos.x()-width/2)/tile_width;
         f_x = ((pos.x()-width/2)+width)/tile_width;
-        s_y = count_y-(((pos.y()+height/2)+height-tile_height*2)/tile_height);
-        f_y = count_y-(((pos.y()+height/2)-tile_height*2)/tile_height);
+        s_y = (pos.y()+height/2)/tile_height;
+        f_y = ((pos.y()+height/2)+height)/tile_height;
     }
 
     qDebug()<<"Y ot"<<s_y<<"Y po"<<f_y;
@@ -316,9 +322,9 @@ bool ManagerTileMap::CollisionY(QString layer_name, QVector2D pos, int width, in
                     qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
                     flag = true;
                     if (up)
-                        res_pos->setY((count_y-i)*tile_height-tile_height-height/2);
+                        res_pos->setY(height_ortho-(i*tile_height+tile_height+height/2));
                     else
-                        res_pos->setY((count_y-i)*tile_height+height-height/2);
+                        res_pos->setY(height_ortho-(i*tile_height-height+height/2));
                 }
             }
         }

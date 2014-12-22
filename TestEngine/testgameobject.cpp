@@ -106,7 +106,7 @@ void TestGameObject::Update()
         model.setToIdentity();
         model.translate(pos.x(), res_pos.y(), 0);
         model.scale(32.0, 32.0);
-        qDebug()<<"COLLISION X="<<res_pos.x()<<" Y="<<res_pos.y();
+        qDebug()<<"COLLISION Y="<<res_pos.x()<<" Y="<<res_pos.y();
     }
 
 //    if (!onGround)
