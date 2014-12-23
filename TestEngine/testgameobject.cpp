@@ -55,7 +55,7 @@ void TestGameObject::Update()
         else
             model.translate(6.0*time, 0, 0);
         right = true;
-        i = i + 30 * time;
+        i = i + 15 * time;
         if (i > 4)
             i = i -4;
         j = 1;
@@ -69,7 +69,7 @@ void TestGameObject::Update()
         else
             model.translate(-6*time, 0, 0);
         right = false;
-        i = i + 30 * time;
+        i = i + 15 * time;
         if (i > 4)
             i = i -4;
         j = 2;   

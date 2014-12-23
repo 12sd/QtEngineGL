@@ -9,5 +9,6 @@
         <file>Resources/test.xml</file>
         <file>Resources/tileset_13.png</file>
         <file>Resources/map.tmx</file>
+        <file>Resources/tileset_14.png</file>
     </qresource>
 </RCC>

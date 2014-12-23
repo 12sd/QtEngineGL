@@ -6,6 +6,7 @@
                 <Texture id="2">://Resources/buttonstartmenu.png</Texture>
                 <Texture id="3">://Resources/backgroundmenu.png</Texture>
                 <Texture id="4">://Resources/tileset_13.png</Texture>
+                <Texture id="5">://Resources/tileset_14.png</Texture>
                 <Shader id="0">path</Shader>
         </Resources>
 	<Sprite id="0" mid="0" tid="0" sid="0"></Sprite>

@@ -87,7 +87,7 @@ bool ManagerTileMap::Load(QString filename)
                             sprite->SetShaderKey(key_shader);
                             sprite->SetTextureKey(id);
                             sprite->Create();
-                            hash_sprite.insert(name,sprite);
+                            list_sprite.append(sprite);
                             qDebug()<<"TileSet:"<<name<<"Id:"<<id;
                         }
                     }
@@ -130,7 +130,10 @@ bool ManagerTileMap::Load(QString filename)
                                 }
                             }
                         }
-                        hash_layer.insert(name, layer);
+                        DataLayer data;
+                        data.layer_name = name;
+                        data.layer = layer;
+                        list_layer.append(data);
                         qDebug()<<"Layer:"<<name;
                         for (int i=0;i<count_y;i++)
                         {
@@ -155,21 +158,18 @@ bool ManagerTileMap::Load(QString filename)
 
 void ManagerTileMap::Clear()
 {
-    QHash<QString, Sprite*>::iterator it_s = hash_sprite.begin();
-    while (it_s != hash_sprite.end())
+    for (int i=0; i<list_layer.size(); i++)
     {
-        delete it_s.value();
-        it_s++;
+        delete list_layer.value(i).layer;
     }
-    hash_sprite.clear();
+    list_layer.clear();
 
-    QHash<QString, Layer*>::iterator it_l = hash_layer.begin();
-    while (it_l != hash_layer.end())
+    for (int i=0; i<list_sprite.size(); i++)
     {
-        delete it_l.value();
-        it_l++;
+        delete list_sprite.value(i);
     }
-    hash_layer.clear();
+    list_sprite.clear();
+
 }
 
 void ManagerTileMap::Draw()
@@ -177,10 +177,11 @@ void ManagerTileMap::Draw()
     model.setToIdentity();
     model.scale(tile_width, tile_height, 0.0f);
     model.translate(0.5f+dx, 0.5f+dy, 0.0f);
-    QHash<QString, Layer*>::iterator it_l = hash_layer.begin();
-    while (it_l != hash_layer.end())
+
+    for (int i=0; i<list_layer.size(); i++)
     {
-        Layer* layer = it_l.value();
+        //Layer* layer = it_l.value();
+        Layer* layer = list_layer.value(i).layer;
         for (int i=count_y-1; i>=0; i--)
         {
             for (int j=0; j<count_x; j++)
@@ -188,16 +189,14 @@ void ManagerTileMap::Draw()
                 Sprite* sprite = 0;
                 int id = layer->GetValue(i, j);
                 int tmp_summa = 0;
-                QHash<QString, Sprite*>::iterator it_s = hash_sprite.begin();
-                while (it_s!=hash_sprite.end())
+                for (int i=0; i<list_sprite.size(); i++)
                 {
-                    sprite = it_s.value();
+                    sprite = list_sprite.value(i);
                     int tmp = sprite->GetTexture()->GetWidth()/tile_width*sprite->GetTexture()->GetHeight()/tile_height;
                     if ((tmp_summa+tmp)>=id)
                         break;
                     else
                         tmp_summa+=tmp;
-                    it_s++;
                 }
                 if (sprite!=0 && id!=0)
                 {
@@ -222,7 +221,6 @@ void ManagerTileMap::Draw()
         model.setToIdentity();
         model.scale(tile_width, tile_height, 0);
         model.translate(0.5f+dx, 0.5f+dy, 0.0f);
-        it_l++;
     }
 }
 
@@ -238,7 +236,11 @@ bool ManagerTileMap::CollisionX(QString layer_name, QVector2D pos, int width, in
     //ERROR
     bool flag = false;
     Layer* layer = 0;
-    layer = hash_layer.value(layer_name);
+    for (int i=0; i<list_layer.size(); i++)
+    {
+        if (list_layer.value(i).layer_name==layer_name)
+            layer = list_layer.value(i).layer;
+    }
     if (layer==0)
         return false;
     int s_x, f_x, s_y, f_y;
@@ -289,7 +291,11 @@ bool ManagerTileMap::CollisionY(QString layer_name, QVector2D pos, int width, in
     //ERROR
     bool flag = false;
     Layer* layer = 0;
-    layer = hash_layer.value(layer_name);
+    for (int i=0; i<list_layer.size(); i++)
+    {
+        if (list_layer.value(i).layer_name==layer_name)
+            layer = list_layer.value(i).layer;
+    }
     if (layer==0)
         return false;
     int s_x, f_x, s_y, f_y;

@@ -18,4 +18,10 @@ private:
     int* data;
 };
 
+struct DataLayer
+{
+    QString layer_name;
+    Layer* layer;
+};
+
 #endif // LAYER_H

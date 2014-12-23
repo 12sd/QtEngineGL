@@ -27,8 +27,8 @@ private:
     static ManagerTileMap* instance;
     int key_mesh;
     int key_shader;
-    QHash<QString, Sprite*> hash_sprite;
-    QHash<QString, Layer*> hash_layer;
+    QList<Sprite*> list_sprite;
+    QList<DataLayer> list_layer;
     int count_x, count_y;
     int tile_width, tile_height;
     QMatrix4x4 proj;
