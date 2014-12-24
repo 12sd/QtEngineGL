@@ -139,7 +139,7 @@ bool ManagerTileMap::Load(QString filename)
                         {
                             for (int j=0;j<count_x;j++)
                             {
-                                qDebug()<<layer->GetValue(i, j);
+                                //qDebug()<<layer->GetValue(i, j);
                             }
                         }
                     }

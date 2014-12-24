@@ -4,7 +4,7 @@ TestGameObject::TestGameObject()
 {
 }
 
-void TestGameObject::Init()
+void TestGameObject::Init(QHash<QString,QString> property)
 {
     /*
      * Инициализация объекта

@@ -11,7 +11,7 @@ class BackGround: public GameObject
 {
 public:
     BackGround();
-    void Init();
+    void Init(QHash<QString,QString> property);
     void Update();
     void Draw();
 private:

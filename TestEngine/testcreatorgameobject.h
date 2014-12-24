@@ -5,14 +5,15 @@
 #include "buttonexit.h"
 #include "buttonstart.h"
 #include "background.h"
+#include "Engine/creatorgameobject.h"
 
 enum Type_Obj {Test, Button_Exit, Button_Start, Back_Ground, None};
 
-class TestCreatorGameObject
+class TestCreatorGameObject: public CreatorGameObject
 {
 public:
     TestCreatorGameObject();
-    static GameObject* CreateGameObject(uint type);
+    GameObject* CreateGameObject(uint type);
 };
 
 #endif // TESTCREATORGAMEOBJECT_H

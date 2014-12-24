@@ -4,7 +4,7 @@ ButtonStart::ButtonStart()
 {
 }
 
-void ButtonStart::Init()
+void ButtonStart::Init(QHash<QString,QString> property)
 {
     sprite = ManagerSprite::getInstance()->GetValue(2);
     proj.setToIdentity();

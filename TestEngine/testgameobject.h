@@ -15,7 +15,7 @@ class TestGameObject:public GameObject
 {
 public:
     TestGameObject();
-    void Init();
+    void Init(QHash<QString,QString> property);
     void Update();
     void Draw();
 public:

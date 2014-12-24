@@ -4,7 +4,7 @@ GameScene::GameScene()
 {
 }
 
-bool GameScene::Load(QString filename)
+bool GameScene::Load(QString filename, CreatorGameObject* creator)
 {
     QFile f(filename);
     if (!f.open(QIODevice::ReadOnly))
@@ -74,6 +74,50 @@ bool GameScene::Load(QString filename)
                     }
                     sprite->Create();
                     ManagerSprite::getInstance()->Add(id, sprite);
+                }
+            }
+            //Считка игровых объектов
+            if (reader.name()=="GameObject")
+            {
+                if (reader.attributes().hasAttribute("type"))
+                {
+                    uint type = reader.attributes().value("type").toUInt();
+                    GameObject* obj = 0;
+                    if (creator!=0)
+                    {
+                        obj = creator->CreateGameObject(type);
+                    }
+                    if (obj!=0)
+                    {
+                        if (reader.attributes().hasAttribute("name"))
+                        {
+                            obj->SetName(reader.attributes().value("name").toString());
+                        }
+                        qDebug()<<"Tag:"<<reader.name()<<"Type:"<<type<<"Name:"<<obj->GetName();
+                        ManagerGameObject::getInstance()->Add(obj->GetName(), obj);
+                        QHash<QString,QString> property;
+
+                        //Error
+                        /*
+                        reader.readNext();
+                        while (reader.isEndElement()==false && reader.name()=="GameObject")
+                        {
+                            if (reader.isStartElement())
+                            {
+                                QString param = reader.name().toString();
+                                reader.readNext();
+                                QString value = reader.text().toString();
+                                qDebug()<<"NameP="<<param<<"ValueP="<<value;
+                                property.insert(param, value);
+                            }
+                            reader.readNext();
+                        }
+                        */
+
+                        obj->Init(property);
+                    }else
+                        qDebug()<<"Error Create GameObject";
+
                 }
             }
         }

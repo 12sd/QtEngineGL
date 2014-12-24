@@ -13,7 +13,7 @@ class ButtonStart: public GameObject
 {
 public:
     ButtonStart();
-    void Init();
+    void Init(QHash<QString,QString> property);
     void Update();
     void Draw();
 private:

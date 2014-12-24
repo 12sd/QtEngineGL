@@ -4,7 +4,7 @@ BackGround::BackGround()
 {
 }
 
-void BackGround::Init()
+void BackGround::Init(QHash<QString,QString> property)
 {
     sprite = ManagerSprite::getInstance()->GetValue(3);
     proj.setToIdentity();

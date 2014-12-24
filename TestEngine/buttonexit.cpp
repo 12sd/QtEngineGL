@@ -4,7 +4,7 @@ ButtonExit::ButtonExit()
 {
 }
 
-void ButtonExit::Init()
+void ButtonExit::Init(QHash<QString,QString> property)
 {
     sprite = ManagerSprite::getInstance()->GetValue(1);
     proj.setToIdentity();

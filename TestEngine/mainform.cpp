@@ -30,23 +30,11 @@ void MainForm::initialize()
        GameScene.Load(filename);
     */
 
-    GameScene sc;
-    sc.Load("://Resources/test.xml");
+    TestCreatorGameObject cr;
+    level.Load("://Resources/test.xml", &cr);
 
     map = ManagerTileMap::getInstance();
     map->Load("://Resources/map.tmx");
-
-    object_sp = TestCreatorGameObject::CreateGameObject(Test);
-    object_sp->Init();
-
-    button_exit = TestCreatorGameObject::CreateGameObject(Button_Exit);
-    button_exit->Init();
-
-    button_start = TestCreatorGameObject::CreateGameObject(Button_Start);
-    button_start->Init();
-
-    backround = TestCreatorGameObject::CreateGameObject(Back_Ground);
-    backround->Init();
 
     glViewport(0, 0, 800, 600);
 }
@@ -71,14 +59,17 @@ void MainForm::render()
     {
     case MainMenu:
     {
-        backround->Update();
-        backround->Draw();
-        object_sp->Update();
-        object_sp->Draw();
-        button_exit->Update();
-        button_exit->Draw();
-        button_start->Update();
-        button_start->Draw();
+        ManagerGameObject::getInstance()->GetValue("background")->Update();
+        ManagerGameObject::getInstance()->GetValue("background")->Draw();
+
+        ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
+        ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
+
+        ManagerGameObject::getInstance()->GetValue("buttonexit")->Update();
+        ManagerGameObject::getInstance()->GetValue("buttonexit")->Draw();
+
+        ManagerGameObject::getInstance()->GetValue("buttonstart")->Update();
+        ManagerGameObject::getInstance()->GetValue("buttonstart")->Draw();
 
         grid.SetColor(0, 1, 0);
         //grid.Draw(0, 800, 0, 600);
@@ -88,8 +79,10 @@ void MainForm::render()
     case DragPlayer1:
     {
         map->Draw();
-        object_sp->Update();
-        object_sp->Draw();
+
+        ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
+        ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
+
         break;
     }
     }

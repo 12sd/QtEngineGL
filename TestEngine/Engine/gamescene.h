@@ -10,12 +10,16 @@
 #include "managershader.h"
 #include "managertexture.h"
 #include "managersprite.h"
+#include "managergameobject.h"
+#include "creatorgameobject.h"
+
+#include "testcreatorgameobject.h"
 
 class GameScene
 {
 public:
     GameScene();
-    bool Load(QString filename);
+    bool Load(QString filename, CreatorGameObject* creator);
     void Update();
     void Draw();
 };

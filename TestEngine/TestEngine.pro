@@ -35,7 +35,9 @@ SOURCES += main.cpp \
     Engine/managerkeyboard.cpp \
     Engine/layer.cpp \
     Engine/managertilemap.cpp \
-    Engine/ForDebug/gridcoord.cpp
+    Engine/ForDebug/gridcoord.cpp \
+    Engine/managergameobject.cpp \
+    Engine/creatorgameobject.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -59,7 +61,9 @@ HEADERS  += mainform.h \
     Engine/managerkeyboard.h \
     Engine/layer.h \
     Engine/managertilemap.h \
-    Engine/ForDebug/gridcoord.h
+    Engine/ForDebug/gridcoord.h \
+    Engine/managergameobject.h \
+    Engine/creatorgameobject.h
 
 FORMS    +=
 

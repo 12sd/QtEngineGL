@@ -62,11 +62,8 @@ private:
      * Для избавления избыточности
      * это будет описываться в GameScene.Load
     */
-    GameObject* object_sp;
-    GameObject* button_exit;
-    GameObject* button_start;
-    GameObject* backround;
     ManagerTileMap* map;
+    GameScene level;
 
     GridCoord grid;
 };

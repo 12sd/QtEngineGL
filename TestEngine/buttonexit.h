@@ -11,7 +11,7 @@ class ButtonExit: public GameObject
 {
 public:
     ButtonExit();
-    void Init();
+    void Init(QHash<QString,QString> property);
     void Update();
     void Draw();
 private:
