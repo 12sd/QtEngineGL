@@ -62,8 +62,8 @@ void MainForm::render()
         ManagerGameObject::getInstance()->GetValue("background")->Update();
         ManagerGameObject::getInstance()->GetValue("background")->Draw();
 
-        ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
-        ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
+//        ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
+//        ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
 
         ManagerGameObject::getInstance()->GetValue("buttonexit")->Update();
         ManagerGameObject::getInstance()->GetValue("buttonexit")->Draw();

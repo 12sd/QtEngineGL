@@ -340,3 +340,81 @@ bool ManagerTileMap::CollisionY(QString layer_name, QVector2D pos, int width, in
     }
     return flag;
 }
+
+bool ManagerTileMap::CollisionX(QString layer_name, int x, int y, int width, int height, bool right, int* res_x)
+{
+    //ERROR
+    bool flag = false;
+    Layer* layer = 0;
+    for (int i=0; i<list_layer.size(); i++)
+    {
+        if (list_layer.value(i).layer_name==layer_name)
+            layer = list_layer.value(i).layer;
+    }
+    if (layer==0)
+        return false;
+    int s_x, f_x, s_y, f_y;
+
+    s_x = x/tile_width;
+    f_x = (x+width)/tile_width;
+    s_y = y/tile_height;
+    f_y = (y+height)/tile_height;
+
+    for (int i=s_y; i<f_y; i++)
+    {
+        for (int j=s_x; j<f_x; j++)
+        {
+            int id = layer->GetValue(i, j);
+            if (id!=0)
+            {
+                qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
+                flag = true;
+                if (right)
+                    *res_x = j*tile_width-width;
+                else
+                    *res_x = j*tile_width+tile_width;
+                return flag;
+            }
+        }
+    }
+    return flag;
+}
+
+bool ManagerTileMap::CollisionY(QString layer_name, int x, int y, int width, int height, bool up, int* res_y)
+{
+    //ERROR
+    bool flag = false;
+    Layer* layer = 0;
+    for (int i=0; i<list_layer.size(); i++)
+    {
+        if (list_layer.value(i).layer_name==layer_name)
+            layer = list_layer.value(i).layer;
+    }
+    if (layer==0)
+        return false;
+    int s_x, f_x, s_y, f_y;
+
+    s_x = x/tile_width;
+    f_x = (x+width)/tile_width;
+    s_y = y/tile_height;
+    f_y = (y+height)/tile_height;
+
+    for (int i=s_y; i<f_y; i++)
+    {
+        for (int j=s_x; j<f_x; j++)
+        {
+            int id = layer->GetValue(i, j);
+            if (id!=0)
+            {
+                qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
+                flag = true;
+                if (up)
+                    *res_y = i*tile_height+tile_height;
+                else
+                    *res_y = i*tile_height-height;
+                return flag;
+            }
+        }
+    }
+    return flag;
+}

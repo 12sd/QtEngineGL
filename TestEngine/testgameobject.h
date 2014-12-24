@@ -23,6 +23,7 @@ public:
     QMatrix4x4 proj;
     QMatrix4x4 model;
     float i,j;
+    int pos_x,pos_y;
     int ground;
     bool onGround;
 };

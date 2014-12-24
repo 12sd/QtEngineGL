@@ -23,6 +23,8 @@ public:
     void Scroll(float dx = 0, float dy = 0);
     bool CollisionX(QString layer_name, QVector2D pos, int width, int height, bool right, QVector2D* res_pos);
     bool CollisionY(QString layer_name, QVector2D pos, int width, int height, bool up, QVector2D* res_pos);
+    bool CollisionX(QString layer_name, int x, int y, int width, int height, bool right, int* res_x);
+    bool CollisionY(QString layer_name, int x, int y, int width, int height, bool up, int* res_y);
 private:
     static ManagerTileMap* instance;
     int key_mesh;

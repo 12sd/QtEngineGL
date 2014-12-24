@@ -9,6 +9,8 @@ void TestGameObject::Init(QHash<QString,QString> property)
     /*
      * Инициализация объекта
     */
+    pos_x = 0;
+    pos_y = 300;
     i = j = 0;
     ground = 200;
     onGround = false;
@@ -28,11 +30,9 @@ void TestGameObject::Update()
     float time = 1.0f/Fps::getInstance()->GetFps();
     j = 3;
 
-    QVector2D pos;
-    QVector2D res_pos;
+    int res_x = 0, res_y = 0;
     bool right = true;
     bool up = false;
-
 
     Qt::MouseButton button = ManagerMouse::getInstance()->GetButton();
     int x = ManagerMouse::getInstance()->GetX();
@@ -48,12 +48,7 @@ void TestGameObject::Update()
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
     {
-        if (model.column(3).x()>680)
-        {
-            ManagerTileMap::getInstance()->Scroll(-7*time);
-        }
-        else
-            model.translate(6.0*time, 0, 0);
+        pos_x+=3;
         right = true;
         i = i + 15 * time;
         if (i > 4)
@@ -62,12 +57,7 @@ void TestGameObject::Update()
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
-        if (model.column(3).x()<120)
-        {
-            ManagerTileMap::getInstance()->Scroll(7*time);
-        }
-        else
-            model.translate(-6*time, 0, 0);
+        pos_x-=3;
         right = false;
         i = i + 15 * time;
         if (i > 4)
@@ -77,85 +67,24 @@ void TestGameObject::Update()
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Up))
     {
-        if (model.column(3).y()>500)
-        {
-            ManagerTileMap::getInstance()->Scroll(0, -1);
-        }
-        else
-            model.translate(0, 3*time, 0);
+        pos_y-=3;
         up = true;
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Down))
     {
-        if (model.column(3).y()<100)
-        {
-            ManagerTileMap::getInstance()->Scroll(0, 1);
-        }
-        else
-            model.translate(0, -3*time, 0);
+        pos_y+=3;
         up = false;
     }
 
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Space) && onGround==true)
-    {
-        model.translate(0, 200.0 * time, 0);
-        onGround = false;
-        qDebug()<<"MatY"<<model.column(3).y()<<"onGround"<<onGround;
-    }
+    ManagerTileMap::getInstance()->CollisionX("collision", pos_x, pos_y, 48, 65, right, &res_x);
+    ManagerTileMap::getInstance()->CollisionY("collision", pos_x, pos_y, 48, 65, up, &res_y);
 
-    pos.setX(model.column(3).x());
-    pos.setY(model.column(3).y());
-    qDebug()<<"PosX"<<pos.x()<<"PosY"<<pos.y();
+    if (res_x!=0)
+        pos_x = res_x;
+    if (res_y!=0)
+    pos_y = res_y;
 
-    if (ManagerTileMap::getInstance()->CollisionX("collision", pos, 48, 65, right, &res_pos))
-    {
-        model.setToIdentity();
-        model.translate(res_pos.x(), pos.y(), 0);
-        model.scale(48.0, 65.0);
-        qDebug()<<"COLLISION X="<<res_pos.x()<<" Y="<<res_pos.y();
-    }
-
-    pos.setX(model.column(3).x());
-    pos.setY(model.column(3).y());
-    qDebug()<<"PosX"<<pos.x()<<"PosY"<<pos.y();
-
-    if (!ManagerTileMap::getInstance()->CollisionY("collision", pos, 48, 65, false, &res_pos))
-    {
-        onGround = false;
-    }
-
-    if (!onGround)
-    {
-        model.translate(0, -3.0 * time, 0);
-    }
-
-    pos.setX(model.column(3).x());
-    pos.setY(model.column(3).y());
-    qDebug()<<"PosX"<<pos.x()<<"PosY"<<pos.y();
-
-    if (ManagerTileMap::getInstance()->CollisionY("collision", pos, 48, 65, onGround, &res_pos) && onGround==false)
-    {
-        model.setToIdentity();
-        model.translate(pos.x(), res_pos.y(), 0);
-        model.scale(48.0, 65.0);
-        qDebug()<<"COLLISION Y="<<res_pos.x()<<" Y="<<res_pos.y();
-        onGround = true;
-    }
-
-//    if (!onGround)
-//    {
-//        model.translate(0, -3.0 * time, 0);
-//    }
-
-//    if (ManagerTileMap::getInstance()->CollisionY("collision", pos, 48, 65, onGround, &res_pos) && onGround==false)
-//    {
-//        model.setToIdentity();
-//        model.translate(pos.x(), res_pos.y(), 0);
-//        model.scale(48.0, 65.0);
-//        qDebug()<<"COLLISION X="<<res_pos.x()<<" Y="<<res_pos.y();
-//        onGround = true;
-//    }
 }
 
 void TestGameObject::Draw()
@@ -163,6 +92,13 @@ void TestGameObject::Draw()
     /*
      * Прорисовка объекта
     */
+    model.setToIdentity();
+
+    model.translate(pos_x-48/2, 600-pos_y-65/2, 0);
+    model.scale(48.0, 65.0);
+    qDebug()<<"tmp_X="<<pos_x<<"tmp_Y="<<pos_y;
+    qDebug()<<"X="<<model.column(3).x()<<"Y="<<model.column(3).y();
+
     sprite->Bind(48, 65, int(i), int(j));
     sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), proj * model);
     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
