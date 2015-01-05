@@ -5,6 +5,7 @@ Mesh::Mesh()
     count_ver = 6;
     buf_ver = new float[count_ver * 3];
 
+//Center - XY_center
     ///*XYZ - 1 вершины
     buf_ver[0] = buf_ver[1] = -0.5f;
     buf_ver[2] = 0.0f;
@@ -38,6 +39,42 @@ Mesh::Mesh()
     buf_ver[16] = 0.5f;
     buf_ver[17] = 0.0f;
     //*/
+
+////Center - XY_left_down
+//    ///*XYZ - 1 вершины
+//    buf_ver[0] = buf_ver[1] = 0.0f;
+//    buf_ver[2] = 0.0f;
+//    //*/
+
+//    ///*XYZ - 2 вершины
+//    buf_ver[3] = 1.0f;
+//    buf_ver[4] = 0.0f;
+//    buf_ver[5] = 0.0f;
+//    //*/
+
+//    ///*XYZ - 3 вершины
+//    buf_ver[6] = 0.0f;
+//    buf_ver[7] = 1.0f;
+//    buf_ver[8] = 0.0f;
+//    //*/
+
+//    ///*XYZ - 4 вершины
+//    buf_ver[9] = 1.0f;
+//    buf_ver[10] = 0.0f;
+//    buf_ver[11] = 0.0f;
+//    //*/
+
+//    ///*XYZ - 5 вершины
+//    buf_ver[12] = buf_ver[13] = 1.0f;
+//    buf_ver[14] = 0.0f;
+//    //*/
+
+//    ///*XYZ - 6 вершины
+//    buf_ver[15] = 0.0f;
+//    buf_ver[16] = 1.0f;
+//    buf_ver[17] = 0.0f;
+//    //*/
+
 }
 
 Mesh::~Mesh()

@@ -37,6 +37,10 @@ void TestGameObject::Update()
     {
         this->SetPosX(x);
         this->SetPosY(600-y);
+        QVector3D t = this->GetPos();
+        t.setX(t.x()-48.0/2.0);
+        t.setY(t.y()-65.0/2.0);
+        ManagerTileMap::getInstance()->GetTiles("collision", this->GetPos());
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
@@ -76,6 +80,14 @@ void TestGameObject::Update()
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_D))
     {
         this->RotateZ(120*time);
+    }
+
+    QVector3D tmp;
+    QRectF bound(this->GetPosX(), this->GetPosY(), 48, 65);
+    if (ManagerTileMap::getInstance()->CheckCollision("collision", this->GetPos(), bound, tmp))
+    {
+        qDebug()<<"Collision";
+        this->SetPos(tmp);
     }
 
 }

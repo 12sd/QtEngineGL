@@ -23,8 +23,8 @@ public:
     void Scroll(float dx = 0, float dy = 0);
     QVector2D GetTileIJ(QVector3D pos);
     QRectF GetTilePos(QVector2D ij);
-    QVector<Tile> GetTiles(QVector3D pos);
-    bool CheckCollision();
+    QVector<Tile> GetTiles(QString layer_name, QVector3D pos);
+    bool CheckCollision(QString layer_name, QVector3D pos, QRectF bound, QVector3D& res_pos);
 private:
     static ManagerTileMap* instance;
     int key_mesh;

@@ -71,9 +71,6 @@ void MainForm::render()
         ManagerGameObject::getInstance()->GetValue("buttonstart")->Update();
         ManagerGameObject::getInstance()->GetValue("buttonstart")->Draw();
 
-        grid.SetColor(0, 1, 0);
-        //grid.Draw(0, 800, 0, 600);
-        //grid.Draw(0, 800, 0, 600);
         break;
     }
     case DragPlayer1:
@@ -83,6 +80,9 @@ void MainForm::render()
         ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
         ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
 
+        grid.SetColor(0, 1, 0);
+        //grid.Draw(0, 32, 0, 32);
+        //grid.Draw(0, 800, 0, 600);
         break;
     }
     }
@@ -181,23 +181,19 @@ void MainForm::mouseMoveEvent(QMouseEvent *event)
 void MainForm::mousePressEvent(QMouseEvent *event)
 {
     ManagerMouse::getInstance()->Update(event);
-    qDebug()<<"Mouse Press";
 }
 
 void MainForm::mouseReleaseEvent(QMouseEvent *event)
 {
     ManagerMouse::getInstance()->Update(event,false);
-    qDebug()<<"Mouse Release";
 }
 
 void MainForm::keyPressEvent(QKeyEvent *key)
 {
     ManagerKeyboard::getInstance()->Update(key);
-    qDebug()<<"Key Press";
 }
 
 void MainForm::keyReleaseEvent(QKeyEvent *key)
 {
     ManagerKeyboard::getInstance()->Update(key, false);
-    qDebug()<<"Key Release";
 }

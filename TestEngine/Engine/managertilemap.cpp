@@ -247,9 +247,121 @@ QRectF ManagerTileMap::GetTilePos(QVector2D ij)
     return res;
 }
 
-QVector<Tile> ManagerTileMap::GetTiles(QVector3D pos)
+QVector<Tile> ManagerTileMap::GetTiles(QString layer_name, QVector3D pos)
 {
     QVector<Tile> tiles;
+    Layer* layer = 0;
+    for (int i=0; i<list_layer.size(); i++)
+    {
+        if (list_layer.value(i).layer_name==layer_name)
+            layer = list_layer.value(i).layer;
+    }
+    if (layer==0)
+        return tiles;
+
+    QVector2D tmp_ij = this->GetTileIJ(pos);
+    for (int i=0; i<9; i++)
+    {
+        int tmp_j = i%3;
+        int tmp_i = i/3;
+        QVector2D ij = QVector2D(tmp_ij.x()+(tmp_j-1), tmp_ij.y()+(tmp_i-1));
+        int id = layer->GetValue(ij.x(), ij.y());
+        QRectF rect = this->GetTilePos(ij);
+        Tile t;
+        t.id = id;
+        t.ij = ij;
+        t.pos = rect;
+        tiles.append(t);
+    }
+
+//    qDebug()<<"Original tiles size:"<<tiles.size();
+//    for (int i=0; i<tiles.size(); i++)
+//    {
+//        qDebug()<<tiles.value(i).id<<tiles.value(i).ij<<tiles.value(i).pos;
+//    }
+
+    tiles.removeAt(4);
+    tiles.insert(6, tiles.value(2));
+    tiles.removeAt(2);
+    Tile tmp_t = tiles.value(4);
+    tiles.replace(4, tiles.value(6));
+    tiles.replace(6, tmp_t);
+    tmp_t = tiles.value(0);
+    tiles.replace(0, tiles.value(4));
+    tiles.replace(4, tmp_t);
+
+    qDebug()<<"Log tiles size:"<<tiles.size();
+    for (int i=0; i<tiles.size(); i++)
+    {
+        qDebug()<<tiles.value(i).id<<tiles.value(i).ij<<tiles.value(i).pos;
+    }
 
     return tiles;
+}
+
+bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QRectF bound, QVector3D& res_pos)
+{
+    bool flag = false;
+    res_pos = pos;
+    QVector<Tile> tiles = this->GetTiles(layer_name, pos);
+    for (int i=0; i<tiles.size(); i++)
+    {
+        int id = tiles.value(i).id;
+        if (id!=0)
+        {
+            QRectF tile_rect(tiles.value(i).ij.x(), tiles.value(i).ij.y(), tile_width, tile_height);
+            if (bound.intersects(tile_rect))
+            {
+                flag = true;
+                QRectF intersection = bound.intersected(tile_rect);
+                if (i==0) //Down collision
+                {
+                    res_pos.setX(res_pos.x());
+                    res_pos.setY(res_pos.y()+intersection.size().height());
+                }else
+                if (i==1) //Up collision
+                {
+                    res_pos.setX(res_pos.x());
+                    res_pos.setY(res_pos.y()-intersection.size().height());
+                }else
+                if (i==2) //Left collision
+                {
+                    res_pos.setX(res_pos.x()+intersection.size().width());
+                    res_pos.setY(res_pos.y());
+                }else
+                if (i==3) //Right collision
+                {
+                    res_pos.setX(res_pos.x()-intersection.size().width());
+                    res_pos.setY(res_pos.y());
+                }else
+                if (intersection.size().width()>intersection.size().height()) //Diagonal
+                {
+                    float intersectionHeight;
+                    if (i>5)
+                    {
+                        intersectionHeight = intersection.size().height();
+                    }else
+                    {
+                        intersectionHeight = -intersection.size().height();
+                    }
+                    res_pos.setX(res_pos.x());
+                    res_pos.setY(res_pos.y()+intersectionHeight);
+                }else //Diagonal
+                {
+                    float intersectionWidth;
+                    if (i==6 || i==4)
+                    {
+                        intersectionWidth = intersection.size().width();
+                    }else
+                    {
+                        intersectionWidth = -intersection.size().width();
+                    }
+                    res_pos.setX(res_pos.x()+intersectionWidth);
+                    res_pos.setY(res_pos.y());
+                }
+            }
+        }
+    }
+
+    return flag;
 }
