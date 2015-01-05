@@ -34,9 +34,10 @@ void MainForm::initialize()
     level.Load("://Resources/test.xml", &cr);
 
     map = ManagerTileMap::getInstance();
-    map->Load("://Resources/map.tmx");
+    if (!map->Load("://Resources/map.tmx"))
+        qDebug()<<"Error Load Map";
 
-    glViewport(0, 0, 800, 600);
+    glViewport(0, 0, 1024, 512);
 }
 
 void MainForm::render()
@@ -57,32 +58,13 @@ void MainForm::render()
     //qDebug()<<"CurrentStatusGame="<<CurrentStatusGame;
     switch (CurrentStatusGame)
     {
-    case MainMenu:
-    {
-        ManagerGameObject::getInstance()->GetValue("background")->Update();
-        ManagerGameObject::getInstance()->GetValue("background")->Draw();
-
-//        ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
-//        ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
-
-        ManagerGameObject::getInstance()->GetValue("buttonexit")->Update();
-        ManagerGameObject::getInstance()->GetValue("buttonexit")->Draw();
-
-        ManagerGameObject::getInstance()->GetValue("buttonstart")->Update();
-        ManagerGameObject::getInstance()->GetValue("buttonstart")->Draw();
-
-        break;
-    }
-    case DragPlayer1:
+    case Player:
     {
         map->Draw();
 
         ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
         ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
 
-        grid.SetColor(0, 1, 0);
-        //grid.Draw(0, 32, 0, 32);
-        //grid.Draw(0, 800, 0, 600);
         break;
     }
     }

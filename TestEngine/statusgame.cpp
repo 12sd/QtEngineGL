@@ -1,3 +1,3 @@
 #include "statusgame.h"
 
-StatusGame CurrentStatusGame = MainMenu;
+StatusGame CurrentStatusGame = Player;

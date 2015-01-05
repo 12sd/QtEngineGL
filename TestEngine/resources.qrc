@@ -2,13 +2,8 @@
     <qresource prefix="/">
         <file>Resources/default.frag</file>
         <file>Resources/default.vert</file>
-        <file>Resources/backgroundmenu.png</file>
-        <file>Resources/buttonexitmenu.png</file>
-        <file>Resources/buttonstartmenu.png</file>
-        <file>Resources/Original/tmp_sprite.png</file>
         <file>Resources/test.xml</file>
-        <file>Resources/tileset_13.png</file>
         <file>Resources/map.tmx</file>
-        <file>Resources/tileset_14.png</file>
+        <file>Resources/tileset.png</file>
     </qresource>
 </RCC>

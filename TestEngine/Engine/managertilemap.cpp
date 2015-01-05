@@ -4,14 +4,12 @@ ManagerTileMap* ManagerTileMap::instance=0;
 
 ManagerTileMap::ManagerTileMap()
 {
-    dx = dy = 0;
     key_mesh = 0;
     key_shader = 0;
     count_x = count_y = 0;
     tile_width = tile_height = 0;
     proj.setToIdentity();
-    proj.ortho(0, 800, 0, 600, -1, 1);
-    model.setToIdentity();
+    proj.ortho(0, 1024, 0, 512, -1, 1);
 }
 
 ManagerTileMap::~ManagerTileMap()
@@ -174,9 +172,9 @@ void ManagerTileMap::Clear()
 
 void ManagerTileMap::Draw()
 {
-    model.setToIdentity();
-    model.scale(tile_width, tile_height, 0.0f);
-    model.translate(0.5f+dx, 0.5f+dy, 0.0f);
+    Transformer tr;
+    tr.SetScalX(tile_width);
+    tr.SetScalY(tile_height);
 
     for (int i=0; i<list_layer.size(); i++)
     {
@@ -207,28 +205,22 @@ void ManagerTileMap::Draw()
                     int frame_y = tmp_id/tmp_x;
                     int frame_x = (tmp_x*tmp_y)-(frame_y*tmp_x)-tmp_id;
                     sprite->Bind(tile_width, tile_height, frame_x-1, frame_y);
-                    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), proj * model);
+                    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), proj * tr.GetMatrix());
                     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
                 }
-                model.translate(1,0,0);
+                tr.MoveX(tile_width);
             }
-            model.setToIdentity();
-            model.scale(tile_width, tile_height, 0);
-            model.translate(0.5f+dx, 0.5f+dy, 0.0f);
-            model.translate(0.0f, count_y-i, 0.0f);
-
+            tr.SetPosX(0);
+            tr.SetPosY((count_y-i)*tile_height);
         }
-        model.setToIdentity();
-        model.scale(tile_width, tile_height, 0);
-        model.translate(0.5f+dx, 0.5f+dy, 0.0f);
+        tr.SetPosX(0);
+        tr.SetPosY(0);
     }
 }
 
 void ManagerTileMap::Scroll(float dx, float dy)
 {
-    this->dx+=dx;
-    this->dy+=dy;
-    //model.translate(dx, dy);
+    //Add
 }
 
 QVector2D ManagerTileMap::GetTileIJ(QVector3D pos)
@@ -265,7 +257,7 @@ QVector<Tile> ManagerTileMap::GetTiles(QString layer_name, QVector3D pos)
         int tmp_j = i%3;
         int tmp_i = i/3;
         QVector2D ij = QVector2D(tmp_ij.x()+(tmp_j-1), tmp_ij.y()+(tmp_i-1));
-        int id = layer->GetValue(ij.x(), ij.y());
+        int id = layer->GetValue(ij.y(), ij.x());
         QRectF rect = this->GetTilePos(ij);
         Tile t;
         t.id = id;
@@ -274,11 +266,11 @@ QVector<Tile> ManagerTileMap::GetTiles(QString layer_name, QVector3D pos)
         tiles.append(t);
     }
 
-//    qDebug()<<"Original tiles size:"<<tiles.size();
-//    for (int i=0; i<tiles.size(); i++)
-//    {
-//        qDebug()<<tiles.value(i).id<<tiles.value(i).ij<<tiles.value(i).pos;
-//    }
+    qDebug()<<"Original tiles size:"<<tiles.size();
+    for (int i=0; i<tiles.size(); i++)
+    {
+        qDebug()<<tiles.value(i).id<<tiles.value(i).ij<<tiles.value(i).pos;
+    }
 
     tiles.removeAt(4);
     tiles.insert(6, tiles.value(2));
@@ -299,8 +291,9 @@ QVector<Tile> ManagerTileMap::GetTiles(QString layer_name, QVector3D pos)
     return tiles;
 }
 
-bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QRectF bound, QVector3D& res_pos)
+bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QRectF bound, QVector3D& res_pos, bool& ground)
 {
+    ground = false;
     bool flag = false;
     res_pos = pos;
     QVector<Tile> tiles = this->GetTiles(layer_name, pos);
@@ -309,7 +302,7 @@ bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QRectF bo
         int id = tiles.value(i).id;
         if (id!=0)
         {
-            QRectF tile_rect(tiles.value(i).ij.x(), tiles.value(i).ij.y(), tile_width, tile_height);
+            QRectF tile_rect(tiles.value(i).pos.x(), tiles.value(i).pos.y(), tile_width, tile_height);
             if (bound.intersects(tile_rect))
             {
                 flag = true;
@@ -318,6 +311,7 @@ bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QRectF bo
                 {
                     res_pos.setX(res_pos.x());
                     res_pos.setY(res_pos.y()+intersection.size().height());
+                    ground = true;
                 }else
                 if (i==1) //Up collision
                 {
@@ -340,6 +334,7 @@ bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QRectF bo
                     if (i>5)
                     {
                         intersectionHeight = intersection.size().height();
+                        ground = true;
                     }else
                     {
                         intersectionHeight = -intersection.size().height();

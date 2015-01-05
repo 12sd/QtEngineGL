@@ -29,9 +29,6 @@ SOURCES += main.cpp \
     testcreatorgameobject.cpp \
     testgameobject.cpp \
     Engine/gamescene.cpp \
-    buttonexit.cpp \
-    buttonstart.cpp \
-    background.cpp \
     Engine/managerkeyboard.cpp \
     Engine/layer.cpp \
     Engine/managertilemap.cpp \
@@ -56,9 +53,6 @@ HEADERS  += mainform.h \
     testcreatorgameobject.h \
     testgameobject.h \
     Engine/gamescene.h \
-    buttonexit.h \
-    buttonstart.h \
-    background.h \
     Engine/managerkeyboard.h \
     Engine/layer.h \
     Engine/managertilemap.h \

@@ -22,7 +22,7 @@ public:
 public:
     Sprite* sprite;
     QMatrix4x4 proj;
-    float i,j;
+    bool onGround;
 };
 
 #endif // TESTGAMEOBJECT_H

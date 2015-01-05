@@ -13,9 +13,9 @@ int main(int argc, char *argv[])
 
     MainForm w;
     w.setFormat(surface);
-    w.resize(800,600);
-    w.setMaximumSize(QSize(800,600));
-    w.setMinimumSize(QSize(800,600));
+    w.resize(1024,512);
+    w.setMaximumSize(QSize(1024,512));
+    w.setMinimumSize(QSize(1024,512));
     w.show();
 
     w.setAnimating(true);

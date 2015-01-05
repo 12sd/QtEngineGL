@@ -7,6 +7,7 @@
 #include <QXmlStreamReader>
 #include "managersprite.h"
 #include "layer.h"
+#include "transformer.h"
 
 class ManagerTileMap
 {
@@ -24,7 +25,7 @@ public:
     QVector2D GetTileIJ(QVector3D pos);
     QRectF GetTilePos(QVector2D ij);
     QVector<Tile> GetTiles(QString layer_name, QVector3D pos);
-    bool CheckCollision(QString layer_name, QVector3D pos, QRectF bound, QVector3D& res_pos);
+    bool CheckCollision(QString layer_name, QVector3D pos, QRectF bound, QVector3D& res_pos, bool& ground);
 private:
     static ManagerTileMap* instance;
     int key_mesh;
@@ -34,8 +35,6 @@ private:
     int count_x, count_y;
     int tile_width, tile_height;
     QMatrix4x4 proj;
-    QMatrix4x4 model;
-    float dx, dy;
 };
 
 #endif // TILEMAP_H
