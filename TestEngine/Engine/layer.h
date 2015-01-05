@@ -2,6 +2,8 @@
 #define LAYER_H
 
 #include <QDebug>
+#include <QVector2D>
+#include <QRectF>
 
 class Layer
 {
@@ -22,6 +24,13 @@ struct DataLayer
 {
     QString layer_name;
     Layer* layer;
+};
+
+struct Tile
+{
+    int id;
+    QVector2D ij;
+    QRectF pos;
 };
 
 #endif // LAYER_H

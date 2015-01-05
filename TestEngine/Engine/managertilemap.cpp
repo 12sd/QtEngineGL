@@ -231,190 +231,25 @@ void ManagerTileMap::Scroll(float dx, float dy)
     //model.translate(dx, dy);
 }
 
-bool ManagerTileMap::CollisionX(QString layer_name, QVector2D pos, int width, int height, bool right, QVector2D* res_pos)
+QVector2D ManagerTileMap::GetTileIJ(QVector3D pos)
 {
-    //ERROR
-    bool flag = false;
-    Layer* layer = 0;
-    for (int i=0; i<list_layer.size(); i++)
-    {
-        if (list_layer.value(i).layer_name==layer_name)
-            layer = list_layer.value(i).layer;
-    }
-    if (layer==0)
-        return false;
-    int s_x, f_x, s_y, f_y;
-    int height_ortho = 2.0/proj.column(1).y();
-    qDebug()<<"HEIGHT_ortho="<<height_ortho<<"Y_ortho="<<proj.column(1).y();
-    pos.setY(height_ortho-pos.y()+dy*tile_height);
-    pos.setX(pos.x()-dx*tile_width);
-    if (right)
-    {
-        s_x = (pos.x()+width/2)/tile_width;
-        f_x = ((pos.x()+width/2)+width)/tile_width;
-        s_y = (pos.y()-height/2)/tile_height;
-        f_y = ((pos.y()-height/2)+height)/tile_height;
-    }else
-    {
-        s_x = (pos.x()-width/2)/tile_width;
-        f_x = ((pos.x()-width/2)+width)/tile_width;
-        s_y = (pos.y()-height/2)/tile_height;
-        f_y = ((pos.y()-height/2)+height)/tile_height;
-    }
-
-    qDebug()<<"Y ot"<<s_y<<"Y po"<<f_y;
-    qDebug()<<"X ot"<<s_x<<"X po"<<f_x;
-    for (int i=s_y; i<f_y; i++)
-    {
-        for (int j=s_x; j<f_x; j++)
-        {
-            if (i>=0 && i<count_y && j>=0 && j<count_x)
-            {
-                int id = layer->GetValue(i, j);
-                if (id!=0)
-                {
-                    qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
-                    flag = true;
-                    if (right)
-                        res_pos->setX(j*tile_width-width+width/2+dx*tile_width);
-                    else
-                        res_pos->setX(j*tile_width+tile_width+width/2+dx*tile_width);
-                }
-            }
-        }
-    }
-    return flag;
+    QVector2D res;
+    res.setX((int)pos.x()/tile_width);
+    float all_height = count_y*tile_height;
+    res.setY((int)(all_height-pos.y())/tile_height);
+    return res;
 }
 
-bool ManagerTileMap::CollisionY(QString layer_name, QVector2D pos, int width, int height, bool up, QVector2D* res_pos)
+QRectF ManagerTileMap::GetTilePos(QVector2D ij)
 {
-    //ERROR
-    bool flag = false;
-    Layer* layer = 0;
-    for (int i=0; i<list_layer.size(); i++)
-    {
-        if (list_layer.value(i).layer_name==layer_name)
-            layer = list_layer.value(i).layer;
-    }
-    if (layer==0)
-        return false;
-    int s_x, f_x, s_y, f_y;
-    int height_ortho = 2.0/proj.column(1).y();
-    qDebug()<<"HEIGHT_OTHO="<<height_ortho;
-    pos.setY(height_ortho-pos.y()+dy*tile_height);
-    pos.setX(pos.x()-dx*tile_width);
-    if (up)
-    {
-        s_x = (pos.x()-width/2)/tile_width;
-        f_x = ((pos.x()-width/2)+width)/tile_width;
-        s_y = (pos.y()-height/2)/tile_height;
-        f_y = ((pos.y()-height/2)+height)/tile_height;
-    }else
-    {
-        s_x = (pos.x()-width/2)/tile_width;
-        f_x = ((pos.x()-width/2)+width)/tile_width;
-        s_y = (pos.y()+height/2)/tile_height;
-        f_y = ((pos.y()+height/2)+height)/tile_height;
-    }
-
-    qDebug()<<"Y ot"<<s_y<<"Y po"<<f_y;
-    qDebug()<<"X ot"<<s_x<<"X po"<<f_x;
-    for (int i=s_y; i<f_y; i++)
-    {
-        for (int j=s_x; j<f_x; j++)
-        {
-            if (i>=0 && i<count_y && j>=0 && j<count_x)
-            {
-                int id = layer->GetValue(i, j);
-                if (id!=0)
-                {
-                    qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
-                    flag = true;
-                    if (up)
-                        res_pos->setY(height_ortho-(i*tile_height+tile_height+height/2)+dy*tile_height);
-                    else
-                        res_pos->setY(height_ortho-(i*tile_height-height+height/2)+dy*tile_height);
-                }
-            }
-        }
-    }
-    return flag;
+    float all_height = count_y*tile_height;
+    QRectF res(ij.x()*tile_width, all_height-(ij.y()+1)*tile_height, tile_width, tile_height);
+    return res;
 }
 
-bool ManagerTileMap::CollisionX(QString layer_name, int x, int y, int width, int height, bool right, int* res_x)
+QVector<Tile> ManagerTileMap::GetTiles(QVector3D pos)
 {
-    //ERROR
-    bool flag = false;
-    Layer* layer = 0;
-    for (int i=0; i<list_layer.size(); i++)
-    {
-        if (list_layer.value(i).layer_name==layer_name)
-            layer = list_layer.value(i).layer;
-    }
-    if (layer==0)
-        return false;
-    int s_x, f_x, s_y, f_y;
+    QVector<Tile> tiles;
 
-    s_x = x/tile_width;
-    f_x = (x+width)/tile_width;
-    s_y = y/tile_height;
-    f_y = (y+height)/tile_height;
-
-    for (int i=s_y; i<f_y; i++)
-    {
-        for (int j=s_x; j<f_x; j++)
-        {
-            int id = layer->GetValue(i, j);
-            if (id!=0)
-            {
-                qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
-                flag = true;
-                if (right)
-                    *res_x = j*tile_width-width;
-                else
-                    *res_x = j*tile_width+tile_width;
-                return flag;
-            }
-        }
-    }
-    return flag;
-}
-
-bool ManagerTileMap::CollisionY(QString layer_name, int x, int y, int width, int height, bool up, int* res_y)
-{
-    //ERROR
-    bool flag = false;
-    Layer* layer = 0;
-    for (int i=0; i<list_layer.size(); i++)
-    {
-        if (list_layer.value(i).layer_name==layer_name)
-            layer = list_layer.value(i).layer;
-    }
-    if (layer==0)
-        return false;
-    int s_x, f_x, s_y, f_y;
-
-    s_x = x/tile_width;
-    f_x = (x+width)/tile_width;
-    s_y = y/tile_height;
-    f_y = (y+height)/tile_height;
-
-    for (int i=s_y; i<f_y; i++)
-    {
-        for (int j=s_x; j<f_x; j++)
-        {
-            int id = layer->GetValue(i, j);
-            if (id!=0)
-            {
-                qDebug()<<"ID"<<id<<"i"<<i<<"j"<<j;
-                flag = true;
-                if (up)
-                    *res_y = i*tile_height+tile_height;
-                else
-                    *res_y = i*tile_height-height;
-                return flag;
-            }
-        }
-    }
-    return flag;
+    return tiles;
 }
