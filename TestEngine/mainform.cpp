@@ -39,7 +39,7 @@ void MainForm::initialize()
     else
         qDebug()<<"Load Map";
 
-    glViewport(0, 0, 480, 320);
+    glViewport(0, 0, 800, 600);
 }
 
 void MainForm::render()

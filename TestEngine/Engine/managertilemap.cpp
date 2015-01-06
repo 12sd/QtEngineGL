@@ -9,7 +9,7 @@ ManagerTileMap::ManagerTileMap()
     count_x = count_y = 0;
     tile_width = tile_height = 0;
     proj.setToIdentity();
-    proj.ortho(0, 480, 0, 320, -1, 1);
+    proj.ortho(0, 800, 0, 600, -1, 1);
 }
 
 ManagerTileMap::~ManagerTileMap()
@@ -230,7 +230,6 @@ QVector2D ManagerTileMap::GetTileIJ(QVector3D pos)
     float all_height = count_y*tile_height;
 
     float tmp = (all_height-pos.y())/tile_height;
-
     if ((tmp-qFloor(tmp))==0)
         res.setY((int)(all_height-pos.y())/tile_height-1);
     else
@@ -245,7 +244,7 @@ QRectF ManagerTileMap::GetTilePos(QVector2D ij)
     return res;
 }
 
-QVector<Tile> ManagerTileMap::GetTiles(QString layer_name, QVector3D pos)
+QVector<Tile> ManagerTileMap::GetTiles8(QString layer_name, QVector3D pos)
 {
     QVector<Tile> tiles;
     Layer* layer = 0;
@@ -333,7 +332,7 @@ bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QVector3D
 {
     ground = false;
     bool flag = false;
-    QVector<Tile> tiles = this->GetTiles(layer_name, pos);
+    QVector<Tile> tiles = this->GetTiles8(layer_name, pos);
     for (int i=0; i<tiles.size(); i++)
     {
         int id = tiles.value(i).id;
@@ -398,5 +397,123 @@ bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QVector3D
         }
     }
     res_pos = future_pos;
+    return flag;
+}
+
+QVector<Tile> ManagerTileMap::GetTiles(QString layer_name, QRectF bound)
+{
+    QVector<Tile> tiles;
+    Layer* layer = 0;
+    for (int i=0; i<list_layer.size(); i++)
+    {
+        if (list_layer.value(i).layer_name==layer_name)
+            layer = list_layer.value(i).layer;
+    }
+    if (layer==0)
+        return tiles;
+
+    QVector2D s = this->GetTileIJ(QVector3D(bound.left(), bound.top(), 0.0f));
+    QVector2D f = this->GetTileIJ(QVector3D(bound.left()+bound.width(), bound.top()+bound.height(), 0.0f));
+
+    qDebug()<<"Start:"<<s<<" Finish:"<<f;
+
+    for (int i=f.y(); i<=s.y(); i++)
+    {
+        for (int j=s.x(); j<=f.x(); j++)
+        {
+            Tile tmp;
+            tmp.id = layer->GetValue(i, j);
+            tmp.ij.setX(j);
+            tmp.ij.setY(i);
+            tmp.pos = this->GetTilePos(tmp.ij);
+            tiles.append(tmp);
+        }
+    }
+
+    qDebug()<<"Log tiles size:"<<tiles.size()<<" Pos:"<<bound;
+    for (int i=0; i<tiles.size(); i++)
+    {
+        qDebug()<<tiles.value(i).id<<tiles.value(i).ij<<tiles.value(i).pos;
+    }
+
+    return tiles;
+}
+
+bool ManagerTileMap::CollisionX(QString layer_name, QVector3D& pos, QRectF bound, QVector2D dir)
+{
+    bool flag = false;
+    Layer* layer = 0;
+    for (int i=0; i<list_layer.size(); i++)
+    {
+        if (list_layer.value(i).layer_name==layer_name)
+            layer = list_layer.value(i).layer;
+    }
+    if (layer==0)
+        return false;
+
+    QVector<Tile> tiles = this->GetTiles(layer_name, bound);
+    for (int i=0; i<tiles.size(); i++)
+    {
+        if (tiles.value(i).id!=0)
+        {
+            if (bound.intersects(tiles.value(i).pos))
+            {
+                flag = true;
+                QRectF rect = bound.intersected(tiles.value(i).pos);
+                if (dir.x()==1)
+                {
+                    //if (bound.top()<tiles.value(i).pos.top())
+                        pos.setX(pos.x()-rect.width());
+                }
+                if (dir.x()==-1)
+                {
+                    //if (bound.top()<tiles.value(i).pos.top())
+                        pos.setX(pos.x()+rect.width());
+                }
+            }
+        }
+    }
+
+    return flag;
+}
+
+bool ManagerTileMap::CollisionY(QString layer_name, QVector3D& pos, QRectF bound, QVector2D dir, float& gravity, bool& ground)
+{
+    ground = false;
+    bool flag = false;
+    Layer* layer = 0;
+    for (int i=0; i<list_layer.size(); i++)
+    {
+        if (list_layer.value(i).layer_name==layer_name)
+            layer = list_layer.value(i).layer;
+    }
+    if (layer==0)
+        return false;
+
+    QVector<Tile> tiles = this->GetTiles(layer_name, bound);
+    for (int i=0; i<tiles.size(); i++)
+    {
+        if (tiles.value(i).id!=0)
+        {
+            if (bound.intersects(tiles.value(i).pos))
+            {
+                flag = true;
+                QRectF rect = bound.intersected(tiles.value(i).pos);
+                if (dir.y()==1)
+                {
+                    //if (bound.left()>tiles.value(i).pos.left())
+                        pos.setY(pos.y()-rect.height());
+                }
+                if (dir.y()==-1)
+                {
+                    //if (bound.left()>tiles.value(i).pos.left())
+                        pos.setY(pos.y()+rect.height());
+                        gravity = 0;
+                        ground = true;
+                }
+            }
+        }
+    }
+
     return flag;
 }
