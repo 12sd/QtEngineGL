@@ -9,7 +9,7 @@ ManagerTileMap::ManagerTileMap()
     count_x = count_y = 0;
     tile_width = tile_height = 0;
     proj.setToIdentity();
-    proj.ortho(0, 1024, 0, 512, -1, 1);
+    proj.ortho(0, 480, 0, 320, -1, 1);
 }
 
 ManagerTileMap::~ManagerTileMap()
@@ -228,7 +228,13 @@ QVector2D ManagerTileMap::GetTileIJ(QVector3D pos)
     QVector2D res;
     res.setX((int)pos.x()/tile_width);
     float all_height = count_y*tile_height;
-    res.setY((int)(all_height-pos.y())/tile_height);
+
+    float tmp = (all_height-pos.y())/tile_height;
+
+    if ((tmp-qFloor(tmp))==0)
+        res.setY((int)(all_height-pos.y())/tile_height-1);
+    else
+        res.setY((int)(all_height-pos.y())/tile_height);
     return res;
 }
 
@@ -325,7 +331,7 @@ QRectF ManagerTileMap::IntersectedRect(QRectF rect1, QRectF rect2)
 
 bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QVector3D future_pos, QRectF bound, QVector3D& res_pos, bool& ground, float& gravity)
 {
-    //ground = false;
+    ground = false;
     bool flag = false;
     QVector<Tile> tiles = this->GetTiles(layer_name, pos);
     for (int i=0; i<tiles.size(); i++)

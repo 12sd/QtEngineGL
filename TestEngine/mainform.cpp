@@ -36,8 +36,10 @@ void MainForm::initialize()
     map = ManagerTileMap::getInstance();
     if (!map->Load("://Resources/map.tmx"))
         qDebug()<<"Error Load Map";
+    else
+        qDebug()<<"Load Map";
 
-    glViewport(0, 0, 1024, 512);
+    glViewport(0, 0, 480, 320);
 }
 
 void MainForm::render()

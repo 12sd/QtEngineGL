@@ -5,6 +5,7 @@
 #include <QString>
 #include <QFile>
 #include <QXmlStreamReader>
+#include <QtMath>
 #include "managersprite.h"
 #include "layer.h"
 #include "transformer.h"
