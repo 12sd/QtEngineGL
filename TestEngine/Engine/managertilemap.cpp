@@ -266,11 +266,11 @@ QVector<Tile> ManagerTileMap::GetTiles(QString layer_name, QVector3D pos)
         tiles.append(t);
     }
 
-    qDebug()<<"Original tiles size:"<<tiles.size();
-    for (int i=0; i<tiles.size(); i++)
-    {
-        qDebug()<<tiles.value(i).id<<tiles.value(i).ij<<tiles.value(i).pos;
-    }
+//    qDebug()<<"Original tiles size:"<<tiles.size();
+//    for (int i=0; i<tiles.size(); i++)
+//    {
+//        qDebug()<<tiles.value(i).id<<tiles.value(i).ij<<tiles.value(i).pos;
+//    }
 
     tiles.removeAt(4);
     tiles.insert(6, tiles.value(2));
@@ -282,7 +282,7 @@ QVector<Tile> ManagerTileMap::GetTiles(QString layer_name, QVector3D pos)
     tiles.replace(0, tiles.value(4));
     tiles.replace(4, tmp_t);
 
-    qDebug()<<"Log tiles size:"<<tiles.size();
+    qDebug()<<"Log tiles size:"<<tiles.size()<<" Pos:"<<pos;
     for (int i=0; i<tiles.size(); i++)
     {
         qDebug()<<tiles.value(i).id<<tiles.value(i).ij<<tiles.value(i).pos;
@@ -291,11 +291,42 @@ QVector<Tile> ManagerTileMap::GetTiles(QString layer_name, QVector3D pos)
     return tiles;
 }
 
-bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QRectF bound, QVector3D& res_pos, bool& ground)
+bool ManagerTileMap::IntersectsRect(QRectF rect1, QRectF rect2)
+{
+    if (rect1.left()>rect2.right() || rect2.left()>rect1.right() || rect1.top()>rect2.bottom() || rect2.top()>rect1.bottom())
+        return false;
+    else
+        return true;
+}
+
+QRectF ManagerTileMap::IntersectedRect(QRectF rect1, QRectF rect2)
+{
+    QRectF res;
+    if (rect1.left()>rect2.right() || rect2.left()>rect1.right() || rect1.top()>rect2.bottom() || rect2.top()>rect1.bottom())
+    {
+        res.setLeft(0);
+        res.setTop(0);
+        res.setWidth(0);
+        res.setHeight(0);
+    }
+    else
+    {
+        float x1 = qMax(rect1.left(), rect2.left());
+        float y1 = qMax(rect1.top(), rect2.top());
+        float x2 = qMin(rect1.right(), rect2.right());
+        float y2 = qMin(rect1.bottom(), rect2.bottom());
+        res.setLeft(x1);
+        res.setTop(y1);
+        res.setWidth(x2-x1);
+        res.setHeight(y2-y1);
+    }
+    return res;
+}
+
+bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QVector3D future_pos, QRectF bound, QVector3D& res_pos, bool& ground)
 {
     ground = false;
     bool flag = false;
-    res_pos = pos;
     QVector<Tile> tiles = this->GetTiles(layer_name, pos);
     for (int i=0; i<tiles.size(); i++)
     {
@@ -303,60 +334,60 @@ bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QRectF bo
         if (id!=0)
         {
             QRectF tile_rect(tiles.value(i).pos.x(), tiles.value(i).pos.y(), tile_width, tile_height);
-            if (bound.intersects(tile_rect))
+            if (this->IntersectsRect(bound, tile_rect))
             {
                 flag = true;
-                QRectF intersection = bound.intersected(tile_rect);
+                QRectF intersection = this->IntersectedRect(bound, tile_rect);
                 if (i==0) //Down collision
                 {
-                    res_pos.setX(res_pos.x());
-                    res_pos.setY(res_pos.y()+intersection.size().height());
+                    future_pos.setX(future_pos.x());
+                    future_pos.setY(future_pos.y()+intersection.height());
                     ground = true;
                 }else
                 if (i==1) //Up collision
                 {
-                    res_pos.setX(res_pos.x());
-                    res_pos.setY(res_pos.y()-intersection.size().height());
+                    future_pos.setX(future_pos.x());
+                    future_pos.setY(future_pos.y()-intersection.height());
                 }else
                 if (i==2) //Left collision
                 {
-                    res_pos.setX(res_pos.x()+intersection.size().width());
-                    res_pos.setY(res_pos.y());
+                    future_pos.setX(future_pos.x()+intersection.width());
+                    future_pos.setY(future_pos.y());
                 }else
                 if (i==3) //Right collision
                 {
-                    res_pos.setX(res_pos.x()-intersection.size().width());
-                    res_pos.setY(res_pos.y());
+                    future_pos.setX(future_pos.x()-intersection.width());
+                    future_pos.setY(future_pos.y());
                 }else
-                if (intersection.size().width()>intersection.size().height()) //Diagonal
+                if (intersection.width()>intersection.height()) //Diagonal
                 {
                     float intersectionHeight;
                     if (i>5)
                     {
-                        intersectionHeight = intersection.size().height();
+                        intersectionHeight = intersection.height();
                         ground = true;
                     }else
                     {
-                        intersectionHeight = -intersection.size().height();
+                        intersectionHeight = -intersection.height();
                     }
-                    res_pos.setX(res_pos.x());
-                    res_pos.setY(res_pos.y()+intersectionHeight);
+                    future_pos.setX(future_pos.x());
+                    future_pos.setY(future_pos.y()+intersectionHeight);
                 }else //Diagonal
                 {
                     float intersectionWidth;
                     if (i==6 || i==4)
                     {
-                        intersectionWidth = intersection.size().width();
+                        intersectionWidth = intersection.width();
                     }else
                     {
-                        intersectionWidth = -intersection.size().width();
+                        intersectionWidth = -intersection.width();
                     }
-                    res_pos.setX(res_pos.x()+intersectionWidth);
-                    res_pos.setY(res_pos.y());
+                    future_pos.setX(future_pos.x()+intersectionWidth);
+                    future_pos.setY(future_pos.y());
                 }
             }
         }
     }
-
+    res_pos = future_pos;
     return flag;
 }

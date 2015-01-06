@@ -14,8 +14,8 @@ void TestGameObject::Init(QHash<QString,QString> property)
     proj.ortho(0, 1024, 0, 512, -1, 1);
 
     onGround = false;
-    this->SetScalX(40);
-    this->SetScalY(40);
+    position.SetScalX(32);
+    position.SetScalY(32);
 }
 
 void TestGameObject::Update()
@@ -30,57 +30,62 @@ void TestGameObject::Update()
 
     if (button == Qt::LeftButton)
     {
-        this->SetPosX(x);
-        this->SetPosY(512-y);
-        ManagerTileMap::getInstance()->GetTiles("collision", this->GetPos());
-        qDebug()<<"Pos"<<this->GetPos();
+        position.SetPosX(x);
+        position.SetPosY(512-y);
+//        ManagerTileMap::getInstance()->GetTiles("collision", this->GetPos());
+//        qDebug()<<"Pos"<<this->GetPos();
     }
+
+    Transformer future_pos;
+    future_pos.SetPos(position.GetPos());
+    future_pos.SetRot(position.GetRot());
+    future_pos.SetScal(position.GetScal());
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
     {
-        this->MoveX(0.5);
+        future_pos.MoveX(0.5);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
-        this->MoveX(-0.5);
+        future_pos.MoveX(-0.5);
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Up))
     {
-        this->MoveY(0.5);
+        future_pos.MoveY(0.5);
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Down))
     {
-        this->MoveY(-0.5);
+        future_pos.MoveY(-0.5);
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Space) && onGround==true)
     {
-        this->MoveY(2);
+        future_pos.MoveY(2);
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_A))
     {
-        this->RotateZ(-2);
+        future_pos.RotateZ(-2);
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_D))
     {
-        this->RotateZ(2);
+        future_pos.RotateZ(2);
     }
 
-//    if (onGround==false)
-//        this->MoveY(-0.5);
+    if (onGround==false)
+        future_pos.MoveY(-0.3);
 
     QVector3D tmp;
-    tmp = this->GetPos();
-    QRectF bound(this->GetPosX(), this->GetPosY(), 35, 35);
-    if (ManagerTileMap::getInstance()->CheckCollision("collision", this->GetPos(), bound, tmp, onGround))
+    //tmp = this->GetPos();
+    QRectF bound(future_pos.GetPosX(), future_pos.GetPosY(), 32, 32);
+    //if (ManagerTileMap::getInstance()->CheckCollision("collision", last_pos, this->GetPos(), bound, tmp, onGround))
     {
-        //ManagerTileMap::getInstance()->CheckCollision("collision", this->GetPos(), bound, tmp);
+        ManagerTileMap::getInstance()->CheckCollision("collision", position.GetPos(), future_pos.GetPos(), bound, tmp, onGround);
         qDebug()<<"Collision";
-        this->SetPos(tmp);
+        position.SetPos(tmp);
     }
 
 }
@@ -92,6 +97,6 @@ void TestGameObject::Draw()
     */
 
     sprite->Bind(32, 32, 4, 0);
-    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), proj * this->GetMatrix());
+    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), proj * position.GetMatrix());
     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
 }

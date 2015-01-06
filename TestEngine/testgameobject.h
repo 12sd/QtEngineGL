@@ -12,7 +12,7 @@
 #include "Engine/fps.h"
 #include "Engine/managertilemap.h"
 
-class TestGameObject:public GameObject, public Transformer
+class TestGameObject:public GameObject
 {
 public:
     TestGameObject();
@@ -20,6 +20,7 @@ public:
     void Update();
     void Draw();
 public:
+    Transformer position;
     Sprite* sprite;
     QMatrix4x4 proj;
     bool onGround;
