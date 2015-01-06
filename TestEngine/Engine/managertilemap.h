@@ -25,7 +25,7 @@ public:
     QVector2D GetTileIJ(QVector3D pos);
     QRectF GetTilePos(QVector2D ij);
     QVector<Tile> GetTiles(QString layer_name, QVector3D pos);
-    bool CheckCollision(QString layer_name, QVector3D pos, QVector3D future_pos, QRectF bound, QVector3D& res_pos, bool& ground);
+    bool CheckCollision(QString layer_name, QVector3D pos, QVector3D future_pos, QRectF bound, QVector3D& res_pos, bool& ground, float& gravity);
     bool IntersectsRect(QRectF rect1, QRectF rect2);
     QRectF IntersectedRect(QRectF rect1, QRectF rect2);
 private:

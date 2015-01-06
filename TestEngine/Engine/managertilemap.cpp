@@ -323,9 +323,9 @@ QRectF ManagerTileMap::IntersectedRect(QRectF rect1, QRectF rect2)
     return res;
 }
 
-bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QVector3D future_pos, QRectF bound, QVector3D& res_pos, bool& ground)
+bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QVector3D future_pos, QRectF bound, QVector3D& res_pos, bool& ground, float& gravity)
 {
-    ground = false;
+    //ground = false;
     bool flag = false;
     QVector<Tile> tiles = this->GetTiles(layer_name, pos);
     for (int i=0; i<tiles.size(); i++)
@@ -334,20 +334,22 @@ bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QVector3D
         if (id!=0)
         {
             QRectF tile_rect(tiles.value(i).pos.x(), tiles.value(i).pos.y(), tile_width, tile_height);
-            if (this->IntersectsRect(bound, tile_rect))
+            if (bound.intersects(tile_rect))
             {
                 flag = true;
-                QRectF intersection = this->IntersectedRect(bound, tile_rect);
+                QRectF intersection = bound.intersected(tile_rect);
                 if (i==0) //Down collision
                 {
                     future_pos.setX(future_pos.x());
                     future_pos.setY(future_pos.y()+intersection.height());
                     ground = true;
+                    gravity = 0;
                 }else
                 if (i==1) //Up collision
                 {
                     future_pos.setX(future_pos.x());
                     future_pos.setY(future_pos.y()-intersection.height());
+                    gravity = 0;
                 }else
                 if (i==2) //Left collision
                 {
@@ -361,6 +363,7 @@ bool ManagerTileMap::CheckCollision(QString layer_name, QVector3D pos, QVector3D
                 }else
                 if (intersection.width()>intersection.height()) //Diagonal
                 {
+                    gravity = 0;
                     float intersectionHeight;
                     if (i>5)
                     {

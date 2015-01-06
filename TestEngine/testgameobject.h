@@ -24,6 +24,7 @@ public:
     Sprite* sprite;
     QMatrix4x4 proj;
     bool onGround;
+    float gravity;
 };
 
 #endif // TESTGAMEOBJECT_H
