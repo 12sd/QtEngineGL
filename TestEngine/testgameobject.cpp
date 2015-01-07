@@ -15,8 +15,8 @@ void TestGameObject::Init(QHash<QString,QString> property)
 
     onGround = false;
     gravity = 0.1;
-    position.SetScalX(18);
-    position.SetScalY(26);
+    position.SetScalX(48);
+    position.SetScalY(65);
 }
 
 void TestGameObject::Update()
@@ -25,9 +25,9 @@ void TestGameObject::Update()
      * Обновление логики, втом числе движение объекта
     */
     float time = 1.0/Fps::getInstance()->GetFps();
-    gravity += 0.1;
-    if (gravity>3)
-        gravity = 3;
+    gravity += 1;
+    if (gravity>5)
+        gravity = 5;
 
     QVector2D dir(0, 0);
 
@@ -52,33 +52,48 @@ void TestGameObject::Update()
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
     {
-        future_pos.MoveX(1);
+        future_pos.MoveX(8);
         dir.setX(1);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
-        future_pos.MoveX(-1);
+        future_pos.MoveX(-8);
         dir.setX(-1);
     }
 
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Up))
-    {
-        future_pos.MoveY(1);
-        dir.setY(1);
-    }
+//    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Up))
+//    {
+//        future_pos.MoveY(1);
+//        dir.setY(1);
+//    }
 
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Down))
-    {
-        future_pos.MoveY(-1);
-        dir.setY(-1);
-    }
+//    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Down))
+//    {
+//        future_pos.MoveY(-1);
+//        dir.setY(-1);
+//    }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Space) && onGround==true)
     {
-        future_pos.MoveY(32);
+        future_pos.MoveY(64);
+        dir.setY(1);
         onGround = false;
     }
 
+
+    /* Способ 1 Collision
+    QVector3D tmp;
+    QRectF bound(future_pos.GetPosX(), future_pos.GetPosY(), 18, 26);
+    ManagerTileMap::getInstance()->CheckCollision("collision", position.GetPos(), future_pos.GetPos(), bound, tmp, onGround, gravity);
+    position.SetPos(tmp);
+    //*/
+
+
+    ///* Способ 2 Collision
+    QRectF bound(future_pos.GetPosX(), future_pos.GetPosY(), 48, 62);
+    QVector3D f_p = future_pos.GetPos();
+    ManagerTileMap::getInstance()->CollisionX("collision", f_p , bound, dir);
+    future_pos.SetPos(f_p);
 
     if (onGround==false)
     {
@@ -86,22 +101,12 @@ void TestGameObject::Update()
         dir.setY(-1);
     }
 
-    ///* Способ 1 Collision
-    QVector3D tmp;
-    QRectF bound(future_pos.GetPosX(), future_pos.GetPosY(), 18, 26);
-    ManagerTileMap::getInstance()->CheckCollision("collision", position.GetPos(), future_pos.GetPos(), bound, tmp, onGround, gravity);
-    qDebug()<<"Collision";
-    position.SetPos(tmp);
-    //*/
-
-
-    /* Способ 2 Collision
-    QRectF bound(future_pos.GetPosX(), future_pos.GetPosY(), 18, 26);
-    QVector3D f_p = future_pos.GetPos();
-    if (ManagerTileMap::getInstance()->CollisionX("collision", f_p , bound, dir))
-        position.SetPos(f_p);
-    if (ManagerTileMap::getInstance()->CollisionY("collision", f_p , bound, dir, gravity, onGround))
-        position.SetPos(f_p);
+    bound.setLeft(future_pos.GetPosX());
+    bound.setTop(future_pos.GetPosY());
+    bound.setWidth(48);
+    bound.setHeight(62);
+    f_p = future_pos.GetPos();
+    ManagerTileMap::getInstance()->CollisionY("collision", f_p , bound, dir, gravity, onGround);
     position.SetPos(f_p);
     //*/
 
@@ -114,7 +119,7 @@ void TestGameObject::Draw()
      * Прорисовка объекта
     */
 
-    sprite->Bind(18, 26);
+    sprite->Bind(48, 65, 0, 3);
     sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), proj * position.GetMatrix());
     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
 }

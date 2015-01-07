@@ -227,12 +227,13 @@ QVector2D ManagerTileMap::GetTileIJ(QVector3D pos)
 {
     QVector2D res;
     res.setX((int)pos.x()/tile_width);
+
     float all_height = count_y*tile_height;
 
     float tmp = (all_height-pos.y())/tile_height;
-    if ((tmp-qFloor(tmp))==0)
-        res.setY((int)(all_height-pos.y())/tile_height-1);
-    else
+    //if ((tmp-qFloor(tmp))==0)
+        //res.setY(((int)(all_height-pos.y())/tile_height)-1);
+    //else
         res.setY((int)(all_height-pos.y())/tile_height);
     return res;
 }
@@ -451,6 +452,7 @@ bool ManagerTileMap::CollisionX(QString layer_name, QVector3D& pos, QRectF bound
     if (layer==0)
         return false;
 
+    ///* Попытка 1
     QVector<Tile> tiles = this->GetTiles(layer_name, bound);
     for (int i=0; i<tiles.size(); i++)
     {
@@ -470,9 +472,51 @@ bool ManagerTileMap::CollisionX(QString layer_name, QVector3D& pos, QRectF bound
                     //if (bound.top()<tiles.value(i).pos.top())
                         pos.setX(pos.x()+rect.width());
                 }
+                return flag;
             }
         }
     }
+    //*/
+
+    /* Попытка 2
+    QVector2D s;
+    QVector2D f;
+    if (dir.x()==1)
+    {
+        s = this->GetTileIJ(QVector3D(bound.left()+bound.width(), bound.top()+bound.height(), 0.0f));
+        f = this->GetTileIJ(QVector3D(bound.left()+bound.width(), bound.top(), 0.0f));
+    }
+    if (dir.x()==-1)
+    {
+        s = this->GetTileIJ(QVector3D(bound.left(), bound.top()+bound.height(), 0.0f));
+        f = this->GetTileIJ(QVector3D(bound.left(), bound.top(), 0.0f));
+    }
+
+    for (int i=s.y(); i<=f.y(); i++)
+    {
+        for (int j=s.x(); j<=f.x(); j++)
+        {
+            int id = layer->GetValue(i, j);
+            if (id!=0)
+            {
+                if (bound.intersects(this->GetTilePos(QVector2D(j, i))))
+                {
+                    flag = true;
+                    QRectF rect = bound.intersected(this->GetTilePos(QVector2D(j, i)));
+                    if (dir.x()==1)
+                    {
+                        pos.setX(pos.x()-rect.width());
+                    }
+                    if (dir.x()==-1)
+                    {
+                        pos.setX(pos.x()+rect.width());
+                    }
+                    return flag;
+                }
+            }
+        }
+    }
+    */
 
     return flag;
 }
@@ -490,6 +534,7 @@ bool ManagerTileMap::CollisionY(QString layer_name, QVector3D& pos, QRectF bound
     if (layer==0)
         return false;
 
+    ///* Попытка 1
     QVector<Tile> tiles = this->GetTiles(layer_name, bound);
     for (int i=0; i<tiles.size(); i++)
     {
@@ -511,9 +556,54 @@ bool ManagerTileMap::CollisionY(QString layer_name, QVector3D& pos, QRectF bound
                         gravity = 0;
                         ground = true;
                 }
+                return flag;
             }
         }
     }
+    //*/
+
+    /* Попытка 2
+    QVector2D s;
+    QVector2D f;
+    if (dir.y()==1)
+    {
+        s = this->GetTileIJ(QVector3D(bound.left(), bound.top()+bound.height(), 0.0f));
+        f = this->GetTileIJ(QVector3D(bound.left()+bound.width(), bound.top()+bound.height(), 0.0f));
+    }
+    if (dir.y()==-1)
+    {
+        s = this->GetTileIJ(QVector3D(bound.left(), bound.top(), 0.0f));
+        f = this->GetTileIJ(QVector3D(bound.left()+bound.width(), bound.top(), 0.0f));
+    }
+
+    for (int i=s.y(); i<=f.y(); i++)
+    {
+        for (int j=s.x(); j<=f.x(); j++)
+        {
+            int id = layer->GetValue(i, j);
+            if (id!=0)
+            {
+                if (bound.intersects(this->GetTilePos(QVector2D(j, i))))
+                {
+                    flag = true;
+                    QRectF rect = bound.intersected(this->GetTilePos(QVector2D(j, i)));
+                    if (dir.y()==1)
+                    {
+                        pos.setY(pos.y()-rect.height());
+                    }
+                    if (dir.y()==-1)
+                    {
+                        pos.setY(pos.y()+rect.height());
+                        ground = true;
+                        gravity = 0;
+                    }
+                    return flag;
+                }
+            }
+        }
+    }
+    //*/
+
 
     return flag;
 }
