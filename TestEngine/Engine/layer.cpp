@@ -30,17 +30,23 @@ void Layer::Destroy()
 
 void Layer::SetValue(int i, int j, int value)
 {
-    if (data!=0)
+    if (i<count_y && j<count_x)
     {
-        data[i*count_x+j] = value;
+        if (data!=0)
+        {
+            data[i*count_x+j] = value;
+        }
     }
 }
 
 int Layer::GetValue(int i, int j)
 {
-    if (data!=0)
+    if (i<count_y && j<count_x)
     {
-        return data[i*count_x+j];
+        if (data!=0)
+        {
+            return data[i*count_x+j];
+        }
     }
     return 0;
 }

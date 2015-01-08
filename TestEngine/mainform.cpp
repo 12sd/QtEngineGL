@@ -21,7 +21,7 @@ void MainForm::render(QPainter *painter)
     int fps = Fps::getInstance()->GetFps();
     int x = ManagerMouse::getInstance()->GetX();
     int y = ManagerMouse::getInstance()->GetY();
-    setTitle("FPS = "+QString::number(fps)+" X="+QString::number(x)+" Y="+QString::number(y)+" FPS_QT=");
+    setTitle("FPS = "+QString::number(fps)+" X="+QString::number(x)+" Y="+QString::number(600-y));
 }
 
 void MainForm::initialize()
@@ -39,7 +39,11 @@ void MainForm::initialize()
     else
         qDebug()<<"Load Map";
 
-    glViewport(0, 0, 800, 600);
+    QMatrix4x4 proj;
+    proj.setToIdentity();
+    proj.ortho(0, 800, 0, 600, -10, 10);
+    Setting::SetProjection(proj);
+    Setting::SetViewPort(QRectF(0, 0, 800, 600));
 }
 
 void MainForm::render()
@@ -180,4 +184,13 @@ void MainForm::keyPressEvent(QKeyEvent *key)
 void MainForm::keyReleaseEvent(QKeyEvent *key)
 {
     ManagerKeyboard::getInstance()->Update(key, false);
+}
+
+void MainForm::resizeEvent(QResizeEvent * event)
+{
+    QMatrix4x4 proj;
+    proj.setToIdentity();
+    proj.ortho(0, event->size().width(), 0, event->size().height(), -1, 1);
+    //Setting::SetProjection(proj);
+    Setting::SetViewPort(QRectF(0, 0, event->size().width(), event->size().height()));
 }

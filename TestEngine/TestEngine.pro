@@ -35,7 +35,9 @@ SOURCES += main.cpp \
     Engine/ForDebug/gridcoord.cpp \
     Engine/managergameobject.cpp \
     Engine/creatorgameobject.cpp \
-    Engine/transformer.cpp
+    Engine/transformer.cpp \
+    Engine/setting.cpp \
+    Engine/camera.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -59,7 +61,9 @@ HEADERS  += mainform.h \
     Engine/ForDebug/gridcoord.h \
     Engine/managergameobject.h \
     Engine/creatorgameobject.h \
-    Engine/transformer.h
+    Engine/transformer.h \
+    Engine/setting.h \
+    Engine/camera.h
 
 FORMS    +=
 

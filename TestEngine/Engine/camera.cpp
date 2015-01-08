@@ -1,70 +1,80 @@
-#include "transformer.h"
+#include "camera.h"
 
-Transformer::Transformer()
+Camera* Camera::instance = 0;
+
+Camera* Camera::getInstance()
 {
-
+    if (!instance)
+        instance = new Camera();
+    return instance;
 }
+
+
+Camera::Camera()
+{
+}
+/////////////////////////////////////////////////////////////
 
 ///*Функции для движения
 
-void Transformer::SetPosX(float x)
+void Camera::SetPosX(float x)
 {
     this->pos.setX(x);
 }
 
-void Transformer::SetPosY(float y)
+void Camera::SetPosY(float y)
 {
     this->pos.setY(y);
 }
 
-void Transformer::SetPosZ(float z)
+void Camera::SetPosZ(float z)
 {
     this->pos.setZ(z);
 }
 
-void Transformer::SetPos(QVector3D pos)
+void Camera::SetPos(QVector3D pos)
 {
     this->pos.setX(pos.x());
     this->pos.setY(pos.y());
     this->pos.setZ(pos.z());
 }
 
-float Transformer::GetPosX()
+float Camera::GetPosX()
 {
     return this->pos.x();
 }
 
-float Transformer::GetPosY()
+float Camera::GetPosY()
 {
     return this->pos.y();
 }
 
-float Transformer::GetPosZ()
+float Camera::GetPosZ()
 {
     return this->pos.z();
 }
 
-QVector3D Transformer::GetPos()
+QVector3D Camera::GetPos()
 {
     return this->pos;
 }
 
-void Transformer::MoveX(float x)
+void Camera::MoveX(float x)
 {
     this->pos.setX(this->pos.x()+x);
 }
 
-void Transformer::MoveY(float y)
+void Camera::MoveY(float y)
 {
     this->pos.setY(this->pos.y()+y);
 }
 
-void Transformer::MoveZ(float z)
+void Camera::MoveZ(float z)
 {
     this->pos.setZ(this->pos.z()+z);
 }
 
-void Transformer::MovePos(QVector3D pos)
+void Camera::MovePos(QVector3D pos)
 {
     this->pos.setX(this->pos.x()+pos.x());
     this->pos.setY(this->pos.y()+pos.y());
@@ -75,63 +85,63 @@ void Transformer::MovePos(QVector3D pos)
 
 ///*Функции для вращения
 
-void Transformer::SetRotX(float x)
+void Camera::SetRotX(float x)
 {
     this->rot.setX(x);
 }
-void Transformer::SetRotY(float y)
+void Camera::SetRotY(float y)
 {
     this->rot.setY(y);
 }
 
-void Transformer::SetRotZ(float z)
+void Camera::SetRotZ(float z)
 {
     this->rot.setZ(z);
 }
 
-void Transformer::SetRot(QVector3D rot)
+void Camera::SetRot(QVector3D rot)
 {
     this->rot.setX(rot.x());
     this->rot.setY(rot.y());
     this->rot.setZ(rot.z());
 }
 
-float Transformer::GetRotX()
+float Camera::GetRotX()
 {
     return this->rot.x();
 }
 
-float Transformer::GetRotY()
+float Camera::GetRotY()
 {
     return this->rot.y();
 }
 
-float Transformer::GetRotZ()
+float Camera::GetRotZ()
 {
     return this->rot.z();
 }
 
-QVector3D Transformer::GetRot()
+QVector3D Camera::GetRot()
 {
     return this->rot;
 }
 
-void Transformer::RotateX(float x)
+void Camera::RotateX(float x)
 {
     this->rot.setX(this->rot.x()+x);
 }
 
-void Transformer::RotateY(float y)
+void Camera::RotateY(float y)
 {
     this->rot.setY(this->rot.y()+y);
 }
 
-void Transformer::RotateZ(float z)
+void Camera::RotateZ(float z)
 {
     this->rot.setZ(this->rot.z()+z);
 }
 
-void Transformer::RotateRot(QVector3D rot)
+void Camera::RotateRot(QVector3D rot)
 {
     this->rot.setX(this->rot.x()+rot.x());
     this->rot.setY(this->rot.y()+rot.y());
@@ -142,62 +152,62 @@ void Transformer::RotateRot(QVector3D rot)
 
 ///*Функции для масшабирования
 
-void Transformer::SetScalX(float x)
+void Camera::SetScalX(float x)
 {
     this->scal.setX(x);
 }
 
-void Transformer::SetScalY(float y)
+void Camera::SetScalY(float y)
 {
     this->scal.setY(y);
 }
 
-void Transformer::SetScalZ(float z)
+void Camera::SetScalZ(float z)
 {
     this->scal.setZ(z);
 }
-void Transformer::SetScal(QVector3D scal)
+void Camera::SetScal(QVector3D scal)
 {
     this->scal.setX(scal.x());
     this->scal.setY(scal.y());
     this->scal.setZ(scal.z());
 }
 
-float Transformer::GetScalX()
+float Camera::GetScalX()
 {
     return this->scal.x();
 }
 
-float Transformer::GetScalY()
+float Camera::GetScalY()
 {
     return this->scal.y();
 }
 
-float Transformer::GetScalZ()
+float Camera::GetScalZ()
 {
     return this->scal.z();
 }
-QVector3D Transformer::GetScal()
+QVector3D Camera::GetScal()
 {
     return this->scal;
 }
 
-void Transformer::ScaleX(float x)
+void Camera::ScaleX(float x)
 {
     this->scal.setX(this->scal.x()+x);
 }
 
-void Transformer::ScaleY(float y)
+void Camera::ScaleY(float y)
 {
     this->scal.setY(this->scal.y()+y);
 }
 
-void Transformer::ScaleZ(float z)
+void Camera::ScaleZ(float z)
 {
     this->scal.setZ(this->scal.z()+z);
 }
 
-void Transformer::ScaleScal(QVector3D scal)
+void Camera::ScaleScal(QVector3D scal)
 {
     this->scal.setX(this->scal.x()+scal.x());
     this->scal.setY(this->scal.y()+scal.y());
@@ -208,40 +218,40 @@ void Transformer::ScaleScal(QVector3D scal)
 
 
 ///*Функции для точки-центра отрисовки
-float Transformer::GetPivotX()
+float Camera::GetPivotX()
 {
     return pivot.x();
 }
 
-float Transformer::GetPivotY()
+float Camera::GetPivotY()
 {
     return pivot.y();
 }
-float Transformer::GetPivotZ()
+float Camera::GetPivotZ()
 {
     return pivot.z();
 }
-QVector3D Transformer::GetPivot()
+QVector3D Camera::GetPivot()
 {
     return pivot;
 }
 
-void Transformer::SetPivotX(float x)
+void Camera::SetPivotX(float x)
 {
     pivot.setX(x);
 }
 
-void Transformer::SetPivotY(float y)
+void Camera::SetPivotY(float y)
 {
     pivot.setY(y);
 }
 
-void Transformer::SetPivotZ(float z)
+void Camera::SetPivotZ(float z)
 {
     pivot.setZ(z);
 }
 
-void Transformer::SetPivot(QVector3D pivot)
+void Camera::SetPivot(QVector3D pivot)
 {
     this->pivot.setX(pivot.x());
     this->pivot.setY(pivot.y());
@@ -252,7 +262,7 @@ void Transformer::SetPivot(QVector3D pivot)
 
 ///*Функция возврата результативной матрицы
 
-QMatrix4x4 Transformer::GetMatrix()
+QMatrix4x4 Camera::GetMatrix()
 {
     QMatrix4x4 mat_pos;
     mat_pos.setToIdentity();
@@ -260,19 +270,20 @@ QMatrix4x4 Transformer::GetMatrix()
 
     QMatrix4x4 mat_rot;
     mat_rot.setToIdentity();
-    mat_rot.rotate(this->rot.x(), 1, 0);
-    mat_rot.rotate(this->rot.y(), 0, 1);
-    mat_rot.rotate(this->rot.z(), 0, 0, 1);
+//    mat_rot.rotate(this->rot.x(), 1, 0);
+//    mat_rot.rotate(this->rot.y(), 0, 1);
+//    mat_rot.rotate(this->rot.z(), 0, 0, 1);
 
     QMatrix4x4 mat_scal;
     mat_scal.setToIdentity();
-    mat_scal.scale(this->scal);
+    //mat_scal.scale(this->scal);
 
-    QMatrix4x4 mat_pivot;
-    mat_pivot.setToIdentity();
-    mat_pivot.translate(pivot.x(), pivot.y(), pivot.z());
+    //return mat_pos*mat_rot*mat_scal;
 
-    return mat_scal*mat_rot*mat_pos;
+    QMatrix4x4 mat;
+    mat.setToIdentity();
+    mat.lookAt(pos, QVector3D(pos.x(), 0, -1), QVector3D(pos.x(), 1, 0));
+    return mat;
 }
 
 //*/Функция возврата результативной матрицы

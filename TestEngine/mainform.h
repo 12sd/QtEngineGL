@@ -9,6 +9,7 @@
 
 #include "statusgame.h"
 #include "Engine/ForDebug/gridcoord.h"
+#include "Engine/setting.h"
 #include "Engine/fps.h"
 #include "Engine/managermouse.h"
 #include "Engine/managerkeyboard.h"
@@ -50,6 +51,8 @@ protected:
 
     void keyPressEvent(QKeyEvent* key);
     void keyReleaseEvent(QKeyEvent* key);
+
+    void resizeEvent(QResizeEvent * event);
 
 private:
     bool m_update_pending;

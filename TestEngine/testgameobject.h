@@ -3,6 +3,7 @@
 
 #include <QMatrix>
 
+#include "Engine/setting.h"
 #include "Engine/gameobject.h"
 #include "Engine/transformer.h"
 #include "Engine/sprite.h"
@@ -22,7 +23,6 @@ public:
 public:
     Transformer position;
     Sprite* sprite;
-    QMatrix4x4 proj;
     bool onGround;
     float gravity;
 };

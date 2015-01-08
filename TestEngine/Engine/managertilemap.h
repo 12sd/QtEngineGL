@@ -6,9 +6,11 @@
 #include <QFile>
 #include <QXmlStreamReader>
 #include <QtMath>
+#include "setting.h"
 #include "managersprite.h"
 #include "layer.h"
 #include "transformer.h"
+#include "camera.h"
 
 class ManagerTileMap
 {
@@ -22,14 +24,8 @@ public:
     void Clear();
     void Destroy();
     void Draw();
-    void Scroll(float dx = 0, float dy = 0);
     QVector2D GetTileIJ(QVector3D pos);
     QRectF GetTilePos(QVector2D ij);
-    QVector<Tile> GetTiles8(QString layer_name, QVector3D pos);
-    bool CheckCollision(QString layer_name, QVector3D pos, QVector3D future_pos, QRectF bound, QVector3D& res_pos, bool& ground, float& gravity);
-    bool IntersectsRect(QRectF rect1, QRectF rect2);
-    QRectF IntersectedRect(QRectF rect1, QRectF rect2);
-
     bool CollisionX(QString layer_name, QVector3D& pos, QRectF bound, QVector2D dir);
     bool CollisionY(QString layer_name, QVector3D& pos, QRectF bound, QVector2D dir, float& gravity, bool& ground);
     QVector<Tile> GetTiles(QString layer_name, QRectF bound);
@@ -41,7 +37,6 @@ private:
     QList<DataLayer> list_layer;
     int count_x, count_y;
     int tile_width, tile_height;
-    QMatrix4x4 proj;
 };
 
 #endif // TILEMAP_H
