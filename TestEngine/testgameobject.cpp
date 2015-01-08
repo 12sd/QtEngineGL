@@ -17,6 +17,7 @@ void TestGameObject::Init(QHash<QString,QString> property)
     gravity = 0.1;
     position.SetScalX(48);
     position.SetScalY(65);
+    position.SetPivot(QVector3D(-0.5, -0.5, 0));
 }
 
 void TestGameObject::Update()
@@ -45,39 +46,24 @@ void TestGameObject::Update()
 //        ManagerTileMap::getInstance()->GetTiles("collision", tmp);
     }
 
-    Transformer future_pos;
-    future_pos.SetPos(position.GetPos());
-    future_pos.SetRot(position.GetRot());
-    future_pos.SetScal(position.GetScal());
-
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
     {
-        future_pos.MoveX(8);
+        position.MoveX(8);
         dir.setX(1);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
-        future_pos.MoveX(-8);
+        position.MoveX(-8);
         dir.setX(-1);
     }
 
-//    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Up))
-//    {
-//        future_pos.MoveY(1);
-//        dir.setY(1);
-//    }
-
-//    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Down))
-//    {
-//        future_pos.MoveY(-1);
-//        dir.setY(-1);
-//    }
-
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Space) && onGround==true)
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_A))
     {
-        future_pos.MoveY(64);
-        dir.setY(1);
-        onGround = false;
+        position.RotateZ(1);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_D))
+    {
+        position.RotateZ(-1);
     }
 
 
@@ -90,23 +76,30 @@ void TestGameObject::Update()
 
 
     ///* Способ 2 Collision
-    QRectF bound(future_pos.GetPosX(), future_pos.GetPosY(), 48, 62);
-    QVector3D f_p = future_pos.GetPos();
-    ManagerTileMap::getInstance()->CollisionX("collision", f_p , bound, dir);
-    future_pos.SetPos(f_p);
+    QRectF bound(position.GetPosX()-48/2, position.GetPosY()-65/2, 48, 62);
+    QVector3D f_p = position.GetPos();
+    ManagerTileMap::getInstance()->CollisionX("collision", f_p, bound, dir);
+    position.SetPos(f_p);
 
     if (onGround==false)
     {
-        future_pos.MoveY(-gravity);
+        position.MoveY(-gravity);
         dir.setY(-1);
     }
 
-    bound.setLeft(future_pos.GetPosX());
-    bound.setTop(future_pos.GetPosY());
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Space) && onGround==true)
+    {
+        position.MoveY(64);
+        dir.setY(1);
+        onGround = false;
+    }
+
+    f_p = position.GetPos();
+    bound.setLeft(position.GetPosX()-48/2);
+    bound.setTop(position.GetPosY()-65/2);
     bound.setWidth(48);
     bound.setHeight(62);
-    f_p = future_pos.GetPos();
-    ManagerTileMap::getInstance()->CollisionY("collision", f_p , bound, dir, gravity, onGround);
+    ManagerTileMap::getInstance()->CollisionY("collision", f_p, bound, dir, gravity, onGround);
     position.SetPos(f_p);
     //*/
 

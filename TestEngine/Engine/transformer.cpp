@@ -206,6 +206,50 @@ void Transformer::ScaleScal(QVector3D scal)
 
 //*/Функции для масшабирования
 
+
+///*Функции для точки-центра отрисовки
+float Transformer::GetPivotX()
+{
+    return pivot.x();
+}
+
+float Transformer::GetPivotY()
+{
+    return pivot.y();
+}
+float Transformer::GetPivotZ()
+{
+    return pivot.z();
+}
+QVector3D Transformer::GetPivot()
+{
+    return pivot;
+}
+
+void Transformer::SetPivotX(float x)
+{
+    pivot.setX(x);
+}
+
+void Transformer::SetPivotY(float y)
+{
+    pivot.setY(y);
+}
+
+void Transformer::SetPivotZ(float z)
+{
+    pivot.setZ(z);
+}
+
+void Transformer::SetPivot(QVector3D pivot)
+{
+    this->pivot.setX(pivot.x());
+    this->pivot.setY(pivot.y());
+    this->pivot.setZ(pivot.z());
+}
+
+//*/Функции для точки-центра отрисовки
+
 ///*Функция возврата результативной матрицы
 
 QMatrix4x4 Transformer::GetMatrix()
@@ -213,15 +257,22 @@ QMatrix4x4 Transformer::GetMatrix()
     QMatrix4x4 mat_pos;
     mat_pos.setToIdentity();
     mat_pos.translate(this->pos);
+
     QMatrix4x4 mat_rot;
     mat_rot.setToIdentity();
     mat_rot.rotate(this->rot.x(), 1, 0);
     mat_rot.rotate(this->rot.y(), 0, 1);
     mat_rot.rotate(this->rot.z(), 0, 0, 1);
+
     QMatrix4x4 mat_scal;
     mat_scal.setToIdentity();
     mat_scal.scale(this->scal);
-    return mat_pos*mat_rot*mat_scal;
+
+    QMatrix4x4 mat_pivot;
+    mat_pivot.setToIdentity();
+    mat_pivot.translate(pivot.x(), pivot.y(), pivot.z());
+
+    return mat_pos*mat_rot*mat_scal*mat_pivot;
 }
 
 //*/Функция возврата результативной матрицы

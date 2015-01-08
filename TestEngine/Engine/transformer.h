@@ -47,12 +47,22 @@ public:
     void ScaleY(float y);
     void ScaleZ(float z);
     void ScaleScal(QVector3D scal);
+    //Функции для точки-центра отрисовки
+    float GetPivotX();
+    float GetPivotY();
+    float GetPivotZ();
+    QVector3D GetPivot();
+    void SetPivotX(float x);
+    void SetPivotY(float y);
+    void SetPivotZ(float z);
+    void SetPivot(QVector3D pivot);
     //Функция возврата результативной матрицы
     QMatrix4x4 GetMatrix();
 private:
     QVector3D pos;
     QVector3D rot;
     QVector3D scal;
+    QVector3D pivot;
 };
 
 #endif // TRANSFORMER_H
