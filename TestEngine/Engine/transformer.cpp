@@ -272,7 +272,7 @@ QMatrix4x4 Transformer::GetMatrix()
     mat_pivot.setToIdentity();
     mat_pivot.translate(pivot.x(), pivot.y(), pivot.z());
 
-    return mat_scal*mat_rot*mat_pos;
+    return mat_pos*mat_rot*mat_scal*mat_pivot;
 }
 
 //*/Функция возврата результативной матрицы

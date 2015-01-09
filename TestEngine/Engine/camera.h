@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include <QMatrix4x4>
+#include "geometry.h"
 
 class Camera
 {
@@ -35,28 +36,6 @@ public:
     void RotateY(float y);
     void RotateZ(float z);
     void RotateRot(QVector3D rot);
-    //Функции для масшабирования
-    void SetScalX(float x);
-    void SetScalY(float y);
-    void SetScalZ(float z);
-    void SetScal(QVector3D scal);
-    float GetScalX();
-    float GetScalY();
-    float GetScalZ();
-    QVector3D GetScal();
-    void ScaleX(float x);
-    void ScaleY(float y);
-    void ScaleZ(float z);
-    void ScaleScal(QVector3D scal);
-    //Функции для точки-центра отрисовки
-    float GetPivotX();
-    float GetPivotY();
-    float GetPivotZ();
-    QVector3D GetPivot();
-    void SetPivotX(float x);
-    void SetPivotY(float y);
-    void SetPivotZ(float z);
-    void SetPivot(QVector3D pivot);
     //Функция возврата результативной матрицы
     QMatrix4x4 GetMatrix();
 private:
@@ -64,8 +43,6 @@ private:
     ///////////////////////////////
     QVector3D pos;
     QVector3D rot;
-    QVector3D scal;
-    QVector3D pivot;
 };
 
 #endif // CAMERA_H

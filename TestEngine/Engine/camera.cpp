@@ -150,139 +150,22 @@ void Camera::RotateRot(QVector3D rot)
 
 //*/Функции для вращения
 
-///*Функции для масшабирования
-
-void Camera::SetScalX(float x)
-{
-    this->scal.setX(x);
-}
-
-void Camera::SetScalY(float y)
-{
-    this->scal.setY(y);
-}
-
-void Camera::SetScalZ(float z)
-{
-    this->scal.setZ(z);
-}
-void Camera::SetScal(QVector3D scal)
-{
-    this->scal.setX(scal.x());
-    this->scal.setY(scal.y());
-    this->scal.setZ(scal.z());
-}
-
-float Camera::GetScalX()
-{
-    return this->scal.x();
-}
-
-float Camera::GetScalY()
-{
-    return this->scal.y();
-}
-
-float Camera::GetScalZ()
-{
-    return this->scal.z();
-}
-QVector3D Camera::GetScal()
-{
-    return this->scal;
-}
-
-void Camera::ScaleX(float x)
-{
-    this->scal.setX(this->scal.x()+x);
-}
-
-void Camera::ScaleY(float y)
-{
-    this->scal.setY(this->scal.y()+y);
-}
-
-void Camera::ScaleZ(float z)
-{
-    this->scal.setZ(this->scal.z()+z);
-}
-
-void Camera::ScaleScal(QVector3D scal)
-{
-    this->scal.setX(this->scal.x()+scal.x());
-    this->scal.setY(this->scal.y()+scal.y());
-    this->scal.setZ(this->scal.z()+scal.z());
-}
-
-//*/Функции для масшабирования
-
-
-///*Функции для точки-центра отрисовки
-float Camera::GetPivotX()
-{
-    return pivot.x();
-}
-
-float Camera::GetPivotY()
-{
-    return pivot.y();
-}
-float Camera::GetPivotZ()
-{
-    return pivot.z();
-}
-QVector3D Camera::GetPivot()
-{
-    return pivot;
-}
-
-void Camera::SetPivotX(float x)
-{
-    pivot.setX(x);
-}
-
-void Camera::SetPivotY(float y)
-{
-    pivot.setY(y);
-}
-
-void Camera::SetPivotZ(float z)
-{
-    pivot.setZ(z);
-}
-
-void Camera::SetPivot(QVector3D pivot)
-{
-    this->pivot.setX(pivot.x());
-    this->pivot.setY(pivot.y());
-    this->pivot.setZ(pivot.z());
-}
-
-//*/Функции для точки-центра отрисовки
-
 ///*Функция возврата результативной матрицы
 
 QMatrix4x4 Camera::GetMatrix()
 {
-    QMatrix4x4 mat_pos;
-    mat_pos.setToIdentity();
-    mat_pos.translate(this->pos);
-
+    QVector3D dir(0, 0, 0);
     QMatrix4x4 mat_rot;
     mat_rot.setToIdentity();
-//    mat_rot.rotate(this->rot.x(), 1, 0);
-//    mat_rot.rotate(this->rot.y(), 0, 1);
-//    mat_rot.rotate(this->rot.z(), 0, 0, 1);
-
-    QMatrix4x4 mat_scal;
-    mat_scal.setToIdentity();
-    //mat_scal.scale(this->scal);
-
-    //return mat_pos*mat_rot*mat_scal;
+    mat_rot.rotate(Geometry::DegreeToRadian(rot.x()), 1, 0);
+    mat_rot.rotate(Geometry::DegreeToRadian(rot.y()), 0, 1);
+    mat_rot.rotate(Geometry::DegreeToRadian(rot.z()), 0, 0, 1);
+    dir = mat_rot*dir;
+    qDebug()<<"Dir"<<pos+dir;
 
     QMatrix4x4 mat;
     mat.setToIdentity();
-    mat.lookAt(pos, QVector3D(pos.x(), 0, -1), QVector3D(pos.x(), 1, 0));
+    mat.lookAt(pos, QVector3D(pos.x(), pos.y(), 0), QVector3D(0, 1, 0));
     return mat;
 }
 

@@ -37,7 +37,8 @@ SOURCES += main.cpp \
     Engine/creatorgameobject.cpp \
     Engine/transformer.cpp \
     Engine/setting.cpp \
-    Engine/camera.cpp
+    Engine/camera.cpp \
+    Engine/geometry.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -63,7 +64,8 @@ HEADERS  += mainform.h \
     Engine/creatorgameobject.h \
     Engine/transformer.h \
     Engine/setting.h \
-    Engine/camera.h
+    Engine/camera.h \
+    Engine/geometry.h
 
 FORMS    +=
 

@@ -15,6 +15,7 @@ void TestGameObject::Init(QHash<QString,QString> property)
     gravity = 0.5;
     position.SetScalX(48);
     position.SetScalY(65);
+    position.SetPivot(QVector3D(-0.5, -0.5, 0));
 
     Camera::getInstance()->SetPosZ(1);
 }
@@ -59,13 +60,11 @@ void TestGameObject::Update()
     {
         Camera::getInstance()->MoveX(-1);
         qDebug()<<"Scroll -x";
-        qDebug()<<"Mat:"<<Camera::getInstance()->GetMatrix();
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_D))
     {
         Camera::getInstance()->MoveX(1);
         qDebug()<<"Scroll +x";
-        qDebug()<<"Mat:"<<Camera::getInstance()->GetMatrix();
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_W))
     {
@@ -81,7 +80,7 @@ void TestGameObject::Update()
 
 
     ///* Collision
-    QRectF bound(position.GetPosX(), position.GetPosY(), 48, 62);
+    QRectF bound(position.GetPosX()-48/2, position.GetPosY()-65/2, 48, 62);
     QVector3D f_p = position.GetPos();
     ManagerTileMap::getInstance()->CollisionX("collision", f_p, bound, dir);
     position.SetPos(f_p);
@@ -100,8 +99,8 @@ void TestGameObject::Update()
     }
 
     f_p = position.GetPos();
-    bound.setLeft(position.GetPosX());
-    bound.setTop(position.GetPosY());
+    bound.setLeft(position.GetPosX()-48/2);
+    bound.setTop(position.GetPosY()-65/2);
     bound.setWidth(48);
     bound.setHeight(62);
     ManagerTileMap::getInstance()->CollisionY("collision", f_p, bound, dir, gravity, onGround);
