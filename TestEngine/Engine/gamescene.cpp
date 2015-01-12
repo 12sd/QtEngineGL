@@ -23,7 +23,21 @@ bool GameScene::Load(QString filename, CreatorGameObject* creator)
                 if (reader.attributes().hasAttribute("id"))
                 {
                     qDebug()<<"Tag:"<<reader.name()<<"Id:"<<reader.attributes().value("id").toString();
-                    Mesh* mesh = new Mesh();
+                    Mesh* mesh;
+                    if (reader.attributes().hasAttribute("type"))
+                    {
+                        int type_mesh = reader.attributes().value("type").toInt();
+                        if (type_mesh==Vertex_Type)
+                        {
+                            mesh = new Mesh();
+                        }
+                        if (type_mesh==Vertex_Texture_Type)
+                        {
+                            mesh = new Mesh(Vertex_Texture_Type);
+                        }
+
+                    }else
+                        mesh = new Mesh();
                     mesh->Create();
                     ManagerMesh::getInstance()->Add(reader.attributes().value("id").toInt(),mesh);
                 }

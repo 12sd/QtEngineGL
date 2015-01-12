@@ -6,5 +6,7 @@
         <file>Resources/map.tmx</file>
         <file>Resources/tileset.png</file>
         <file>Resources/sprite.png</file>
+        <file>Resources/for_cube.vert</file>
+        <file>Resources/for_cube.frag</file>
     </qresource>
 </RCC>

@@ -24,6 +24,7 @@
 #include "Engine/gamescene.h"
 #include "Engine/managertilemap.h"
 #include "testcreatorgameobject.h"
+#include "cube.h"
 
 class MainForm : public QWindow, protected QOpenGLFunctions
 {
@@ -67,6 +68,7 @@ private:
     */
     ManagerTileMap* map;
     GameScene level;
+    Cube cube;
 
     GridCoord grid;
 };

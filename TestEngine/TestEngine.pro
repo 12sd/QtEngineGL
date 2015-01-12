@@ -38,7 +38,9 @@ SOURCES += main.cpp \
     Engine/transformer.cpp \
     Engine/setting.cpp \
     Engine/camera.cpp \
-    Engine/geometry.cpp
+    Engine/geometry.cpp \
+    Engine/object3d.cpp \
+    cube.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -65,7 +67,9 @@ HEADERS  += mainform.h \
     Engine/transformer.h \
     Engine/setting.h \
     Engine/camera.h \
-    Engine/geometry.h
+    Engine/geometry.h \
+    Engine/object3d.h \
+    cube.h
 
 FORMS    +=
 

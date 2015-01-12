@@ -38,10 +38,13 @@ void MainForm::initialize()
         qDebug()<<"Error Load Map";
     else
         qDebug()<<"Load Map";
+    QHash<QString, QString> h;
+    cube.Init(h);
+
 
     QMatrix4x4 proj;
     proj.setToIdentity();
-    proj.ortho(0, 800, 0, 600, -10, 10);
+    proj.perspective(90, 800/600, -10, 10);
     Setting::SetProjection(proj);
     Setting::SetViewPort(QRectF(0, 0, 800, 600));
 }
@@ -66,10 +69,14 @@ void MainForm::render()
     {
     case Player:
     {
-        map->Draw();
+        //map->Draw();
 
-        ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
-        ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
+        //ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
+        //ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
+
+        Camera::getInstance()->SetPosZ(2);
+        cube.Update();
+        cube.Draw();
 
         break;
     }
