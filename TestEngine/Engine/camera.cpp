@@ -161,7 +161,7 @@ QMatrix4x4 Camera::GetMatrix()
     mat_rot.rotate(Geometry::DegreeToRadian(rot.y()), 0, 1);
     mat_rot.rotate(Geometry::DegreeToRadian(rot.z()), 0, 0, 1);
     dir = mat_rot*dir;
-    qDebug()<<"Dir"<<pos+dir;
+    //qDebug()<<"Dir"<<pos+dir;
 
     QMatrix4x4 mat;
     mat.setToIdentity();
