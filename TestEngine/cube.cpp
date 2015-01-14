@@ -6,8 +6,8 @@ Cube::Cube()
 
 Cube::~Cube()
 {
-    delete mesh;
-    delete shader;
+//    delete mesh;
+//    delete shader;
 }
 
 void Cube::Init(QHash<QString,QString> property)
@@ -20,9 +20,18 @@ void Cube::Init(QHash<QString,QString> property)
     mesh = new Mesh(true);
     mesh->Create();
 
-    mesh->Bind();
-    shader->enableAttributeArray(shader->GetNameVertex().toStdString().c_str());
-    shader->setAttributeBuffer(shader->GetNameVertex().toStdString().c_str(), GL_FLOAT, 0, 3);
+//    mesh->Bind();
+//    shader->enableAttributeArray(shader->GetNameVertex().toStdString().c_str());
+//    shader->setAttributeBuffer(shader->GetNameVertex().toStdString().c_str(), GL_FLOAT, 0, 3);
+
+    ManagerMesh::getInstance()->Add(1, mesh);
+    cube.SetMeshKey(1);
+    ManagerShader::getInstance()->Add(1, shader);
+    cube.SetShaderKey(1);
+    cube.SetTextureKey(0);
+    cube.Create();
+    position.SetPos(QVector3D(0, 0, -2));
+    //position.SetScal(QVector3D(32, 32, 32));
 }
 
 void Cube::Update()
@@ -31,19 +40,53 @@ void Cube::Update()
     if (rot_x>360)
         rot_x = 0;
     pos.setToIdentity();
-    pos.translate(0, 0, -5);
+    pos.translate(0, 0, -2);
     pos.rotate(rot_x, 1, 1, 0);
+
+    position.SetRotX(rot_x);
+    position.SetRotY(rot_x);
+
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_A))
+    {
+        cam_x-=1;
+        Camera::getInstance()->SetPosX(cam_x);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_D))
+    {
+        cam_x+=1;
+        Camera::getInstance()->SetPosX(cam_x);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_W))
+    {
+        cam_z+=1;
+        Camera::getInstance()->SetPosZ(cam_z);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_S))
+    {
+        cam_z-=1;
+        Camera::getInstance()->SetPosZ(cam_z);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Q))
+    {
+        cam_rot_y+=1;
+        Camera::getInstance()->SetRotY(cam_rot_y);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_E))
+    {
+        cam_rot_y-=1;
+        Camera::getInstance()->SetRotY(cam_rot_y);
+    }
 }
 
 void Cube::Draw()
 {
-    /*
+    ///*
     cube.Bind();
-    cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*position.GetMatrix());
+    cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*Camera::getInstance()->GetMatrix()*position.GetMatrix());
     glDrawArrays(GL_TRIANGLES, 0, cube.GetMesh()->GetCountVertex());
     //*/
 
-    ///*
+    /*
     shader->bind();
     mesh->Bind();
     shader->setUniformValue(shader->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*Camera::getInstance()->GetMatrix()*pos);

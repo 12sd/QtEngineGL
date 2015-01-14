@@ -19,10 +19,9 @@ public:
     float GetPosY();
     float GetPosZ();
     QVector3D GetPos();
-    void MoveX(float x);
-    void MoveY(float y);
-    void MoveZ(float z);
-    void MovePos(QVector3D pos);
+    void MoveRight(float x);
+    void MoveUp(float y);
+    void MoveForward(float z);
     //Функции для вращения
     void SetRotX(float x);
     void SetRotY(float y);
@@ -36,6 +35,15 @@ public:
     void RotateY(float y);
     void RotateZ(float z);
     void RotateRot(QVector3D rot);
+    //Функции для взгляда
+    void SetDirectionX(float x);
+    void SetDirectionY(float y);
+    void SetDirectionZ(float z);
+    void SetDirection(QVector3D dir);
+    float GetDirectionX();
+    float GetDirectionY();
+    float GetDirectionZ();
+    QVector3D GetDirection();
     //Функция возврата результативной матрицы
     QMatrix4x4 GetMatrix();
 private:
@@ -43,6 +51,7 @@ private:
     ///////////////////////////////
     QVector3D pos;
     QVector3D rot;
+    QVector3D dir;
 };
 
 #endif // CAMERA_H

@@ -16,8 +16,6 @@ void TestGameObject::Init(QHash<QString,QString> property)
     position.SetScalX(48);
     position.SetScalY(65);
     position.SetPivot(QVector3D(-0.5, -0.5, 0));
-
-    Camera::getInstance()->SetPosZ(1);
 }
 
 void TestGameObject::Update()
@@ -47,34 +45,11 @@ void TestGameObject::Update()
     {
         position.MoveX(8);
         dir.setX(1);
-        qDebug()<<"MatPos:"<<position.GetMatrix();
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
         position.MoveX(-8);
         dir.setX(-1);
-        qDebug()<<"MatPos:"<<position.GetMatrix();
-    }
-
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_A))
-    {
-        Camera::getInstance()->MoveX(-1);
-        qDebug()<<"Scroll -x";
-    }
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_D))
-    {
-        Camera::getInstance()->MoveX(1);
-        qDebug()<<"Scroll +x";
-    }
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_W))
-    {
-        Camera::getInstance()->MoveY(1);
-        qDebug()<<"Scroll -y";
-    }
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_S))
-    {
-        Camera::getInstance()->MoveY(-1);
-        qDebug()<<"Scroll +y";
     }
 
 

@@ -12,7 +12,8 @@ Camera* Camera::getInstance()
 
 Camera::Camera()
 {
-    SetPos(QVector3D(0, 0, 0));
+    SetPos(QVector3D(0, 0, 1));
+    SetDirection(QVector3D(0, 0, -1));
 }
 /////////////////////////////////////////////////////////////
 
@@ -60,26 +61,19 @@ QVector3D Camera::GetPos()
     return this->pos;
 }
 
-void Camera::MoveX(float x)
+void Camera::MoveRight(float x)
 {
-    this->pos.setX(this->pos.x()+x);
+
 }
 
-void Camera::MoveY(float y)
+void Camera::MoveUp(float y)
 {
-    this->pos.setY(this->pos.y()+y);
+
 }
 
-void Camera::MoveZ(float z)
+void Camera::MoveForward(float z)
 {
-    this->pos.setZ(this->pos.z()+z);
-}
 
-void Camera::MovePos(QVector3D pos)
-{
-    this->pos.setX(this->pos.x()+pos.x());
-    this->pos.setY(this->pos.y()+pos.y());
-    this->pos.setZ(this->pos.z()+pos.z());
 }
 
 //*/Функции для движения
@@ -151,22 +145,69 @@ void Camera::RotateRot(QVector3D rot)
 
 //*/Функции для вращения
 
+///*Функции для взгляда
+
+void Camera::SetDirectionX(float x)
+{
+    dir.setX(x);
+}
+
+void Camera::SetDirectionY(float y)
+{
+    dir.setY(y);
+}
+
+void Camera::SetDirectionZ(float z)
+{
+    dir.setZ(z);
+}
+
+void Camera::SetDirection(QVector3D dir)
+{
+    this->dir.setX(dir.x());
+    this->dir.setY(dir.y());
+    this->dir.setZ(dir.z());
+}
+
+float Camera::GetDirectionX()
+{
+    return dir.x();
+}
+
+float Camera::GetDirectionY()
+{
+    return dir.y();
+}
+
+float Camera::GetDirectionZ()
+{
+    return dir.z();
+}
+
+QVector3D Camera::GetDirection()
+{
+    return dir;
+}
+
+//*/Функции для взгляда
+
 ///*Функция возврата результативной матрицы
 
 QMatrix4x4 Camera::GetMatrix()
 {
-    QVector3D dir(0, 0, 0);
-    QMatrix4x4 mat_rot;
-    mat_rot.setToIdentity();
-    mat_rot.rotate(Geometry::DegreeToRadian(rot.x()), 1, 0);
-    mat_rot.rotate(Geometry::DegreeToRadian(rot.y()), 0, 1);
-    mat_rot.rotate(Geometry::DegreeToRadian(rot.z()), 0, 0, 1);
-    dir = mat_rot*dir;
-    //qDebug()<<"Dir"<<pos+dir;
+//    dir.setX(dir.x()*qCos(Geometry::DegreeToRadian(rot.y()))+dir.z()*qSin(Geometry::DegreeToRadian(rot.y())));
+//    dir.setY(dir.y());
+//    dir.setZ(dir.z()*qCos(Geometry::DegreeToRadian(rot.y()))-dir.x()*qSin(Geometry::DegreeToRadian(rot.y())));
+
+    dir.setX(qCos(Geometry::DegreeToRadian(rot.y()))*qSin(Geometry::DegreeToRadian(rot.x())));
+    dir.setY(qSin(Geometry::DegreeToRadian(rot.y())));
+    dir.setZ(qCos(Geometry::DegreeToRadian(rot.y()))*qCos(Geometry::DegreeToRadian(rot.x())));
+
+    qDebug()<<"POS,DIR,POS+DIR"<<pos<<dir<<pos+dir;
 
     QMatrix4x4 mat;
     mat.setToIdentity();
-    mat.lookAt(pos, QVector3D(pos.x(), pos.y(), 0), QVector3D(0, 1, 0));
+    mat.lookAt(pos, pos+dir, QVector3D(0, 1, 0));
     return mat;
 }
 

@@ -43,8 +43,8 @@ void MainForm::initialize()
 
     QMatrix4x4 proj;
     proj.setToIdentity();
-    proj.ortho(-10, 10, -10, 10, -100, 100);
-    //proj.ortho(0, 800, 0, 600, -10, 10);
+    proj.ortho(-10, 10, -10, 10, -1000, 1000);
+    //proj.ortho(-32, 800, -32, 600, -100, 100);
     //proj.perspective(45, 800/600, -10, 100);
     Setting::SetProjection(proj);
     Setting::SetViewPort(QRectF(0, 0, 800, 600));
@@ -71,7 +71,6 @@ void MainForm::render()
     case Player:
     {
 //        map->Draw();
-
 //        ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
 //        ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
 
