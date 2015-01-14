@@ -2,7 +2,10 @@
 
 Transformer::Transformer()
 {
-
+    SetPos(QVector3D(0, 0, 0));
+    SetRot(QVector3D(0, 0, 0));
+    SetScal(QVector3D(1, 1, 1));
+    SetPivot(QVector3D(0, 0, 0));
 }
 
 ///*Функции для движения

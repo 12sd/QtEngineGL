@@ -11,12 +11,15 @@ class Cube: public GameObject
 {
 public:
     Cube();
+    ~Cube();
     void Init(QHash<QString,QString> property);
     void Update();
     void Draw();
 private:
-    Transformer position;
-    Object3D cube;
+    QMatrix4x4 pos;
+    Shader* shader;
+    Mesh* mesh;
+    float rot_x;
 };
 
 #endif // CUBE_H

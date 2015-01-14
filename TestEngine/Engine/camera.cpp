@@ -12,6 +12,7 @@ Camera* Camera::getInstance()
 
 Camera::Camera()
 {
+    SetPos(QVector3D(0, 0, 0));
 }
 /////////////////////////////////////////////////////////////
 

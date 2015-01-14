@@ -1,7 +1,6 @@
 <GameScene>
 	<Resources>
             <Mesh id="0">path</Mesh>
-            <Mesh id="1" type="1">path</Mesh>
             <Texture id="0">://Resources/tileset.png</Texture>
             <Texture id="1">://Resources/sprite.png</Texture>
             <Shader id="0">path</Shader>

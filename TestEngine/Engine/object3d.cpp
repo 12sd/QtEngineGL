@@ -51,13 +51,6 @@ void Object3D::Create()
     mesh->Bind();
     shader->enableAttributeArray(shader->GetNameVertex().toStdString().c_str());
     shader->setAttributeBuffer(shader->GetNameVertex().toStdString().c_str(), GL_FLOAT, 0, 3);
-
-    if (mesh->GetTypeMesh()==Vertex_Texture_Type)
-    {
-        mesh->Bind(Vertex_Texture_Type);
-        shader->enableAttributeArray(shader->GetNameTexture().toStdString().c_str());
-        shader->setAttributeBuffer(shader->GetNameTexture().toStdString().c_str(), GL_FLOAT, 0, 2);
-    }
 }
 
 void Object3D::Bind()
