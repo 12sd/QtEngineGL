@@ -31,7 +31,9 @@ void Cube::Init(QHash<QString,QString> property)
     cube.SetTextureKey(0);
     cube.Create();
     position.SetPos(QVector3D(0, 0, -2));
-    //position.SetScal(QVector3D(32, 32, 32));
+    position.SetScal(QVector3D(32, 32, 32));
+
+    cam_x = cam_y = cam_z = 0;
 }
 
 void Cube::Update()
@@ -58,23 +60,39 @@ void Cube::Update()
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_W))
     {
-        cam_z+=1;
-        Camera::getInstance()->SetPosZ(cam_z);
+        cam_y+=1;
+        Camera::getInstance()->SetPosY(cam_y);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_S))
     {
-        cam_z-=1;
-        Camera::getInstance()->SetPosZ(cam_z);
+        cam_y-=1;
+        Camera::getInstance()->SetPosY(cam_y);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Q))
-    {
-        cam_rot_y+=1;
-        Camera::getInstance()->SetRotY(cam_rot_y);
+    {        
+        Camera::getInstance()->RotateY(-1);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_E))
     {
-        cam_rot_y-=1;
-        Camera::getInstance()->SetRotY(cam_rot_y);
+        Camera::getInstance()->RotateY(1);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Z))
+    {
+        Camera::getInstance()->RotateX(1);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_X))
+    {
+        Camera::getInstance()->RotateX(-1);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_C))
+    {
+        cam_z+=1;
+        Camera::getInstance()->SetPosZ(cam_z);
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_V))
+    {
+        cam_z-=1;
+        Camera::getInstance()->SetPosZ(cam_z);
     }
 }
 
@@ -85,6 +103,15 @@ void Cube::Draw()
     cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*Camera::getInstance()->GetMatrix()*position.GetMatrix());
     glDrawArrays(GL_TRIANGLES, 0, cube.GetMesh()->GetCountVertex());
     //*/
+
+    QMatrix4x4 pos;
+    pos.setToIdentity();
+    pos.translate(100, 0, -1);
+    pos.rotate(45, 1, 0, 1);
+    pos.scale(32, 32, 32);
+    cube.Bind();
+    cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*Camera::getInstance()->GetMatrix()*pos);
+    glDrawArrays(GL_TRIANGLES, 0, cube.GetMesh()->GetCountVertex());
 
     /*
     shader->bind();

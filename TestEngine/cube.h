@@ -26,7 +26,6 @@ private:
     float rot_x;
 
     float cam_x, cam_y, cam_z;
-    float cam_rot_y;
 };
 
 #endif // CUBE_H

@@ -186,6 +186,11 @@ float Camera::GetDirectionZ()
 
 QVector3D Camera::GetDirection()
 {
+    QMatrix4x4 mat_rot;
+    mat_rot.setToIdentity();
+    mat_rot.rotate(rot.x(), 1, 0, 0);
+    mat_rot.rotate(rot.y(), 0, 1, 0);
+    mat_rot.rotate(rot.z(), 0, 0, 1);
     return dir;
 }
 
@@ -195,20 +200,17 @@ QVector3D Camera::GetDirection()
 
 QMatrix4x4 Camera::GetMatrix()
 {
-//    dir.setX(dir.x()*qCos(Geometry::DegreeToRadian(rot.y()))+dir.z()*qSin(Geometry::DegreeToRadian(rot.y())));
-//    dir.setY(dir.y());
-//    dir.setZ(dir.z()*qCos(Geometry::DegreeToRadian(rot.y()))-dir.x()*qSin(Geometry::DegreeToRadian(rot.y())));
+    QMatrix4x4 mat_rot;
+    mat_rot.setToIdentity();
+    mat_rot.rotate(rot.x(), 1, 0, 0);
+    mat_rot.rotate(rot.y(), 0, 1, 0);
+    mat_rot.rotate(rot.z(), 0, 0, 1);
 
-    dir.setX(qCos(Geometry::DegreeToRadian(rot.y()))*qSin(Geometry::DegreeToRadian(rot.x())));
-    dir.setY(qSin(Geometry::DegreeToRadian(rot.y())));
-    dir.setZ(qCos(Geometry::DegreeToRadian(rot.y()))*qCos(Geometry::DegreeToRadian(rot.x())));
+    QMatrix4x4 mat_pos;
+    mat_pos.setToIdentity();
+    mat_pos.translate(-pos.x(), -pos.y(), -pos.z());
 
-    qDebug()<<"POS,DIR,POS+DIR"<<pos<<dir<<pos+dir;
-
-    QMatrix4x4 mat;
-    mat.setToIdentity();
-    mat.lookAt(pos, pos+dir, QVector3D(0, 1, 0));
-    return mat;
+    return mat_rot*mat_pos;
 }
 
 //*/Функция возврата результативной матрицы
