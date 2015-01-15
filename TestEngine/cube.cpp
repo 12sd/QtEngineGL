@@ -32,41 +32,54 @@ void Cube::Init(QHash<QString,QString> property)
     cube.Create();
     position.SetPos(QVector3D(0, 0, -2));
     position.SetScal(QVector3D(32, 32, 32));
-
-    cam_x = cam_y = cam_z = 0;
+    Camera::getInstance()->SetPos(QVector3D(0, 0, 110));
+    Camera::getInstance()->SetTypeCamera(Direction_Camera);
 }
 
 void Cube::Update()
 {
-    rot_x+=1;
-    if (rot_x>360)
-        rot_x = 0;
-    pos.setToIdentity();
-    pos.translate(0, 0, -2);
-    pos.rotate(rot_x, 1, 1, 0);
-
-    position.SetRotX(rot_x);
-    position.SetRotY(rot_x);
-
+    position.RotateRot(QVector3D(1, 1, 0));
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_A))
     {
-        cam_x-=1;
-        Camera::getInstance()->SetPosX(cam_x);
+        //Camera::getInstance()->SetPosX(cam_x);
+
+        Camera::getInstance()->MoveRight(-1);
+        //Camera::getInstance()->MovePos(QVector3D(-1, 0, 0));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_D))
     {
-        cam_x+=1;
-        Camera::getInstance()->SetPosX(cam_x);
+        //Camera::getInstance()->SetPosX(cam_x);
+
+        Camera::getInstance()->MoveRight(1);
+        //Camera::getInstance()->MovePos(QVector3D(1, 0, 0));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_W))
     {
-        cam_y+=1;
-        Camera::getInstance()->SetPosY(cam_y);
+        //Camera::getInstance()->SetPosY(cam_y);
+
+        Camera::getInstance()->MoveForward(1);
+        //Camera::getInstance()->MovePos(QVector3D(0, 0, 1));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_S))
     {
-        cam_y-=1;
-        Camera::getInstance()->SetPosY(cam_y);
+        //Camera::getInstance()->SetPosY(cam_y);
+
+        Camera::getInstance()->MoveForward(-1);
+        //Camera::getInstance()->MovePos(QVector3D(0, 0, -1));
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_C))
+    {
+        //Camera::getInstance()->SetPosZ(cam_z);
+
+        Camera::getInstance()->MoveUp(1);
+        //Camera::getInstance()->MovePos(QVector3D(0, 1, 0));
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_V))
+    {
+        //Camera::getInstance()->SetPosZ(cam_z);
+
+        Camera::getInstance()->MoveUp(-1);
+        //Camera::getInstance()->MovePos(QVector3D(0, -1, 0));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Q))
     {        
@@ -84,15 +97,13 @@ void Cube::Update()
     {
         Camera::getInstance()->RotateX(-1);
     }
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_C))
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_R))
     {
-        cam_z+=1;
-        Camera::getInstance()->SetPosZ(cam_z);
+        Camera::getInstance()->RotateZ(1);
     }
-    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_V))
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_T))
     {
-        cam_z-=1;
-        Camera::getInstance()->SetPosZ(cam_z);
+        Camera::getInstance()->RotateZ(-1);
     }
 }
 

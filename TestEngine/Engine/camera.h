@@ -4,12 +4,16 @@
 #include <QMatrix4x4>
 #include "geometry.h"
 
+enum TypeCamera {Free_Camera, Direction_Camera, Target_Camera};
+
 class Camera
 {
 public:
     static Camera* getInstance();
     Camera();
     ///////////////////////////////
+    TypeCamera GetTypeCamera();
+    void SetTypeCamera(TypeCamera type);
     //Функции для движения
     void SetPosX(float x);
     void SetPosY(float y);
@@ -22,6 +26,7 @@ public:
     void MoveRight(float x);
     void MoveUp(float y);
     void MoveForward(float z);
+    void MovePos(QVector3D pos);
     //Функции для вращения
     void SetRotX(float x);
     void SetRotY(float y);
@@ -36,22 +41,23 @@ public:
     void RotateZ(float z);
     void RotateRot(QVector3D rot);
     //Функции для взгляда
-    void SetDirectionX(float x);
-    void SetDirectionY(float y);
-    void SetDirectionZ(float z);
-    void SetDirection(QVector3D dir);
-    float GetDirectionX();
-    float GetDirectionY();
-    float GetDirectionZ();
-    QVector3D GetDirection();
+    void SetTargetX(float x);
+    void SetTargetY(float y);
+    void SetTargetZ(float z);
+    void SetTarget(QVector3D target);
+    float GetTargetX();
+    float GetTargetY();
+    float GetTargetZ();
+    QVector3D GetTarget();
     //Функция возврата результативной матрицы
     QMatrix4x4 GetMatrix();
 private:
     static Camera* instance;
     ///////////////////////////////
+    TypeCamera type_cam;
     QVector3D pos;
     QVector3D rot;
-    QVector3D dir;
+    QVector3D target;
 };
 
 #endif // CAMERA_H

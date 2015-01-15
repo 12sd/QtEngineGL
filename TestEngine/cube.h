@@ -20,12 +20,8 @@ private:
     Object3D cube;
     Transformer position;
 
-    QMatrix4x4 pos;
     Shader* shader;
     Mesh* mesh;
-    float rot_x;
-
-    float cam_x, cam_y, cam_z;
 };
 
 #endif // CUBE_H

@@ -257,6 +257,12 @@ void Transformer::SetPivot(QVector3D pivot)
 
 QMatrix4x4 Transformer::GetMatrix()
 {
+    if (rot.x()>360.0)
+        rot.setX(rot.x()-360.0);
+    if (rot.y()>360.0)
+        rot.setY(rot.y()-360.0);
+    if (rot.z()>360.0)
+        rot.setZ(rot.z()-360.0);
     QMatrix4x4 mat_pos;
     mat_pos.setToIdentity();
     mat_pos.translate(this->pos);
