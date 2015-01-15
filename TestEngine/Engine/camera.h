@@ -3,6 +3,7 @@
 
 #include <QMatrix4x4>
 #include "geometry.h"
+#include "setting.h"
 
 enum TypeCamera {Free_Camera, Direction_Camera, Target_Camera};
 
@@ -14,6 +15,7 @@ public:
     ///////////////////////////////
     TypeCamera GetTypeCamera();
     void SetTypeCamera(TypeCamera type);
+    QRectF GetRect();
     //Функции для движения
     void SetPosX(float x);
     void SetPosY(float y);

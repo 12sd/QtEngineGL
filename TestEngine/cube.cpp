@@ -32,12 +32,14 @@ void Cube::Init(QHash<QString,QString> property)
     cube.Create();
     position.SetPos(QVector3D(0, 0, -2));
     position.SetScal(QVector3D(32, 32, 32));
-    Camera::getInstance()->SetPos(QVector3D(0, 0, 110));
+    Camera::getInstance()->SetPos(QVector3D(0, 0, 1));
     Camera::getInstance()->SetTypeCamera(Direction_Camera);
 }
 
 void Cube::Update()
 {
+    //qDebug()<<"Camera Rect:"<<Camera::getInstance()->GetRect();
+
     position.RotateRot(QVector3D(1, 1, 0));
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_A))
     {

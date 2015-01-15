@@ -26,6 +26,16 @@ void Camera::SetTypeCamera(TypeCamera type)
     type_cam = type;
 }
 
+QRectF Camera::GetRect()
+{
+    QRectF rect;
+    rect.setLeft(pos.x());
+    rect.setTop(pos.y());
+    rect.setWidth(Setting::GetViewPort().width());
+    rect.setHeight(Setting::GetViewPort().height());
+    return rect;
+}
+
 /////////////////////////////////////////////////////////////
 
 ///*Функции для движения
