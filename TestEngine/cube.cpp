@@ -32,8 +32,8 @@ void Cube::Init(QHash<QString,QString> property)
     cube.Create();
     position.SetPos(QVector3D(0, 0, -2));
     position.SetScal(QVector3D(32, 32, 32));
-    Camera::getInstance()->SetPos(QVector3D(0, 0, 1));
-    Camera::getInstance()->SetTypeCamera(Direction_Camera);
+    ManagerCamera::getInstance()->GetCurrentCamera()->SetPos(QVector3D(0, 0, 1));
+    ManagerCamera::getInstance()->GetCurrentCamera()->SetTypeCamera(Direction_Camera);
 }
 
 void Cube::Update()
@@ -45,67 +45,67 @@ void Cube::Update()
     {
         //Camera::getInstance()->SetPosX(cam_x);
 
-        Camera::getInstance()->MoveRight(-1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->MoveRight(-1);
         //Camera::getInstance()->MovePos(QVector3D(-1, 0, 0));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_D))
     {
         //Camera::getInstance()->SetPosX(cam_x);
 
-        Camera::getInstance()->MoveRight(1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->MoveRight(1);
         //Camera::getInstance()->MovePos(QVector3D(1, 0, 0));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_W))
     {
         //Camera::getInstance()->SetPosY(cam_y);
 
-        Camera::getInstance()->MoveForward(1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->MoveForward(1);
         //Camera::getInstance()->MovePos(QVector3D(0, 0, 1));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_S))
     {
         //Camera::getInstance()->SetPosY(cam_y);
 
-        Camera::getInstance()->MoveForward(-1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->MoveForward(-1);
         //Camera::getInstance()->MovePos(QVector3D(0, 0, -1));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_C))
     {
         //Camera::getInstance()->SetPosZ(cam_z);
 
-        Camera::getInstance()->MoveUp(1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->MoveUp(1);
         //Camera::getInstance()->MovePos(QVector3D(0, 1, 0));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_V))
     {
         //Camera::getInstance()->SetPosZ(cam_z);
 
-        Camera::getInstance()->MoveUp(-1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->MoveUp(-1);
         //Camera::getInstance()->MovePos(QVector3D(0, -1, 0));
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Q))
     {        
-        Camera::getInstance()->RotateY(-1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->RotateY(-1);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_E))
     {
-        Camera::getInstance()->RotateY(1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->RotateY(1);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Z))
     {
-        Camera::getInstance()->RotateX(1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->RotateX(1);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_X))
     {
-        Camera::getInstance()->RotateX(-1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->RotateX(-1);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_R))
     {
-        Camera::getInstance()->RotateZ(1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->RotateZ(1);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_T))
     {
-        Camera::getInstance()->RotateZ(-1);
+        ManagerCamera::getInstance()->GetCurrentCamera()->RotateZ(-1);
     }
 }
 
@@ -113,7 +113,7 @@ void Cube::Draw()
 {
     ///*
     cube.Bind();
-    cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*Camera::getInstance()->GetMatrix()*position.GetMatrix());
+    cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*position.GetMatrix());
     glDrawArrays(GL_TRIANGLES, 0, cube.GetMesh()->GetCountVertex());
     //*/
 
@@ -123,7 +123,7 @@ void Cube::Draw()
     pos.rotate(45, 1, 0, 1);
     pos.scale(32, 32, 32);
     cube.Bind();
-    cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*Camera::getInstance()->GetMatrix()*pos);
+    cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*pos);
     glDrawArrays(GL_TRIANGLES, 0, cube.GetMesh()->GetCountVertex());
 
     /*

@@ -8,9 +8,9 @@
 #include <QtMath>
 #include "setting.h"
 #include "managersprite.h"
+#include "managercamera.h"
 #include "layer.h"
 #include "transformer.h"
-#include "camera.h"
 
 class ManagerTileMap
 {

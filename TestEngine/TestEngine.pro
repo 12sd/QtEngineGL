@@ -40,7 +40,8 @@ SOURCES += main.cpp \
     Engine/camera.cpp \
     Engine/geometry.cpp \
     Engine/object3d.cpp \
-    cube.cpp
+    cube.cpp \
+    Engine/managercamera.cpp
 
 HEADERS  += mainform.h \
     Engine/fps.h \
@@ -69,7 +70,8 @@ HEADERS  += mainform.h \
     Engine/camera.h \
     Engine/geometry.h \
     Engine/object3d.h \
-    cube.h
+    cube.h \
+    Engine/managercamera.h
 
 FORMS    +=
 

@@ -92,6 +92,6 @@ void TestGameObject::Draw()
     */
 
     sprite->Bind(48, 65, 0, 3);
-    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*Camera::getInstance()->GetMatrix()*position.GetMatrix());
+    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*position.GetMatrix());
     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
 }

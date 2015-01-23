@@ -10,9 +10,8 @@ enum TypeCamera {Free_Camera, Direction_Camera, Target_Camera};
 class Camera
 {
 public:
-    static Camera* getInstance();
     Camera();
-    ///////////////////////////////
+    ~Camera();
     TypeCamera GetTypeCamera();
     void SetTypeCamera(TypeCamera type);
     QRectF GetRect();
@@ -54,8 +53,6 @@ public:
     //Функция возврата результативной матрицы
     QMatrix4x4 GetMatrix();
 private:
-    static Camera* instance;
-    ///////////////////////////////
     TypeCamera type_cam;
     QVector3D pos;
     QVector3D rot;

@@ -202,7 +202,7 @@ void ManagerTileMap::Draw()
                     int frame_y = tmp_id/tmp_x;
                     int frame_x = (tmp_x*tmp_y)-(frame_y*tmp_x)-tmp_id;
                     sprite->Bind(tile_width, tile_height, frame_x-1, frame_y);
-                    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*Camera::getInstance()->GetMatrix()*tr.GetMatrix());
+                    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*tr.GetMatrix());
                     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
                 }
                 tr.MoveX(tile_width);
@@ -274,7 +274,7 @@ void ManagerTileMap::Draw(QRectF rect)
                     int frame_y = tmp_id/tmp_x;
                     int frame_x = (tmp_x*tmp_y)-(frame_y*tmp_x)-tmp_id;
                     sprite->Bind(tile_width, tile_height, frame_x-1, frame_y);
-                    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*Camera::getInstance()->GetMatrix()*tr.GetMatrix());
+                    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*tr.GetMatrix());
                     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
                 }
                 tr.MoveX(tile_width);

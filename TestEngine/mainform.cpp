@@ -30,6 +30,11 @@ void MainForm::initialize()
        GameScene.Load(filename);
     */
 
+    Camera* cam = new Camera();
+    cam->SetTypeCamera(Direction_Camera);
+    ManagerCamera::getInstance()->Add("MainCamera", cam);
+    ManagerCamera::getInstance()->SetCurrentCamera("MainCamera");
+
     TestCreatorGameObject cr;
     level.Load("://Resources/test.xml", &cr);
 
@@ -70,7 +75,7 @@ void MainForm::render()
     {
     case Player:
     {
-        map->Draw(Camera::getInstance()->GetRect());
+        map->Draw(ManagerCamera::getInstance()->GetCurrentCamera()->GetRect());
         ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
         ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
 
@@ -106,14 +111,14 @@ bool MainForm::event(QEvent *event)
         return true;
     case QEvent::Close:
         ManagerMouse::getInstance()->Destroy();
+        ManagerKeyboard::getInstance()->Destroy();
         ManagerMesh::getInstance()->Destroy();
         ManagerShader::getInstance()->Destroy();
         ManagerTexture::getInstance()->Destroy();
         ManagerSprite::getInstance()->Destroy();
-        //delete object_sp;
-        //delete button_start;
-        //delete button_exit;
-        //delete backround;
+        ManagerTileMap::getInstance()->Destroy();
+        ManagerCamera::getInstance()->Destroy();
+        ManagerGameObject::getInstance()->Destroy();
         return QWindow::event(event);
     default:
         return QWindow::event(event);

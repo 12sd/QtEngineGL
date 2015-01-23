@@ -39,3 +39,9 @@ QKeyEvent* ManagerKeyboard::GetEvent()
 {
     return event;
 }
+
+void ManagerKeyboard::Destroy()
+{
+    if (instance)
+        delete instance;
+}

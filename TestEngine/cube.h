@@ -7,6 +7,7 @@
 #include "Engine/camera.h"
 #include "Engine/setting.h"
 #include "Engine/managerkeyboard.h"
+#include "Engine/managercamera.h"
 
 class Cube: public GameObject
 {

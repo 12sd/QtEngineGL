@@ -1,19 +1,14 @@
 #include "camera.h"
 
-Camera* Camera::instance = 0;
-
-Camera* Camera::getInstance()
-{
-    if (!instance)
-        instance = new Camera();
-    return instance;
-}
-
-
 Camera::Camera()
 {
     SetPos(QVector3D(0, 0, 1));
     type_cam = Free_Camera;
+}
+
+Camera::~Camera()
+{
+    qDebug()<<"~Camera";
 }
 
 TypeCamera Camera::GetTypeCamera()

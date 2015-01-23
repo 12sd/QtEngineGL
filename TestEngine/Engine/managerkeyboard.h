@@ -14,6 +14,7 @@ public:
     void Update(QKeyEvent* event,bool press=true);
     bool GetKey(Qt::Key key);
     QKeyEvent* GetEvent();
+    void Destroy();
 private:
     static ManagerKeyboard* instance;
     QKeyEvent* event;

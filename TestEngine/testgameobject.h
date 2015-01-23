@@ -12,6 +12,7 @@
 #include "Engine/managerkeyboard.h"
 #include "Engine/fps.h"
 #include "Engine/managertilemap.h"
+#include "Engine/managercamera.h"
 
 class TestGameObject:public GameObject
 {
