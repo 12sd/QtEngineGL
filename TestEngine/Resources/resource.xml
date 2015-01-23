@@ -9,5 +9,16 @@
         <Sprite id="1" mid="0" tid="1" sid="0"></Sprite>
         <GameObject name="testgameobject" type="0">
         <pos_x>x_test</pos_x>
+        <param1>param1_value</param1>
+        <param2>param2_value</param2>
+        <param3>param3_value</param3>
+        <param4>param4_value</param4>
         </GameObject>
+        <Camera name="Camera" type="0">
+        <pos_x>0.1</pos_x>
+        <pos_y>0.0</pos_y>
+        <pos_z>1.0</pos_z>
+        </Camera>
+        <TileMap mid="0" sid="0">://Resources/map.tmx</TileMap>
+
 </GameScene>

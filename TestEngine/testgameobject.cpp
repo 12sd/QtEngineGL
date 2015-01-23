@@ -9,6 +9,16 @@ void TestGameObject::Init(QHash<QString,QString> property)
     /*
      * Инициализация объекта
     */
+
+    qDebug()<<"Property GameObject 'TestGameObject':";
+    QHash<QString, QString>::iterator it = property.begin();
+    while (it != property.end())
+    {
+        qDebug()<<"Key:"<<it.key()<<"Value:"<<it.value();
+        it++;
+    }
+
+
     sprite = ManagerSprite::getInstance()->GetValue(1);
 
     onGround = false;

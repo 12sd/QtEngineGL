@@ -36,13 +36,8 @@ void MainForm::initialize()
     ManagerCamera::getInstance()->SetCurrentCamera("MainCamera");
 
     TestCreatorGameObject cr;
-    level.Load("://Resources/test.xml", &cr);
+    level.Load("://Resources/resource.xml", &cr);
 
-    map = ManagerTileMap::getInstance();
-    if (!map->Load("://Resources/map.tmx"))
-        qDebug()<<"Error Load Map";
-    else
-        qDebug()<<"Load Map";
     QHash<QString, QString> h;
     cube.Init(h);
 
@@ -75,7 +70,7 @@ void MainForm::render()
     {
     case Player:
     {
-        map->Draw(ManagerCamera::getInstance()->GetCurrentCamera()->GetRect());
+        ManagerTileMap::getInstance()->Draw(ManagerCamera::getInstance()->GetCurrentCamera()->GetRect());
         ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
         ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
 

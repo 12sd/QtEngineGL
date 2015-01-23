@@ -76,6 +76,71 @@ bool GameScene::Load(QString filename, CreatorGameObject* creator)
                     ManagerSprite::getInstance()->Add(id, sprite);
                 }
             }
+            //Считка тайл-карты
+            if (reader.name()=="TileMap")
+            {
+                if (reader.attributes().hasAttribute("mid")==true && reader.attributes().hasAttribute("sid")==true)
+                {
+                    int mid = reader.attributes().value("mid").toInt();
+                    int sid = reader.attributes().value("sid").toInt();
+                    qDebug()<<"Tag:"<<reader.name()<<"mid:"<<mid<<"sid:"<<sid;
+                    reader.readNext();
+                    QString filename = reader.text().toString();
+                    qDebug()<<"Path:"<<filename;
+                    ManagerTileMap::getInstance()->SetMeshKey(mid);
+                    ManagerTileMap::getInstance()->SetShaderKey(sid);
+                    ManagerTileMap::getInstance()->Load(filename);
+                }
+            }
+            //Считка камеры
+            if (reader.name()=="Camera")
+            {
+                if (reader.attributes().hasAttribute("name"))
+                {
+                    QString name = reader.attributes().value("name").toString();
+                    Camera* camera = new Camera();
+                    if (reader.attributes().hasAttribute("type"))
+                    {
+                        camera->SetTypeCamera((TypeCamera)reader.attributes().value("type").toInt());
+                    }
+                    reader.readNext();
+                    reader.readNext();
+                    while (reader.isStartElement())
+                    {
+                        QString name = reader.name().toString();
+                        qDebug()<<"Name:"<<name;
+                        reader.readNext();
+                        if (name=="pos_x")
+                        {
+                            camera->SetPosX(reader.text().toString().toFloat());
+                        }
+                        if (name=="pos_y")
+                        {
+                            camera->SetPosY(reader.text().toString().toFloat());
+                        }
+                        if (name=="pos_z")
+                        {
+                            camera->SetPosZ(reader.text().toString().toFloat());
+                        }
+                        if (name=="rot_x")
+                        {
+                            camera->SetRotX(reader.text().toString().toFloat());
+                        }
+                        if (name=="rot_y")
+                        {
+                            camera->SetRotY(reader.text().toString().toFloat());
+                        }
+                        if (name=="rot_z")
+                        {
+                            camera->SetRotZ(reader.text().toString().toFloat());
+                        }
+                        reader.readNext();
+                        reader.readNext();
+                        reader.readNext();
+                    }
+                    ManagerCamera::getInstance()->Add(name, camera);
+                }
+            }
             //Считка игровых объектов
             if (reader.name()=="GameObject")
             {
@@ -97,22 +162,20 @@ bool GameScene::Load(QString filename, CreatorGameObject* creator)
                         ManagerGameObject::getInstance()->Add(obj->GetName(), obj);
                         QHash<QString,QString> property;
 
-                        //Error
-                        /*
                         reader.readNext();
-                        while (reader.isEndElement()==false && reader.name()=="GameObject")
+                        reader.readNext();
+                        while (reader.isStartElement())
                         {
-                            if (reader.isStartElement())
-                            {
-                                QString param = reader.name().toString();
-                                reader.readNext();
-                                QString value = reader.text().toString();
-                                qDebug()<<"NameP="<<param<<"ValueP="<<value;
-                                property.insert(param, value);
-                            }
+                            QString name = reader.name().toString();
+                            qDebug()<<"Name:"<<name;
+                            reader.readNext();
+                            QString value = reader.text().toString();
+                            qDebug()<<"value:"<<value;
+                            property.insert(name, value);
+                            reader.readNext();
+                            reader.readNext();
                             reader.readNext();
                         }
-                        */
 
                         obj->Init(property);
                     }else

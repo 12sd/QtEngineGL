@@ -1,12 +1,12 @@
 <RCC>
     <qresource prefix="/">
+        <file>Resources/tileset.png</file>
         <file>Resources/default.frag</file>
         <file>Resources/default.vert</file>
-        <file>Resources/test.xml</file>
-        <file>Resources/map.tmx</file>
-        <file>Resources/tileset.png</file>
-        <file>Resources/sprite.png</file>
-        <file>Resources/for_cube.vert</file>
         <file>Resources/for_cube.frag</file>
+        <file>Resources/for_cube.vert</file>
+        <file>Resources/map.tmx</file>
+        <file>Resources/resource.xml</file>
+        <file>Resources/sprite.png</file>
     </qresource>
 </RCC>

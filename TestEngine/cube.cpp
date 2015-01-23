@@ -107,6 +107,15 @@ void Cube::Update()
     {
         ManagerCamera::getInstance()->GetCurrentCamera()->RotateZ(-1);
     }
+
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_1))
+    {
+        ManagerCamera::getInstance()->SetCurrentCamera("MainCamera");
+    }
+    if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_2))
+    {
+        ManagerCamera::getInstance()->SetCurrentCamera("Camera");
+    }
 }
 
 void Cube::Draw()
