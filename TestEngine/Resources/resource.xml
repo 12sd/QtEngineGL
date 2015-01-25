@@ -14,7 +14,7 @@
         <param3>param3_value</param3>
         <param4>param4_value</param4>
         </GameObject>
-        <Camera name="Camera" type="0">
+        <Camera name="MainCamera" type="0">
         <pos_x>0.1</pos_x>
         <pos_y>0.0</pos_y>
         <pos_z>1.0</pos_z>

@@ -139,6 +139,7 @@ bool GameScene::Load(QString filename, CreatorGameObject* creator)
                         reader.readNext();
                     }
                     ManagerCamera::getInstance()->Add(name, camera);
+                    ManagerCamera::getInstance()->SetCurrentCamera(name);
                 }
             }
             //Считка игровых объектов
@@ -192,4 +193,38 @@ bool GameScene::Load(QString filename, CreatorGameObject* creator)
         return false;
 
     return true;
+}
+
+void GameScene::Update()
+{
+    QHash<QString, GameObject*> hash_tab = ManagerGameObject::getInstance()->GetHashTab();
+    QHash<QString, GameObject*>::iterator it = hash_tab.begin();
+    while (it!=hash_tab.end())
+    {
+        QString key = it.key();
+        QList<GameObject*> list = ManagerGameObject::getInstance()->GetValues(key);
+        for (int i=0; i<list.size(); i++)
+        {
+            list.at(i)->Update();
+        }
+        it++;
+    }
+}
+
+void GameScene::Draw()
+{
+    ManagerTileMap::getInstance()->Draw();
+
+    QHash<QString, GameObject*> hash_tab = ManagerGameObject::getInstance()->GetHashTab();
+    QHash<QString, GameObject*>::iterator it = hash_tab.begin();
+    while (it!=hash_tab.end())
+    {
+        QString key = it.key();
+        QList<GameObject*> list = ManagerGameObject::getInstance()->GetValues(key);
+        for (int i=0; i<list.size(); i++)
+        {
+            list.at(i)->Draw();
+        }
+        it++;
+    }
 }

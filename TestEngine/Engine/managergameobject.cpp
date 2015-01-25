@@ -34,6 +34,11 @@ QList<GameObject*> ManagerGameObject::GetValues(QString key)
     return hash_tab.values(key);
 }
 
+QHash<QString, GameObject*> ManagerGameObject::GetHashTab()
+{
+    return hash_tab;
+}
+
 void ManagerGameObject::Clear()
 {
     QHash<QString, GameObject*>::iterator it = hash_tab.begin();

@@ -14,6 +14,7 @@ public:
     void Add(QString key, GameObject* value);
     GameObject* GetValue(QString key);
     QList<GameObject*> GetValues(QString key);
+    QHash<QString, GameObject*> GetHashTab();
     void Clear();
     void Destroy();
 

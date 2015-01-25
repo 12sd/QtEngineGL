@@ -30,10 +30,6 @@ void MainForm::initialize()
        GameScene.Load(filename);
     */
 
-    Camera* cam = new Camera();
-    cam->SetTypeCamera(Direction_Camera);
-    ManagerCamera::getInstance()->Add("MainCamera", cam);
-    ManagerCamera::getInstance()->SetCurrentCamera("MainCamera");
 
     TestCreatorGameObject cr;
     level.Load("://Resources/resource.xml", &cr);
@@ -70,9 +66,8 @@ void MainForm::render()
     {
     case Player:
     {
-        ManagerTileMap::getInstance()->Draw(ManagerCamera::getInstance()->GetCurrentCamera()->GetRect());
-        ManagerGameObject::getInstance()->GetValue("testgameobject")->Update();
-        ManagerGameObject::getInstance()->GetValue("testgameobject")->Draw();
+        level.Update();
+        level.Draw();
 
         cube.Update();
         cube.Draw();
