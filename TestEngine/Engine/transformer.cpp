@@ -279,7 +279,7 @@ QMatrix4x4 Transformer::GetMatrix()
 
     QMatrix4x4 mat_pivot;
     mat_pivot.setToIdentity();
-    mat_pivot.translate(pivot.x(), pivot.y(), pivot.z());
+    mat_pivot.translate(-pivot.x(), -pivot.y(), -pivot.z());
 
     return mat_pos*mat_rot*mat_scal*mat_pivot;
 }

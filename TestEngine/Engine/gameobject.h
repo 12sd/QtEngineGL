@@ -3,8 +3,9 @@
 
 #include <QString>
 #include <QHash>
+#include "transformer.h"
 
-class GameObject
+class GameObject: public Transformer
 {
 public:
     GameObject();

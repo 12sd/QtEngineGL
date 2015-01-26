@@ -23,9 +23,9 @@ void TestGameObject::Init(QHash<QString,QString> property)
 
     onGround = false;
     gravity = 0.5;
-    position.SetScalX(48);
-    position.SetScalY(65);
-    position.SetPivot(QVector3D(-0.5, -0.5, 0));
+    SetScalX(48);
+    SetScalY(65);
+    SetPivot(QVector3D(0.5, 0.5, 0));
 }
 
 void TestGameObject::Update()
@@ -46,50 +46,53 @@ void TestGameObject::Update()
 
     if (button == Qt::LeftButton)
     {
-        position.SetPosX(x);
-        position.SetPosY(600-y);
+        SetPosX(x);
+        SetPosY(600-y);
         onGround = false;
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Right))
     {
-        position.MoveX(8);
+        MoveX(8);
         dir.setX(1);
     }
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Left))
     {
-        position.MoveX(-8);
+        MoveX(-8);
         dir.setX(-1);
     }
 
 
 
     ///* Collision
-    QRectF bound(position.GetPosX()-48/2, position.GetPosY()-65/2, 48, 62);
-    QVector3D f_p = position.GetPos();
+    QRectF bound(GetPosX()-48/2, GetPosY()-65/2, 48, 62);
+    //QRectF bound(GetPosX(), GetPosY(), 48, 62);
+    QVector3D f_p = GetPos();
     ManagerTileMap::getInstance()->CollisionX("collision", f_p, bound, dir);
-    position.SetPos(f_p);
+    SetPos(f_p);
 
     if (onGround==false)
     {
-        position.MoveY(-gravity);
+        MoveY(-gravity);
         dir.setY(-1);
     }
 
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_Space) && onGround==true)
     {
-        position.MoveY(32);
+        MoveY(32);
         dir.setY(1);
         onGround = false;
     }
 
-    f_p = position.GetPos();
-    bound.setLeft(position.GetPosX()-48/2);
-    bound.setTop(position.GetPosY()-65/2);
+    f_p = GetPos();
+    bound.setLeft(GetPosX()-48/2);
+    bound.setTop(GetPosY()-65/2);
+    //bound.setLeft(GetPosX());
+    //bound.setTop(GetPosY());
     bound.setWidth(48);
     bound.setHeight(62);
     ManagerTileMap::getInstance()->CollisionY("collision", f_p, bound, dir, gravity, onGround);
-    position.SetPos(f_p);
+    SetPos(f_p);
     //*/
 
     //qDebug()<<"onGround:"<<onGround<<" Gravity:"<<gravity;
@@ -102,6 +105,6 @@ void TestGameObject::Draw()
     */
 
     sprite->Bind(48, 65, 0, 3);
-    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*position.GetMatrix());
+    sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*GetMatrix());
     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
 }

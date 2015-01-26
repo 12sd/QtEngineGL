@@ -67,7 +67,7 @@ void MainForm::render()
     case Player:
     {
         level.Update();
-        level.Draw();
+        level.Draw(ManagerCamera::getInstance()->GetCurrentCamera()->GetRect());
 
         cube.Update();
         cube.Draw();

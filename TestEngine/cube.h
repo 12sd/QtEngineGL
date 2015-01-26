@@ -19,7 +19,6 @@ public:
     void Draw();
 private:
     Object3D cube;
-    Transformer position;
 
     Shader* shader;
     Mesh* mesh;

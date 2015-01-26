@@ -22,6 +22,7 @@ public:
     bool Load(QString filename, CreatorGameObject* creator);
     void Update();
     void Draw();
+    void Draw(QRectF rect);
 };
 
 #endif // GAMESCENE_H

@@ -228,3 +228,30 @@ void GameScene::Draw()
         it++;
     }
 }
+
+void GameScene::Draw(QRectF rect)
+{
+    ManagerTileMap::getInstance()->Draw(rect);
+
+    QHash<QString, GameObject*> hash_tab = ManagerGameObject::getInstance()->GetHashTab();
+    QHash<QString, GameObject*>::iterator it = hash_tab.begin();
+    while (it!=hash_tab.end())
+    {
+        QString key = it.key();
+        QList<GameObject*> list = ManagerGameObject::getInstance()->GetValues(key);
+        for (int i=0; i<list.size(); i++)
+        {
+            QVector3D pos = list.at(i)->GetPos();
+            QVector3D scal = list.at(i)->GetScal();
+            QVector3D pivot = list.at(i)->GetPivot();
+            QRectF rect_pos;
+            rect_pos.setLeft(pos.x()-scal.x()*pivot.x());
+            rect_pos.setTop(pos.y()-scal.y()*pivot.y());
+            rect_pos.setWidth(scal.x());
+            rect_pos.setHeight(scal.y());
+            if (rect_pos.intersects(rect))
+                list.at(i)->Draw();
+        }
+        it++;
+    }
+}

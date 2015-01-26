@@ -22,7 +22,6 @@ public:
     void Update();
     void Draw();
 public:
-    Transformer position;
     Sprite* sprite;
     bool onGround;
     float gravity;

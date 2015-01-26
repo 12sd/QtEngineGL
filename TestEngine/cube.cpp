@@ -30,8 +30,8 @@ void Cube::Init(QHash<QString,QString> property)
     cube.SetShaderKey(1);
     cube.SetTextureKey(0);
     cube.Create();
-    position.SetPos(QVector3D(0, 0, -2));
-    position.SetScal(QVector3D(32, 32, 32));
+    SetPos(QVector3D(0, 0, -2));
+    SetScal(QVector3D(32, 32, 32));
     ManagerCamera::getInstance()->GetCurrentCamera()->SetPos(QVector3D(0, 0, 1));
     ManagerCamera::getInstance()->GetCurrentCamera()->SetTypeCamera(Direction_Camera);
 }
@@ -40,7 +40,7 @@ void Cube::Update()
 {
     //qDebug()<<"Camera Rect:"<<Camera::getInstance()->GetRect();
 
-    position.RotateRot(QVector3D(1, 1, 0));
+    RotateRot(QVector3D(1, 1, 0));
     if (ManagerKeyboard::getInstance()->GetKey(Qt::Key_A))
     {
         //Camera::getInstance()->SetPosX(cam_x);
@@ -122,7 +122,7 @@ void Cube::Draw()
 {
     ///*
     cube.Bind();
-    cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*position.GetMatrix());
+    cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*GetMatrix());
     glDrawArrays(GL_TRIANGLES, 0, cube.GetMesh()->GetCountVertex());
     //*/
 
