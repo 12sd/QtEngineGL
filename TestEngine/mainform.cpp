@@ -39,9 +39,9 @@ void MainForm::initialize()
 
     QMatrix4x4 proj;
     proj.setToIdentity();
-    //proj.ortho(-10, 10, -10, 10, -1000, 1000);
-    proj.ortho(0, 800, 0, 600, -100, 100);
-    //proj.perspective(45, 800/600, -100, 100);
+    //proj.ortho(-800, 800, -600, 600, -100, 100);
+    //proj.ortho(0, 800, 0, 600, -100, 100);
+    proj.perspective(45, 800/600, -100, 100);
     Setting::SetProjection(proj);
     Setting::SetViewPort(QRectF(0, 0, 800, 600));
 }
@@ -190,8 +190,8 @@ void MainForm::keyReleaseEvent(QKeyEvent *key)
 void MainForm::resizeEvent(QResizeEvent * event)
 {
     QMatrix4x4 proj;
-    proj.setToIdentity();
-    proj.ortho(0, event->size().width(), 0, event->size().height(), -1, 1);
+    //proj.setToIdentity();
+    //proj.ortho(0, event->size().width(), 0, event->size().height(), -1, 1);
     //Setting::SetProjection(proj);
     Setting::SetViewPort(QRectF(0, 0, event->size().width(), event->size().height()));
 }

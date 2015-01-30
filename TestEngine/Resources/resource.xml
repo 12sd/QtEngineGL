@@ -19,6 +19,11 @@
         <pos_y>0.0</pos_y>
         <pos_z>1.0</pos_z>
         </Camera>
+        <Camera name="Camera" type="2">
+        <pos_x>0.1</pos_x>
+        <pos_y>0.0</pos_y>
+        <pos_z>1.0</pos_z>
+        </Camera>
         <TileMap mid="0" sid="0">://Resources/map.tmx</TileMap>
 
 </GameScene>

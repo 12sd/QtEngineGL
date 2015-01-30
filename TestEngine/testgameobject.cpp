@@ -95,6 +95,7 @@ void TestGameObject::Update()
     SetPos(f_p);
     //*/
 
+
     //qDebug()<<"onGround:"<<onGround<<" Gravity:"<<gravity;
 }
 

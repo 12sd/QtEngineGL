@@ -50,6 +50,8 @@ public:
     float GetTargetY();
     float GetTargetZ();
     QVector3D GetTarget();
+    void SetTargerDist(float dist);
+    float GetTargetDist();
     //Функция возврата результативной матрицы
     QMatrix4x4 GetMatrix();
 private:
@@ -57,6 +59,7 @@ private:
     QVector3D pos;
     QVector3D rot;
     QVector3D target;
+    float dist;
 };
 
 #endif // CAMERA_H

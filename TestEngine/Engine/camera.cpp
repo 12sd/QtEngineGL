@@ -3,7 +3,9 @@
 Camera::Camera()
 {
     SetPos(QVector3D(0, 0, 1));
+    SetTarget(QVector3D(0, 0, 0));
     type_cam = Free_Camera;
+    dist = 1;
 }
 
 Camera::~Camera()
@@ -252,6 +254,16 @@ QVector3D Camera::GetTarget()
     return target;
 }
 
+void Camera::SetTargerDist(float dist)
+{
+    this->dist = dist;
+}
+
+float Camera::GetTargetDist()
+{
+    return dist;
+}
+
 //*/Функции для взгляда
 
 ///*Функция возврата результативной матрицы
@@ -272,9 +284,31 @@ QMatrix4x4 Camera::GetMatrix()
 
     QMatrix4x4 mat_pos;
     mat_pos.setToIdentity();
-    mat_pos.translate(-pos.x(), -pos.y(), -pos.z());
+    if (type_cam==Target_Camera)
+    {
+        mat_pos.translate(-target.x(), -target.y(), -target.z());
+    }else
+    {
+        mat_pos.translate(-pos.x(), -pos.y(), -pos.z());
+    }
 
-    return mat_rot*mat_pos;
+    if (type_cam==Target_Camera)
+    {
+        QMatrix4x4 mat_dop;
+        mat_dop.setToIdentity();
+        mat_dop.translate(0, 0, -dist);
+        QMatrix4x4 mat_res;
+        mat_res.setToIdentity();
+        mat_res = mat_dop*mat_rot*mat_pos;
+        pos.setX(-mat_res.column(3).x());
+        pos.setY(-mat_res.column(3).y());
+        pos.setZ(-mat_res.column(3).z());
+        qDebug()<<"Pos Camera:"<<pos;
+        return mat_res;
+    }else
+    {
+        return mat_rot*mat_pos;
+    }
 }
 
 //*/Функция возврата результативной матрицы

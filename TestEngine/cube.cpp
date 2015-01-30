@@ -33,7 +33,9 @@ void Cube::Init(QHash<QString,QString> property)
     SetPos(QVector3D(0, 0, -2));
     SetScal(QVector3D(32, 32, 32));
     ManagerCamera::getInstance()->GetCurrentCamera()->SetPos(QVector3D(0, 0, 1));
-    ManagerCamera::getInstance()->GetCurrentCamera()->SetTypeCamera(Direction_Camera);
+    ManagerCamera::getInstance()->GetCurrentCamera()->SetTypeCamera(Target_Camera);
+    ManagerCamera::getInstance()->GetCurrentCamera()->SetTargerDist(500);
+    ManagerCamera::getInstance()->GetCurrentCamera()->SetTarget(QVector3D(100, 0, -1));
 }
 
 void Cube::Update()
