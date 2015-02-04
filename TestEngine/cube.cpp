@@ -137,6 +137,8 @@ void Cube::Draw()
     cube.GetShader()->setUniformValue(cube.GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*pos);
     glDrawArrays(GL_TRIANGLES, 0, cube.GetMesh()->GetCountVertex());
 
+    cube.UnBind();
+    cube.GetShader()->release();
     /*
     shader->bind();
     mesh->Bind();

@@ -18,6 +18,12 @@ MainForm::~MainForm()
 void MainForm::render(QPainter *painter)
 {
     Q_UNUSED(painter);
+
+    painter->setFont(QFont());
+    painter->setBrush(QBrush(QColor(0, 255, 0)));
+    painter->setPen(QPen(QColor(0, 255, 0)));
+    painter->drawText(QPointF(40, 40), "Text");
+
     int fps = Fps::getInstance()->GetFps();
     int x = ManagerMouse::getInstance()->GetX();
     int y = ManagerMouse::getInstance()->GetY();

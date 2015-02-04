@@ -303,7 +303,7 @@ QMatrix4x4 Camera::GetMatrix()
         pos.setX(-mat_res.column(3).x());
         pos.setY(-mat_res.column(3).y());
         pos.setZ(-mat_res.column(3).z());
-        qDebug()<<"Pos Camera:"<<pos;
+        //qDebug()<<"Pos Camera:"<<pos;
         return mat_res;
     }else
     {

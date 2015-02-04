@@ -27,6 +27,7 @@ void ManagerMouse::Update(QMouseEvent* event,bool press)
         button = event->button();
     else
         button = Qt::NoButton;
+
 }
 
 QMouseEvent* ManagerMouse::GetEvent()

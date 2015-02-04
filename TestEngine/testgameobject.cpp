@@ -95,7 +95,6 @@ void TestGameObject::Update()
     SetPos(f_p);
     //*/
 
-
     //qDebug()<<"onGround:"<<onGround<<" Gravity:"<<gravity;
 }
 
@@ -108,4 +107,6 @@ void TestGameObject::Draw()
     sprite->Bind(48, 65, 0, 3);
     sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*GetMatrix());
     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
+    sprite->UnBind();
+    sprite->GetShader()->release();
 }
