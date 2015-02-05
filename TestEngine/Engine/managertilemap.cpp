@@ -204,6 +204,7 @@ void ManagerTileMap::Draw()
                     sprite->Bind(tile_width, tile_height, frame_x-1, frame_y);
                     sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*tr.GetMatrix());
                     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
+                    sprite->UnBind();
                 }
                 tr.MoveX(tile_width);
             }
@@ -276,6 +277,7 @@ void ManagerTileMap::Draw(QRectF rect)
                     sprite->Bind(tile_width, tile_height, frame_x-1, frame_y);
                     sprite->GetShader()->setUniformValue(sprite->GetShader()->GetNameMatrixPos().toStdString().c_str(), Setting::GetProjection()*ManagerCamera::getInstance()->GetCurrentCamera()->GetMatrix()*tr.GetMatrix());
                     glDrawArrays(GL_TRIANGLES, 0, sprite->GetMesh()->GetCountVertex());
+                    sprite->UnBind();
                 }
                 tr.MoveX(tile_width);
             }

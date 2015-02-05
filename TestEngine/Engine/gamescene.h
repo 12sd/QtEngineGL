@@ -11,9 +11,8 @@
 #include "managertexture.h"
 #include "managersprite.h"
 #include "managergameobject.h"
+#include "managertilemap.h"
 #include "creatorgameobject.h"
-
-#include "testcreatorgameobject.h"
 
 class GameScene
 {

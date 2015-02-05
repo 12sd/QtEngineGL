@@ -138,7 +138,7 @@ void Cube::Draw()
     glDrawArrays(GL_TRIANGLES, 0, cube.GetMesh()->GetCountVertex());
 
     cube.UnBind();
-    cube.GetShader()->release();
+
     /*
     shader->bind();
     mesh->Bind();
